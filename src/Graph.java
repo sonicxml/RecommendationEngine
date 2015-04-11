@@ -1,10 +1,8 @@
-import java.util.HashMap;
+import java.util.Set;
 
 public class Graph {
     private int numNodes;
-
-    // Hash from <src, <tgt, weight>>
-    private HashMap<Integer, HashMap<Integer, Integer>> adjList;
+    private Set<Node> nodes;
 
     public Graph() {
         // Howdy mate
