@@ -9,6 +9,12 @@ public class GraphToolkit {
         throw new IllegalStateException();
     }
 
+    /**
+     * A BFS Implementation.
+     * @param g the Graph
+     * @param src the node to start BFS from
+     * @return the set of nodes that are discovered
+     */
     public static Set<Node> bfs(Graph g, Node src) {
         if (g == null || src == null) {
             throw new IllegalArgumentException();
@@ -34,7 +40,6 @@ public class GraphToolkit {
             }
         }
 
-        // If there is no path
         return explored;
     }
 
@@ -83,5 +88,9 @@ public class GraphToolkit {
         // TODO: Implement
         // Also return something
         // Implement Dijkstra's algorithm for SSSP
+    }
+
+    private static Graph reverseGraph(Graph g) {
+        Graph tgt = new Graph();
     }
 }
