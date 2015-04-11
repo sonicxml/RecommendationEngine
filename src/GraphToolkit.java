@@ -1,12 +1,41 @@
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Set;
+
 public class GraphToolkit {
     private GraphToolkit() {
         // This is not supposed to be instantiated
         throw new IllegalStateException();
     }
 
-    public static void BFS(Graph g, Node src) {
-        // TODO: Implement
-        // Also return something
+    public static Set<Node> bfs(Graph g, Node src) {
+        if (g == null || src == null) {
+            throw new IllegalArgumentException();
+        }
+
+        // The nodes we've explored
+        HashSet<Node> explored = new HashSet<>();
+        explored.add(src);
+
+        // Keep track of nodes to be visited
+        Queue<Node> q = new LinkedList<>();
+        q.add(src);
+
+        while (!q.isEmpty()) {
+            Node user = q.poll();
+            Set<Edge> following = user.getAdjacent();
+            for (Edge e : following) {
+                Node u = e.getTgt();
+                if (!explored.contains(u)) {
+                    explored.add(u);
+                    q.add(u);
+                }
+            }
+        }
+
+        // If there is no path
+        return explored;
     }
 
     public static void DFS(Graph g, Node src) {
