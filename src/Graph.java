@@ -27,4 +27,8 @@ public class Graph {
     public Node getNodeByID(int id) {
         return nodes.get(id);
     }
+
+    public int getSize() {
+        return nodes.size();
+    }
 }

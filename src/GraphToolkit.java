@@ -1,5 +1,8 @@
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
@@ -10,19 +13,30 @@ public class GraphToolkit {
     }
 
     /**
-     * A BFS Implementation.
+     * A BFS Implementation to find the shortest path from src to tgt.
+     * Since this is BFS, the shortest path is in terms of length, not weights.
      * @param g the Graph
      * @param src the node to start BFS from
-     * @return the set of nodes that are discovered
+     * @return the shortest path from src to tgt.
      */
-    public static Set<Node> bfs(Graph g, Node src) {
+    public static List<Node> bfs(Graph g, Node src, Node tgt) {
         if (g == null || src == null) {
             throw new IllegalArgumentException();
+        }
+
+        if (src == tgt) {
+            LinkedList<Node> output = new LinkedList<>();
+            output.add(tgt);
+            return output;
         }
 
         // The nodes we've explored
         HashSet<Node> explored = new HashSet<>();
         explored.add(src);
+
+        // Keeps track of the parents of each node
+        Map<Node, Node> parents = new HashMap<>();
+        parents.put(src, null);
 
         // Keep track of nodes to be visited
         Queue<Node> q = new LinkedList<>();
@@ -32,15 +46,32 @@ public class GraphToolkit {
             Node user = q.poll();
             Set<Edge> following = user.getEdges();
             for (Edge e : following) {
-                Node u = e.getTgt();
-                if (!explored.contains(u)) {
-                    explored.add(u);
-                    q.add(u);
+
+                Node n = e.getTgt();
+
+                if (n == tgt) {
+                    parents.put(n, user);
+                    // We found the target node
+                    Node i = n;
+                    LinkedList<Node> output = new LinkedList<>();
+                    output.addFirst(i);
+                    while (parents.get(i) != null) {
+                        output.addFirst(parents.get(i));
+                        i = parents.get(i);
+                    }
+                    return output;
+                }
+
+                if (!explored.contains(n)) {
+                    explored.add(n);
+                    q.add(n);
+                    parents.put(n, user);
                 }
             }
         }
 
-        return explored;
+        // If there is no path
+        return new LinkedList<>();
     }
 
     public static void DFS(Graph g, Node src) {
