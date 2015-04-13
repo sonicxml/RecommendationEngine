@@ -3,7 +3,7 @@ import java.util.Set;
 
 public class Node {
     private int id;
-    private Set<Edge> adjacent = new HashSet<>();
+    private Set<Edge> edges = new HashSet<>();
 
     public Node(int id) {
         this.id = id;
@@ -14,10 +14,14 @@ public class Node {
             throw new IllegalArgumentException("null edge");
         }
 
-        adjacent.add(e);
+        edges.add(e);
     }
 
-    public Set<Edge> getAdjacent() {
-        return new HashSet<>(adjacent);
+    public Set<Edge> getEdges() {
+        return new HashSet<>(edges);
+    }
+
+    public int getId() {
+        return id;
     }
 }

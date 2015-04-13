@@ -30,7 +30,7 @@ public class GraphToolkit {
 
         while (!q.isEmpty()) {
             Node user = q.poll();
-            Set<Edge> following = user.getAdjacent();
+            Set<Edge> following = user.getEdges();
             for (Edge e : following) {
                 Node u = e.getTgt();
                 if (!explored.contains(u)) {
@@ -92,5 +92,11 @@ public class GraphToolkit {
 
     private static Graph reverseGraph(Graph g) {
         Graph tgt = new Graph();
+        for (Node n : g.getAllNodes()) {
+            Node n2 = new Node(n.getId());
+
+        }
+
+        return tgt;
     }
 }
