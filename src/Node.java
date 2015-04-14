@@ -25,5 +25,7 @@ public class Node {
         return id;
     }
 
-    public int getOutDegree() {return edges.size();};
+    public int getOutDegree() {
+        return edges.size();
+    }
 }

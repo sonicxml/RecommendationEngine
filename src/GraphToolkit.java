@@ -117,7 +117,11 @@ public class GraphToolkit {
     }
 
     public static Map<Integer, Double> pageRank(Graph g) {
-        // Implement the mathematical method of PageRank
+        /**
+         * Find the Eigenvector Centrality of a graph
+         * using the PageRank formula
+         */
+
         double DF = 0.85; // Damping Factor
 
     	// Node ID to int
@@ -125,7 +129,7 @@ public class GraphToolkit {
         // Reverse of the above map
         Map<Integer, Integer> revIDMap = new HashMap<>();
 
-        Matrix adjMatrix = new Basic2DMatrix();
+        // Generate ID maps
         Set<Node> nodes = g.getAllNodes();
     	for (Node node : nodes) {
     		if (!idMap.containsKey(node.getID())) {
@@ -134,26 +138,33 @@ public class GraphToolkit {
     		}
     	}
 
-    	for (Node node : nodes) {
-            double cellEntry = (double) (1 / node.getOutDegree());
-    		Set<Edge> edges = node.getEdges();
-    		for (Edge e : edges) {
-    			adjMatrix.set(idMap.get(e.getSrc().getID()), 
-                                idMap.get(e.getTgt().getID()),
-                                cellEntry);
-    		}
-    	}
+        // Get the adjancency matrix
+        Matrix adjMatrix = getAdjMat(idMap, nodes);
 
-        int size = adjMatrix.rows() * adjMatrix.columns();
-        for (int i = 0; i < adjMatrix.rows(); i++) {
-            for (int j = 0; j < adjMatrix.columns(); j++) {
-                Double val = adjMatrix.get(i, j);
-                Double dampedVal = (DF * val) + ((1 - DF) / size);
-                adjMatrix.set(i, j, dampedVal);
-            }
+        // Dampen the matrix according to Scaled PageRank
+        dampenMatrix(DF, adjMatrix);
+
+        // Get the Principal Eigenvector
+        // (Eigenvector corresponding to largest eigenvalue)
+        Vector principalEV = getPrincipalEV(adjMatrix);
+
+        // Map Node IDs to their Eigenvector Centrality
+        Map<Integer, Double> ranks = new HashMap<>();
+        for (int i = 0; i < principalEV.length(); i++) {
+            ranks.put(revIDMap.get(i), principalEV.get(i));
         }
 
-        EigenDecompositor ed = new EigenDecompositor(adjMatrix);
+        return ranks;
+    }
+
+    public static void shortestPath(Graph g, Node src) {
+        // TODO: Implement
+        // Also return something
+        // Implement Dijkstra's algorithm for SSSP
+    }
+
+    private static Vector getPrincipalEV(Matrix adjMatrix) {
+        EigenDecompositor ed = new EigenDecompositor(adjMatrix.transpose());
         Matrix[] vd = ed.decompose();
         Matrix v = vd[0];
         Matrix d = vd[1];
@@ -167,18 +178,32 @@ public class GraphToolkit {
             }
         }
 
-        Vector principalEV = v.getColumn(maxIdx);
-        Map<Integer, Double> ranks = new HashMap<>();
-        for (int i = 0; i < principalEV.length(); i++) {
-            ranks.put(revIDMap.get(i), principalEV.get(i));
-        }
-
-        return ranks;
+        return v.getColumn(maxIdx);
     }
 
-    public static void shortestPath(Graph g, Node src) {
-        // TODO: Implement
-        // Also return something
-        // Implement Dijkstra's algorithm for SSSP
+    private static void dampenMatrix(double DF, Matrix adjMatrix) {
+        int size = adjMatrix.rows() * adjMatrix.columns();
+        for (int i = 0; i < adjMatrix.rows(); i++) {
+            for (int j = 0; j < adjMatrix.columns(); j++) {
+                Double val = adjMatrix.get(i, j);
+                Double dampedVal = (DF * val) + ((1 - DF) / size);
+                adjMatrix.set(i, j, dampedVal);
+            }
+        }
+    }
+
+    private static Matrix getAdjMat(Map<Integer, Integer> idMap, Set<Node> nodes) {
+        Matrix adjMatrix = new Basic2DMatrix();
+        for (Node node : nodes) {
+            double cellEntry = (double) (1 / node.getOutDegree());
+            Set<Edge> edges = node.getEdges();
+            for (Edge e : edges) {
+                adjMatrix.set(idMap.get(e.getSrc().getID()),
+                        idMap.get(e.getTgt().getID()),
+                        cellEntry);
+            }
+        }
+
+        return adjMatrix;
     }
 }
