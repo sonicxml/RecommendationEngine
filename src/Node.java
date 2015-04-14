@@ -21,7 +21,7 @@ public class Node {
         return new HashSet<>(edges);
     }
 
-    public int getId() {
+    public int getID() {
         return id;
     }
 }

@@ -120,14 +120,4 @@ public class GraphToolkit {
         // Also return something
         // Implement Dijkstra's algorithm for SSSP
     }
-
-    private static Graph reverseGraph(Graph g) {
-        Graph tgt = new Graph();
-        for (Node n : g.getAllNodes()) {
-            Node n2 = new Node(n.getId());
-
-        }
-
-        return tgt;
-    }
 }
