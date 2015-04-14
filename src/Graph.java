@@ -15,11 +15,7 @@ public class Graph {
     public void addNode(int id, Node n) {
         nodes.put(id, n);
     }
-
-    public Node getNode(int id) {
-        return nodes.get(id);
-    }
-
+    
     public Set<Node> getAllNodes() {
         return new HashSet<>(nodes.values());
     }
