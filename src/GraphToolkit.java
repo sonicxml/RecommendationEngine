@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
+import org.la4j.*;
+import org.la4j.matrix.sparse.*;
 
 public class GraphToolkit {
     private GraphToolkit() {
@@ -113,6 +115,23 @@ public class GraphToolkit {
         // TODO: Implement
         // Also return something
         // Implement the mathematical method of PageRank
+    	Matrix adjMatrix = new CCSMatrix();
+    	//Node ID to int
+    	Map<Integer, Integer> idMap = new HashMap<>();
+    	Set<Node> nodes = g.getAllNodes();
+    	for (Node node : nodes) {
+    		if (!idMap.containsKey(node.getID())) {
+    			idMap.put(node.getID(), idMap.size());
+    		}
+    	}
+    	for (Node node : nodes) {
+    		Set<Edge> edges = node.getEdges();
+    		for (Edge e : edges) {
+    			adjMatrix.set(idMap.get(e.getSrc().getID()), 
+    					idMap.get(e.getTgt().getID()), e.getWeight());
+    		}
+    	}
+    	
     }
 
     public static void shortestPath(Graph g, Node src) {
