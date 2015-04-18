@@ -192,6 +192,13 @@ public class GraphToolkit {
         }
     }
 
+    /**
+     * Method for returning the adjacency matrix for a given set of Nodes
+     * 
+     * @param idMap  the mapping from integers to Node IDs
+     * @param nodes  the set of Nodes from which the matrix should be made
+     * @return       the adjacency matrix in Matrix form from package la4j
+     */
     private static Matrix getAdjMat(Map<Integer, Integer> idMap, Set<Node> nodes) {
         Matrix adjMatrix = new Basic2DMatrix();
         for (Node node : nodes) {
