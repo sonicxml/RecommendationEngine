@@ -3,6 +3,8 @@ import org.la4j.Vector;
 import org.la4j.decomposition.EigenDecompositor;
 import org.la4j.matrix.dense.Basic2DMatrix;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -24,9 +26,10 @@ public class GraphToolkit {
      * Since this is BFS, the shortest path is in terms of length, not weights.
      * @param g the Graph
      * @param src the node to start BFS from
+     * @param tgt the node to end BFS at
      * @return the shortest path from src to tgt.
      */
-    public static List<Node> bfs(Graph g, Node src, Node tgt) {
+    public static List<Node> bfs(Graph g, Node src, Node tgt, boolean flow) {
         if (g == null || src == null) {
             throw new IllegalArgumentException();
         }
@@ -69,10 +72,12 @@ public class GraphToolkit {
                     return output;
                 }
 
-                if (!explored.contains(n)) {
-                    explored.add(n);
-                    q.add(n);
-                    parents.put(n, user);
+                if ((flow && e.getWeight() - e.getFlow() > 0) || !flow) {
+                    if (!explored.contains(n)) {
+                        explored.add(n);
+                        q.add(n);
+                        parents.put(n, user);
+                    }
                 }
             }
         }
@@ -98,10 +103,71 @@ public class GraphToolkit {
         // Implement Kosaraju's Algorithm for finding SCCs
     }
 
-    public static void networkFlow(Graph g) {
-        // TODO: Implement
-        // Also return something
-        // Implement the Edmonds-Karp algorithm
+    public static void networkFlow(Graph g, Node src, Node tgt) {
+        Graph newG = biDirectGraph(g);
+        List<Node> path = bfs(newG, src, tgt, true);
+
+        while (!path.isEmpty()) {
+            List<Edge> edgePath = getEdgesFromNodes(path);
+            Collections.reverse(path);
+            List<Edge> revEdgePath = getEdgesFromNodes(path);
+            Collections.reverse(revEdgePath);
+            List<Integer> residuals = new ArrayList<>();
+            for (Edge e : edgePath) {
+                residuals.add(e.getWeight() - e.getFlow());
+            }
+
+            int flow = Collections.min(residuals);
+
+            for (int i = 0; i < path.size(); i++) {
+                Edge e = edgePath.get(i);
+                Edge revE = revEdgePath.get(i);
+                e.setFlow(e.getFlow() + flow);
+                revE.setFlow(revE.getFlow() - flow);
+            }
+
+            path = bfs(newG, src, tgt, true);
+        }
+    }
+
+    private static List<Edge> getEdgesFromNodes(List<Node> nodes) {
+        List<Edge> edgePath = new LinkedList<>();
+
+        for (int i = 0; i < nodes.size() - 1; i++) {
+            Node src = nodes.get(i);
+            Node tgt = nodes.get(i + 1);
+
+            Set<Edge> edges = src.getEdges();
+
+            for (Edge e : edges) {
+                // Let's just check for equality by comparing IDs
+                if (tgt.getID() == e.getTgt().getID()) {
+                    edgePath.add(e);
+                    break;
+                }
+            }
+        }
+
+        return edgePath;
+    }
+
+    private static Graph biDirectGraph(Graph g) {
+        Graph newG = g.copyOf(true, 0);
+        mergeGraphs(newG, g);
+        return newG;
+    }
+
+    private static void mergeGraphs(Graph g1, Graph g2) {
+        // Add all nodes and edges from g2 into g1
+        for (Node n : g2.getAllNodes()) {
+            Set<Edge> edges = n.getEdges();
+            for (Edge e : edges) {
+                int srcID = e.getSrc().getID();
+                int tgtID = e.getTgt().getID();
+
+                g1.addEdge(srcID, tgtID, e.weight);
+            }
+        }
     }
 
     public static void btwCentrality(Graph g) {
