@@ -16,6 +16,20 @@ public class Graph {
         nodes.put(id, n);
     }
     
+    public void addEdge(int srcID, int tgtID, int weight) {
+    	Node source = nodes.get(srcID);
+    	Node target = nodes.get(tgtID);
+    	if (source == null) {
+    		source = new Node(srcID);
+    		nodes.put(srcID, source);
+    	}
+    	if (target == null) {
+    		target = new Node(tgtID);
+    		nodes.put(tgtID, target);
+    	}
+    	source.addEdge(new Edge(source, target, weight));
+    }
+    
     public Set<Node> getAllNodes() {
         return new HashSet<>(nodes.values());
     }
