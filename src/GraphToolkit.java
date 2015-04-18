@@ -27,6 +27,7 @@ public class GraphToolkit {
      * @param g the Graph
      * @param src the node to start BFS from
      * @param tgt the node to end BFS at
+     * @param flow whether or not this is BFS on a flow graph
      * @return the shortest path from src to tgt.
      */
     public static List<Node> bfs(Graph g, Node src, Node tgt, boolean flow) {
@@ -103,7 +104,15 @@ public class GraphToolkit {
         // Implement Kosaraju's Algorithm for finding SCCs
     }
 
-    public static void networkFlow(Graph g, Node src, Node tgt) {
+    /**
+     * Implement the Ford-Fulkerson algorithm for finding maximum flow
+     * on a network.
+     * @param g The graph to find
+     * @param src the starting node
+     * @param tgt the ending node
+     * @return the maximum flow from src -> tgt on the graph g
+     */
+    public static int maxFlow(Graph g, Node src, Node tgt) {
         Graph newG = biDirectGraph(g);
         List<Node> path = bfs(newG, src, tgt, true);
 
@@ -128,8 +137,21 @@ public class GraphToolkit {
 
             path = bfs(newG, src, tgt, true);
         }
+
+        int maxFlow = 0;
+        for (Edge e : src.getEdges()) {
+            maxFlow += e.getFlow();
+        }
+
+        return maxFlow;
     }
 
+    /**
+     * Takes a list of nodes that forms a path, and creates a corresponding
+     * list of edges for that same path.
+     * @param nodes the path of nodes
+     * @return the path of edges
+     */
     private static List<Edge> getEdgesFromNodes(List<Node> nodes) {
         List<Edge> edgePath = new LinkedList<>();
 
@@ -151,12 +173,22 @@ public class GraphToolkit {
         return edgePath;
     }
 
+    /**
+     * Bidirects a graph (for every directed edge, adds the backwards edge).
+     * @param g the graph
+     * @return a bidirected version of g
+     */
     private static Graph biDirectGraph(Graph g) {
         Graph newG = g.copyOf(true, 0);
         mergeGraphs(newG, g);
         return newG;
     }
 
+    /**
+     * Merges two graphs, g1 and g2, into g1
+     * @param g1 the first graph
+     * @param g2 the second graph
+     */
     private static void mergeGraphs(Graph g1, Graph g2) {
         // Add all nodes and edges from g2 into g1
         for (Node n : g2.getAllNodes()) {
