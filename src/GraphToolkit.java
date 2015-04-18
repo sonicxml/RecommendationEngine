@@ -119,7 +119,7 @@ public class GraphToolkit {
     public static Map<Integer, Double> pageRank(Graph g) {
         /**
          * Find the Eigenvector Centrality of a graph
-         * using the PageRank formula
+         * using the dampened PageRank formula
          */
 
         double DF = 0.85; // Damping Factor
@@ -163,6 +163,14 @@ public class GraphToolkit {
         // Implement Dijkstra's algorithm for SSSP
     }
 
+    /**
+     * Uses the EigenDecompositor class from package la4j to find the principal
+     * eigenvector, which corresponds to the largest eigenvector of the supplied
+     * matrix.
+     * 
+     * @param adjMatrix  an adjacency matrix for a graph
+     * @return           the principal eigenvector of adjMatrix
+     */
     private static Vector getPrincipalEV(Matrix adjMatrix) {
         EigenDecompositor ed = new EigenDecompositor(adjMatrix.transpose());
         Matrix[] vd = ed.decompose();
@@ -181,6 +189,13 @@ public class GraphToolkit {
         return v.getColumn(maxIdx);
     }
 
+    /**
+     * Adjusts the values in the given matrix according to the formula
+     * for the dampened PageRank algorithm
+     * 
+     * @param DF         the damping factor (default 0.85)
+     * @param adjMatrix  the matrix whose contents should be modified
+     */
     private static void dampenMatrix(double DF, Matrix adjMatrix) {
         int size = adjMatrix.rows() * adjMatrix.columns();
         for (int i = 0; i < adjMatrix.rows(); i++) {
