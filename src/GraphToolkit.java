@@ -370,43 +370,75 @@ public class GraphToolkit {
 		}
 	}
 
-	public static void btwCentrality(Graph g) {
+	/**
+	 * Calculates the betweeness centrality for each node using 
+	 * Brandes' algorithm.
+	 * 
+	 * @param g  the Graph whose values should be calculated
+	 * @return   a map containing the betweeness centrality values
+	 */
+	public static Map<Node, Double> btwCentrality(Graph g) {
 		// TODO: Implement
 		// Also return something
 		// Implement Brandes' algorithm for betweenness centrality
 		Set<Node> nodes = g.getAllNodes();
+		Map<Node, Integer> nodeMap = new HashMap<>();
 		int size = nodes.size();
-		double[] centrality = new double[size];
+		Map<Node, Double> centrality = new HashMap<>();
 
-		int counter = 0;
+		for (Node node: nodes) {
+			nodeMap.put(node, nodeMap.size());
+			centrality.put(node, 0.0);
+		}
+		
 		for (Node node : nodes) {
+			int index = nodeMap.get(node);
 			Stack<Node> s = new Stack<>();
 			Queue<Node> q = new LinkedList<>();
 			q.add(node);
 			ArrayList<Node>[] lists = new ArrayList[size];
 			int[] sigma = new int[size];
-			sigma[counter] = 1;
+			sigma[index] = 1;
 			int[] distances = new int[size];
 			for (int i = 0; i < size; i++) {
-				if (i != counter) {
+				if (i != index) {
 					distances[i] = -1;
 				}
 			}
-			int[] deltas = new int[size];
+			double[] deltas = new double[size];
 
 			while (!q.isEmpty()) {
 				Node v = q.remove();
 				s.add(v);
 				Set<Node> neighbors = v.getNeighbors();
 				for (Node neighbor : neighbors) {
-
+					int tempIndex = nodeMap.get(neighbor);
+					if (distances[tempIndex] < 0) {
+						q.add(neighbor);
+						distances[tempIndex] = distances[nodeMap.get(v)] + 1;
+					} else if (distances[tempIndex] == distances[nodeMap.get(v)] + 1) {
+						sigma[tempIndex] = sigma[tempIndex] + sigma[nodeMap.get(v)];
+						lists[tempIndex].add(v);
+					}
 				}
 			}
-
-
-
-			counter++;
+			
+			while (!s.isEmpty()) {
+				Node w = s.pop();
+				int wIndex = nodeMap.get(w);
+				ArrayList<Node> list = lists[nodeMap.get(w)];
+				for (Node v : list) {
+					int temp = nodeMap.get(v);
+					deltas[temp] = deltas[temp] + ((double) sigma[temp] / 
+							(double) sigma[wIndex]) * (1 + deltas[wIndex]);
+							
+				}
+				if (wIndex != index) {
+					centrality.put(w, centrality.get(w) + deltas[wIndex]);
+				}
+			}
 		}
+		return centrality;
 	}
 
 	public static void commDetection(Graph g) {
