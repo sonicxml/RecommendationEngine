@@ -15,8 +15,8 @@ public class DataReader {
     		Scanner sc = new Scanner(new File(MOVIE_LENS_FILE));
     		while (sc.hasNextLine()) {
     			String line = sc.nextLine();
-    			String[] temp = line.split(" ");
-    			if (temp.length == 3) {
+    			String[] temp = line.split("\t");
+    			if (temp.length == 4) {
     				int src = Integer.parseInt(temp[0]);
     				int tgt = Integer.parseInt(temp[1]);
     				int weight = Integer.parseInt(temp[2]);
