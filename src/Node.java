@@ -30,10 +30,11 @@ public class Node {
     }
     
     public Set<Node> getNeighbors() {
-    	Set<Node> neighbors = new HashSet<Node>(); 
+    	Set<Node> neighbors = new HashSet<>();
     	for (Edge e : edges) {
-    		neighbors.add(e.getTgt()); 
+    		neighbors.add(e.getTgt());
     	}
-    	return neighbors; 
+    	
+    	return neighbors;
     }
 }

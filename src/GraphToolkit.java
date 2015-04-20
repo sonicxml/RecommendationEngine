@@ -1,8 +1,3 @@
-import org.la4j.Matrix;
-import org.la4j.Vector;
-import org.la4j.decomposition.EigenDecompositor;
-import org.la4j.matrix.dense.Basic2DMatrix;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -14,6 +9,12 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Stack; 
 import java.util.Set;
+import java.util.Stack;
+
+import org.la4j.Matrix;
+import org.la4j.Vector;
+import org.la4j.decomposition.EigenDecompositor;
+import org.la4j.matrix.dense.Basic2DMatrix;
 
 
 
@@ -98,8 +99,8 @@ public class GraphToolkit {
 		}
 		return true; 
 	}
-	
-/*	Given a set of nodes in a graph and a set of visited nodes, function returns 
+
+	/*	Given a set of nodes in a graph and a set of visited nodes, function returns 
 	an unvisited node of zero In degree. If there are no nodes of zero
 	in degree in remaining connected component, returns arbitrary unvisited node */	
 	public static Node getUnvisited(Set<Node> graph, 
@@ -137,7 +138,7 @@ public class GraphToolkit {
 			return map; 
 		}
 	}
-	
+
 	/* An implementation of the DFS algorithm that returns the 
     finish times of each vertex in the graph. */
 	public static Map<Node, List<Integer>> dfs(Graph g, Node src) {
@@ -373,6 +374,39 @@ public class GraphToolkit {
 		// TODO: Implement
 		// Also return something
 		// Implement Brandes' algorithm for betweenness centrality
+		Set<Node> nodes = g.getAllNodes();
+		int size = nodes.size();
+		double[] centrality = new double[size];
+
+		int counter = 0;
+		for (Node node : nodes) {
+			Stack<Node> s = new Stack<>();
+			Queue<Node> q = new LinkedList<>();
+			q.add(node);
+			ArrayList<Node>[] lists = new ArrayList[size];
+			int[] sigma = new int[size];
+			sigma[counter] = 1;
+			int[] distances = new int[size];
+			for (int i = 0; i < size; i++) {
+				if (i != counter) {
+					distances[i] = -1;
+				}
+			}
+			int[] deltas = new int[size];
+
+			while (!q.isEmpty()) {
+				Node v = q.remove();
+				s.add(v);
+				Set<Node> neighbors = v.getNeighbors();
+				for (Node neighbor : neighbors) {
+
+				}
+			}
+
+
+
+			counter++;
+		}
 	}
 
 	public static void commDetection(Graph g) {
