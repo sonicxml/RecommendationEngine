@@ -1,10 +1,10 @@
-public class Edge implements Comparable<Edge> {
-    Node src;
-    Node tgt;
-    int weight;
-    int flow;
+public class Edge {
+    private Node src;
+    private Node tgt;
+    private double weight;
+    private int flow;
 
-    Edge(Node src, Node tgt, int weight) {
+    Edge(Node src, Node tgt, double weight) {
         this.src = src;
         this.tgt = tgt;
         this.weight = weight;
@@ -23,21 +23,11 @@ public class Edge implements Comparable<Edge> {
         return tgt;
     }
 
-    public int getWeight() {
+    public double getWeight() {
         return weight;
     }
 
     public int getFlow() {
         return flow;
     }
-
-	@Override
-	public int compareTo(Edge other) {
-		if (weight < other.getWeight()) {
-			return -1;
-		} else if (weight > other.getWeight()) {
-			return 1;
-		}
-		return 0;
-	}
 }

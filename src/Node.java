@@ -28,13 +28,13 @@ public class Node {
     public int getOutDegree() {
         return edges.size();
     }
-    
+
     public Set<Node> getNeighbors() {
-    	Set<Node> neighbors = new HashSet<>();
-    	for (Edge e : edges) {
-    		neighbors.add(e.getTgt());
-    	}
-    	
-    	return neighbors;
+        Set<Node> neighbors = new HashSet<>();
+        for (Edge e : edges) {
+            neighbors.add(e.getTgt());
+        }
+
+        return neighbors;
     }
 }
