@@ -81,8 +81,17 @@ class Search {
         return new LinkedList<>();
     }
 
-    /* An implementation of the DFS algorithm that returns the
-    finish times of each vertex in the graph. */
+    /**
+     * function performs DFS on given graph and returns 
+     * a map of Nodes in graph to a list of integers. 
+     * The list contains a start time and a finish time 
+     * for each Node. 
+     * 
+     * @param g the Graph
+     * @param src the Node to start DFS
+     * @return a mapping of start and finish times for
+     * each node
+     */
     static Map<Node, List<Integer>> dfs(Graph g, Node src) {
         if (g == null || src == null) {
             throw new IllegalArgumentException();
@@ -133,7 +142,15 @@ class Search {
         return timeStamps;
     }
 
-    /* Function returns a topological sort on given graph */
+    /**
+     * Function performs a topological sort on the vertices
+     * of a given graph by performing DFS and arrange
+     * vertices by descending finish times. 
+     * 
+     * @param g the Graph
+     * @return a topological sort of the vertices in the
+     * graph. 
+     */
     static List<Node> topSort(Graph g) {
         if (!detectCycle(g)) {
             TreeMap<Node, Integer> map = new TreeMap<Node, Integer>();
@@ -179,9 +196,17 @@ class Search {
         return true;
     }
 
-    /*	Given a set of nodes in a graph and a set of visited nodes, function returns
-    an unvisited node of zero In degree. If there are no nodes of zero
-    in degree in remaining connected component, returns arbitrary unvisited node */
+    /**
+     * Given a set of nodes in a graph and a set of visited nodes, function returns
+    	an unvisited node of zero In degree. If there are no nodes of zero
+    	in degree in remaining connected component, returns arbitrary unvisited node
+     * 
+     * @param graph the set of nodes of a Graph
+     * @param visited a set of discovered nodes
+     * @return a node with zero in degree. If such a node 
+     * does not exist then return the first unvisited node
+     * encountered. 
+     */
     private static Node getUnvisited(Set<Node> graph, Set<Node> visited) {
         for (Node n : graph) {
             if (!visited.contains(n) && checkInDegree(n, graph)) {
@@ -196,9 +221,17 @@ class Search {
         return null;
     }
 
-    /*Given a map, a node, and an int, function adds int to the set of
-    integers mapped by the given node. Helper function for dfs and
-    cycle detection. */
+    /**
+     * Given a map, a node, and an int, function adds int to the set of
+    	integers mapped by the given node. Helper function for dfs and
+    	cycle detection.
+     * 
+     * @param map current time stamp maps
+     * @param n Node to be stamped
+     * @param i integer to stamp node with
+     * @return a map time stamps with given 
+     * node stamped with given integer. 
+     */
     private static Map<Node, List<Integer>> stamp(Map<Node,
             List<Integer>> map, Node n, int i) {
         if (map.containsKey(n)) {
@@ -217,8 +250,13 @@ class Search {
         }
     }
 
-    /*function returns a boolean checking if given graph contains a cycle.
-    Returns true if there exists a cycle. */
+    /**
+     * function returns a boolean checking if given graph contains a cycle.
+    	Returns true if there exists a cycle.
+     * 
+     * @param g the Graph
+     * @return true if there is a cycle and false otherwise 
+     */
     private static boolean detectCycle(Graph g) {
         if (g == null) {
             throw new IllegalArgumentException();
