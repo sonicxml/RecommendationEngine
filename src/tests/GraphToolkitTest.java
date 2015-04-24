@@ -33,7 +33,17 @@ public class GraphToolkitTest {
 
     @Test
     public void testDfs() throws Exception {
-
+    	Graph g = DataReader.readSampleGraphData("TestGraphs/dfs_acyclic.txt"); 
+    	Node src = g.getNodeByID(1); 
+    	Set<Node> nodes = g.getAllNodes(); 
+    	Map<Node, List<Integer>> timestamps = GraphToolkit.dfs(g, src); 
+    	for (Node n : nodes) {
+    		int id = n.getID(); 
+    		int startTime = timestamps.get(n).get(0); 
+    		//int finishTime = timestamps.get(n).get(1); 
+    		System.out.println(id + ": " + startTime + ", "); 
+    	}
+    	assertEquals("see if dfs does not break", timestamps.size(), 6); 
     }
 
     @Test
