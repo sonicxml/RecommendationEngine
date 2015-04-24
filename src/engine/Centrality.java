@@ -44,6 +44,9 @@ class Centrality {
             Queue<Node> q = new LinkedList<>();
             q.add(node);
             ArrayList<Node>[] lists = new ArrayList[size];
+            for (int i = 0; i < size; i++) {
+                lists[i] = new ArrayList<Node>();
+            }
             int[] sigma = new int[size];
             sigma[index] = 1;
             int[] distances = new int[size];
