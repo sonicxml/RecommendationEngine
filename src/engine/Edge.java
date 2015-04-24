@@ -6,7 +6,7 @@ public class Edge {
     private double weight;
     private int flow;
 
-    Edge(Node src, Node tgt, double weight) {
+    public Edge(Node src, Node tgt, double weight) {
         this.src = src;
         this.tgt = tgt;
         this.weight = weight;
