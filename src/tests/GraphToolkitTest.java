@@ -16,7 +16,7 @@ public class GraphToolkitTest {
 
     @Test
     public void testBfs() throws Exception {
-    	Graph g = DataReader.readSampleGraphData("RecommendationEngine/Data/"
+    	Graph g = DataReader.readSampleGraphData("RecommendationEngine/data/"
     	        + "TestGraphs/bfs_acyclic.txt"); 
     	Node src = g.getNodeByID(1); 
     	Node tgt = g.getNodeByID(4); 
@@ -65,7 +65,7 @@ public class GraphToolkitTest {
 
     @Test
     public void testBtwCentrality() throws Exception {
-        Graph g = DataReader.readSampleGraphData("RecommendationEngine/Data/"
+        Graph g = DataReader.readSampleGraphData("RecommendationEngine/data/"
                 + "TestGraphs/btw_centrality_small.txt");
         double[] ans = new double[] {0, 15.5, 2.5, 10, 0, 0, 2.5, 0};
         Map<Node, Double> answer = GraphToolkit.btwCentrality(g);

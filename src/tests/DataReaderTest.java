@@ -25,7 +25,7 @@ public class DataReaderTest {
     @Test
     public void testReadSampleGraphData() throws Exception {
         //Need to modify the filename to run correctly!
-        String filename = "RecommendationEngine/Data/TestGraphs/testGraph1.txt";
+        String filename = "RecommendationEngine/data/TestGraphs/testGraph1.txt";
         
         Graph g = DataReader.readSampleGraphData(filename);
         Graph g2 = new Graph();
