@@ -59,14 +59,15 @@ class Centrality {
 
             while (!q.isEmpty()) {
                 Node v = q.remove();
-                s.add(v);
+                s.push(v);
                 Set<Node> neighbors = v.getNeighbors();
                 for (Node neighbor : neighbors) {
                     int tempIndex = nodeMap.get(neighbor);
                     if (distances[tempIndex] < 0) {
                         q.add(neighbor);
                         distances[tempIndex] = distances[nodeMap.get(v)] + 1;
-                    } else if (distances[tempIndex] == distances[nodeMap.get(v)] + 1) {
+                    } 
+                    if (distances[tempIndex] == distances[nodeMap.get(v)] + 1) {
                         sigma[tempIndex] = sigma[tempIndex] + sigma[nodeMap.get(v)];
                         lists[tempIndex].add(v);
                     }
