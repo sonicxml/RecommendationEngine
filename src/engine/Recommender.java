@@ -54,8 +54,8 @@ public class Recommender {
      *
      * @param g the Graph from which to construct the Recommender
      */
-    public Recommender(Graph g) {
-        this.g = g;
+    public Recommender(Graph og) {
+        this.g = og;
         Set<Node> nodes = g.getAllNodes();
         this.size = nodes.size();
         for (Node node : nodes) {
