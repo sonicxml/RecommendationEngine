@@ -67,21 +67,23 @@ public class Recommender {
         }
     }
 
-    public List<Node> collabFilter(int userID) {
-        Node user = g.getNodeByID(userID);
-        TreeMap<Double, List<Node>> scores = new TreeMap<>();
-        for (Node node : users) {
-            if (!node.equals(user)) {
-                double score = getPearsonCoeff(user, node);
-                if (scores.containsKey(score)) {
-                    scores.get(score).add(node);
-                } else {
-                    List<Node> nodes = new LinkedList<>();
-                    nodes.add(node);
-                    scores.put(score, nodes);
-                }
-            }
+    /**
+     * This method implements the collaborative filtering algorithm for
+     * finding recommendations.  It accepts a TreeMap of scores that can
+     * be generated using either the Pearson or Jaccard scores.
+     * NOTE: The default top scores to look at is at most10, and the 
+     * default number of recommendations is at most 5.
+     * 
+     * @param userID  the user for which to provide recommendations
+     * @param scores  the scores to use for collaborative filtering
+     * @return        the list of recommended nodes
+     */
+    public List<Node> collabFilter(int userID, TreeMap<Double, List<Node>> scores) {
+        if (scores == null) {
+            throw new IllegalArgumentException();
         }
+        
+        Node user = g.getNodeByID(userID);
 
         Set<Node> top = getTopMatches(scores, 10);
         Set<Node> neighbors = user.getNeighbors();
@@ -120,6 +122,66 @@ public class Recommender {
         return out;
     }
 
+    /**
+     * Provides a method for getting all of the Pearson Correlation
+     * Coefficient scores for a given Node.
+     * 
+     * @param userID  the Node whose scores you wish to find
+     * @return        a TreeMap of scores to a list of Nodes with that score
+     */
+    public TreeMap<Double, List<Node>> getPearsonScores(int userID) {
+        Node user = g.getNodeByID(userID);
+        TreeMap<Double, List<Node>> scores = new TreeMap<>();
+        for (Node node : users) {
+            if (!node.equals(user)) {
+                double score = getPearsonCoeff(user, node);
+                if (scores.containsKey(score)) {
+                    scores.get(score).add(node);
+                } else {
+                    List<Node> nodes = new LinkedList<>();
+                    nodes.add(node);
+                    scores.put(score, nodes);
+                }
+            }
+        }
+        
+        return scores;
+    }
+    
+    /**
+     * Provides a method for getting all of the Jaccard Correlation
+     * Coefficient scores for a given Node.
+     * 
+     * @param userID  the Node whose scores you wish to find
+     * @return        a TreeMap of scores to a list of Nodes with that score
+     */
+    public TreeMap<Double, List<Node>> getJaccardScores(int userID) {
+        Node user = g.getNodeByID(userID);
+        TreeMap<Double, List<Node>> scores = new TreeMap<>();
+        for (Node node : users) {
+            if (!node.equals(user)) {
+                double score = getJaccardCoeff(user, node);
+                if (scores.containsKey(score)) {
+                    scores.get(score).add(node);
+                } else {
+                    List<Node> nodes = new LinkedList<>();
+                    nodes.add(node);
+                    scores.put(score, nodes);
+                }
+            }
+        }
+        
+        return scores;
+    }
+    
+    /**
+     * Provides a method for returning a given number of top matches
+     * from a given map of scores.
+     * 
+     * @param map    the map of scores
+     * @param limit  the maximum number of top scores to return
+     * @return       the list of nodes corresponding to the top limit scores
+     */
     private Set<Node> getTopMatches(TreeMap<Double, List<Node>> map,
                                     int limit) {
         if (limit > size) {
