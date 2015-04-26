@@ -133,9 +133,52 @@ public class Recommender {
         }
         return topMatches;
     }
-
+    
+    /**
+     * Method for calculating the Pearson Correlation Coefficient score
+     * for two given Nodes.
+     * 
+     * @param n1  the first Node
+     * @param n2  the second Node
+     * @return    the score for the two nodes
+     */
     private double getPearsonCoeff(Node n1, Node n2) {
-        return 0.0;
+        Set<Node> firstNeighbors = n1.getNeighbors();
+        Set<Node> sndNeighbors = n2. getNeighbors();
+        Set<Edge> firstEdges = n1.getEdges();
+        Set<Edge> sndEdges = n2.getEdges();
+        Map<Node, Double> firstWeights = new HashMap<>();
+        Map<Node, Double> sndWeights = new HashMap<>();
+        
+        firstNeighbors.retainAll(sndNeighbors);
+        
+        if (firstNeighbors.size() == 0) return 0.0;
+        
+        int size = firstNeighbors.size();
+        double firstSum = 0.0;
+        double sndSum = 0.0;
+        double firstSqSum = 0.0;
+        double sndSqSum = 0.0;
+        double prodSum = 0.0;
+        
+        for (Node n : firstNeighbors) {
+            double first = firstWeights.get(n);
+            double snd = sndWeights.get(n);
+            
+            firstSum = firstSum + first;
+            sndSum = sndSum + snd;
+            firstSqSum = firstSqSum + first * first;
+            sndSqSum = sndSqSum + snd * snd;
+            prodSum = prodSum + first * snd;
+        }
+        
+        double numerator = prodSum - (firstSum * sndSum / size);
+        double denom = Math.sqrt((firstSqSum - firstSum * firstSum / size) * 
+                (sndSqSum - sndSum * sndSum / size));
+        
+        if (denom == 0.0) return 0.0;
+        
+        return numerator / denom;
     }
 
     /**
