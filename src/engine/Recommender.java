@@ -49,10 +49,10 @@ public class Recommender {
     private int size;
 
     /**
-     * Creates a Recommender object from a Graph. INVARIANT: The graph must be
-     * directed and bipartite.
+     * Creates a Recommender object from a Graph.
+     * INVARIANT: The graph must be directed and bipartite.
      *
-     * @param g the Graph from which to construct the Recommender
+     * @param og the Graph from which to construct the Recommender
      */
     public Recommender(Graph og) {
         this.g = og;
