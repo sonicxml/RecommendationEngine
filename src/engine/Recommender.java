@@ -44,9 +44,9 @@ public class Recommender {
     }
 
     private Graph g;
-    private Set<Node> users;
-    private Set<Node> items;
-    private int size;
+    private Set<Node> users = new HashSet<>();
+    private Set<Node> items = new HashSet<>();
+    private int size = 0;
 
     /**
      * Creates a Recommender object from a Graph.
