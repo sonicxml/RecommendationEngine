@@ -137,4 +137,30 @@ public class Recommender {
     private double getPearsonCoeff(Node n1, Node n2) {
         return 0.0;
     }
+
+    /**
+     * Calculate Jaccard coefficient for n1 and n2.
+     * If A = neighbors(n1) and B = neighbors(n2)
+     * coeff = (A ∩ B) / (A ∪ B)
+     *
+     * @param n1 the first node
+     * @param n2 the second node
+     * @return the Jaccard similarity coefficient between n1 and n2
+     */
+    private double getJaccardCoeff(Node n1, Node n2) {
+        Set<Node> n1Neighbors = n1.getNeighbors();
+        Set<Node> n2Neighbors = n2.getNeighbors();
+        Set<Node> temp1 = new HashSet<>(n1Neighbors);
+        Set<Node> temp2 = new HashSet<>(n2Neighbors);
+
+        // n1Neighbors now contains all nodes they have in common
+        n1Neighbors.retainAll(temp2);
+
+        // n2Neighbors now contains all nodes they don't have in common
+        n2Neighbors.removeAll(temp1);
+
+        double coeff = (double) (n1Neighbors.size() - n2Neighbors.size()) /
+                (double) (n1Neighbors.size() + n2Neighbors.size());
+        return coeff;
+    }
 }
