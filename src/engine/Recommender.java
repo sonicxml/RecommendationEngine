@@ -154,6 +154,13 @@ public class Recommender {
         
         if (firstNeighbors.size() == 0) return 0.0;
         
+        for (Edge e : firstEdges) {
+            firstWeights.put(e.getTgt(), e.getWeight());
+        }
+        for (Edge e : sndEdges) {
+            sndWeights.put(e.getTgt(), e.getWeight());
+        }
+        
         int size = firstNeighbors.size();
         double firstSum = 0.0;
         double sndSum = 0.0;
