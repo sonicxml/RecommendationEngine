@@ -118,11 +118,11 @@ class Centrality {
         for (Node node : nodes) {
             if (!idMap.containsKey(node.getID())) {
                 idMap.put(node.getID(), idMap.size());
-                revIDMap.put(idMap.size(), node.getID());
+                revIDMap.put(idMap.size() - 1, node.getID());
             }
         }
 
-        // Get the adjancency matrix
+        // Get the adjacency matrix
         Matrix adjMatrix = getAdjMat(idMap, nodes);
 
         // Dampen the matrix according to Scaled PageRank
@@ -166,7 +166,7 @@ class Centrality {
 
         return v.getColumn(maxIdx);
     }
-
+    
     /**
      * Adjusts the values in the given matrix according to the formula for the
      * dampened PageRank algorithm
@@ -175,11 +175,11 @@ class Centrality {
      * @param adjMatrix the matrix whose contents should be modified
      */
     private static void dampenMatrix(double DF, Matrix adjMatrix) {
-        int size = adjMatrix.rows() * adjMatrix.columns();
+        int size = adjMatrix.rows();
         for (int i = 0; i < adjMatrix.rows(); i++) {
             for (int j = 0; j < adjMatrix.columns(); j++) {
-                Double val = adjMatrix.get(i, j);
-                Double dampedVal = (DF * val) + ((1 - DF) / size);
+                double val = adjMatrix.get(i, j);
+                double dampedVal = (DF * val) + ((1 - DF) / size);
                 adjMatrix.set(i, j, dampedVal);
             }
         }
@@ -193,9 +193,9 @@ class Centrality {
      * @return the adjacency matrix in Matrix form from package la4j
      */
     private static Matrix getAdjMat(Map<Integer, Integer> idMap, Set<Node> nodes) {
-        Matrix adjMatrix = new Basic2DMatrix();
+        Matrix adjMatrix = new Basic2DMatrix(nodes.size(), nodes.size());
         for (Node node : nodes) {
-            double cellEntry = (double) (1 / node.getOutDegree());
+            double cellEntry = 1 / (double) node.getOutDegree();
             Set<Edge> edges = node.getEdges();
             for (Edge e : edges) {
                 adjMatrix.set(idMap.get(e.getSrc().getID()),

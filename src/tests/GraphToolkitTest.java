@@ -75,8 +75,8 @@ public class GraphToolkitTest {
             int id = entry.getKey().getID();
             double temp = entry.getValue();
             //assertEquals(ans[id - 1], temp, 0.001);
-            System.out.println("ID: " + id);
-            System.out.println("Centrality: " + temp);
+            //System.out.println("ID: " + id);
+            //System.out.println("Centrality: " + temp);
         }
     }
 
@@ -87,6 +87,18 @@ public class GraphToolkitTest {
 
     @Test
     public void testPageRank() throws Exception {
-
+        Graph g = DataReader.readSampleGraphData("RecommendationEngine/data/"
+                + "TestGraphs/pageRank_small.txt");
+        double[] ans = new double[] {1.4901, 0.7833, 1.5766, 0.1500};
+        Map<Integer, Double> answer = GraphToolkit.pageRank(g);
+        Iterator<Map.Entry<Integer, Double>> iter = answer.entrySet().iterator();
+        while (iter.hasNext()) {
+            Map.Entry<Integer, Double> entry = iter.next();
+            int id = entry.getKey();
+            double temp = entry.getValue();
+            //assertEquals(ans[id - 1] / 4, temp, 0.001);
+            System.out.println(temp);
+            System.out.println(ans[id - 1] / 2 * 0.85);
+        }
     }
 }
