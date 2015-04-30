@@ -9,6 +9,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+/**
+ * This class provides various scoring methods, along with
+ * a collaborative filtering recommendation algorithm.
+ *
+ */
 public class Recommender {
     private class Entry implements Comparable<Entry> {
         private Node node;

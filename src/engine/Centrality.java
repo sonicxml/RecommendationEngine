@@ -15,6 +15,11 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 
+/**
+ * This class provides implementations of the various centrality measures
+ * of the Graph Toolkit, including betweeness cetnrality and PageRank.
+ *
+ */
 class Centrality {
     private Centrality() {
         // This class should not be instantiated

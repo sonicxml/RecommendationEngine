@@ -1,5 +1,9 @@
 package engine;
 
+/**
+ * This class provides an Edge object, with associated methods.
+ *
+ */
 public class Edge {
     private Node src;
     private Node tgt;

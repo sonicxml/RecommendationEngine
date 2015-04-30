@@ -5,6 +5,11 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * This class provides an implementation of a Graph object,
+ * with a Set of Nodes and associated methods.
+ *
+ */
 public class Graph {
     // Map from ID to Node
     private Map<Integer, Node> nodes = new HashMap<>();

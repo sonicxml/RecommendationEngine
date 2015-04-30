@@ -3,7 +3,12 @@ package engine;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * This class provides access to all of the algorithms found
+ * in the Centrality, Flow, and Search classes.  It is the external
+ * API for the Graph Toolkit.
+ *
+ */
 public class GraphToolkit {
     private GraphToolkit() {
         // This is not supposed to be instantiated

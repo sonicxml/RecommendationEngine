@@ -10,6 +10,12 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
 
+/**
+ * This class provides implementations of the various search
+ * algorithms from the Graph Toolkit class, including
+ * BFS, DFS, Topological Sort, and Floyd-Warshall.
+ *
+ */
 class Search {
     private Search() {
         // This class should not be instantiated
