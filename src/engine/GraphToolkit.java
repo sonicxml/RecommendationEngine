@@ -35,8 +35,15 @@ public class GraphToolkit {
     }
 
 
-    public static Map<Node, Integer> dijkstra(Graph g, Node src) {
-        return Search.singleSourceShortestPath(g, src);
+    /**
+     * Finds all-pairs shortest paths by implementing the
+     * Floyd-Warshall algorithm
+     *
+     * @param g the input graph
+     * @return a map representing the all-pairs shortest path matrix
+     */
+    public static Map<Node, Map<Node, Double>> allPairsShortestPath(Graph g) {
+        return Search.floydWarshall(g);
     }
 
     /**

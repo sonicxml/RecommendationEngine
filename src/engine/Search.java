@@ -175,11 +175,49 @@ class Search {
         }
     }
 
-    static Map<Node, Integer> singleSourceShortestPath(Graph g, Node src) {
-        // TODO: Implement
-        // Also return something
-        // Implement Dijkstra's algorithm for SSSP
-        return null;
+    /**
+     * Finds all-pairs shortest paths by implementing the
+     * Floyd-Warshall algorithm
+     *
+     * @param g the input graph
+     * @return a map representing the all-pairs shortest path matrix
+     */
+    static Map<Node, Map<Node, Double>> floydWarshall(Graph g) {
+        Map<Node, Map<Node, Double>> dist = new HashMap<>();
+
+        // Initialize dists
+        for (Node n : g.getAllNodes()) {
+            Map<Node, Double> innerMap = new HashMap<>();
+            innerMap.put(n, 0.0);
+            for (Edge e : n.getEdges()) {
+                Node tgt = e.getTgt();
+                innerMap.put(tgt, e.getWeight());
+            }
+            dist.put(n, innerMap);
+        }
+
+        for (Node i : g.getAllNodes()) {
+            for (Node j : g.getAllNodes()) {
+                for (Node k : g.getAllNodes()) {
+                    double distJK = dist.get(j).get(k);
+                    double distJI = dist.get(j).get(i);
+                    double distIK = dist.get(i).get(k);
+                    // Account for lazy initialization
+                    distJK = (dist.get(j).get(k) == null) ?
+                            Double.MAX_VALUE : distJK;
+                    distJI = (dist.get(j).get(i) == null) ?
+                            Double.MAX_VALUE : distJI;
+                    distIK = (dist.get(i).get(k) == null) ?
+                            Double.MAX_VALUE : distIK;
+                    // Recurrence
+                    if (distJK > distJI + distIK) {
+                        dist.get(j).put(k, distJI + distIK);
+                    }
+                }
+            }
+        }
+
+        return dist;
     }
 
     /**
