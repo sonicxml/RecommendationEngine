@@ -4,6 +4,8 @@ import org.la4j.Matrix;
 import org.la4j.Vector;
 import org.la4j.decomposition.EigenDecompositor;
 import org.la4j.matrix.dense.Basic2DMatrix;
+import org.la4j.vector.functor.VectorAccumulator;
+import org.la4j.vector.functor.VectorFunction;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -125,6 +127,8 @@ class Centrality {
         // Get the adjacency matrix
         Matrix adjMatrix = getAdjMat(idMap, nodes);
 
+        System.out.println(adjMatrix);
+        
         // Dampen the matrix according to Scaled PageRank
         dampenMatrix(DF, adjMatrix);
 
@@ -156,15 +160,44 @@ class Centrality {
         Matrix d = vd[1];
         double max = Double.MIN_VALUE;
         int maxIdx = 0;
-        for (int i = 0; i < d.columns(); i++) {
-            double colMax = d.maxInColumn(i);
-            if (colMax > max) {
+        System.out.println(d);
+        System.out.println(v);
+        for (int i = 0; i < v.columns(); i++) {
+            double colMax = v.foldColumn(i, new VectorAccumulator(){
+                double accumulator = 0.0;
+                public void update(int i, double value) {
+                    accumulator += value;
+                }
+                public double accumulate() {
+                    return accumulator;
+                }
+            });
+            if (colMax == 1) {
+                System.out.println("Found normalized eigenvector.");
                 max = colMax;
                 maxIdx = i;
             }
         }
-
-        return v.getColumn(maxIdx);
+        
+        Vector eigenvector = getNormalizedVector(v.getColumn(maxIdx));
+        return eigenvector;
+    }
+    
+    /**
+     * Method for getting the normalized Vector of a given Vector,
+     * such that the sum of all elements is 1.
+     * 
+     * @param v  the Vector to normalize
+     * @return   the normalized Vector
+     */
+    private static Vector getNormalizedVector(Vector v) {
+        final double sum = v.sum();
+        v.update(new VectorFunction() {
+            public double evaluate(int i, double value) {
+                return value / sum;
+            }
+        });
+        return v;
     }
     
     /**
