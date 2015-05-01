@@ -6,6 +6,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * This class provides implementations of the various algorithms
+ * dealing with flow in the Graph Toolkit, including Edmonds-Karp.
+ *
+ */
 class Flow {
     private Flow() {
         // This class should not be instantiated

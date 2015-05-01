@@ -3,6 +3,11 @@ package engine;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * This class provides an implementation of a generic Node object
+ * with associated methods.
+ *
+ */
 public class Node {
     private int id;
     private Set<Edge> edges = new HashSet<>();

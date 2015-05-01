@@ -4,7 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
-
+/**
+ * This class provides methods for reading the data from various
+ * sources into the Graph class.
+ *
+ */
 public class DataReader {
     private static final String MOVIE_LENS_FILE = 
             "data/ml-100k/u.data";

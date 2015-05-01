@@ -14,6 +14,11 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * This class provides various scoring methods, along with
+ * a collaborative filtering recommendation algorithm.
+ *
+ */
 public class Recommender {
     private class Entry implements Comparable<Entry> {
         private Node node;
