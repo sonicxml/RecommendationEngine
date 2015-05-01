@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class DataReader {
     private static final String MOVIE_LENS_FILE = 
-            "RecommendationEngine/data/ml-100k/u.data";
+            "data/ml-100k/u.data";
 
     public static Graph readMovieLensData() {
         Graph g = new Graph();

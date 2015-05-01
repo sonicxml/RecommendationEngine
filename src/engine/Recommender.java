@@ -1,13 +1,18 @@
 package engine;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Recommender {
     private class Entry implements Comparable<Entry> {
@@ -78,7 +83,7 @@ public class Recommender {
      * @param scores  the scores to use for collaborative filtering
      * @return        the list of recommended nodes
      */
-    public List<Node> collabFilter(int userID, TreeMap<Double, List<Node>> scores) {
+    public List<Integer> collabFilter(int userID, TreeMap<Double, List<Node>> scores) {
         if (scores == null) {
             throw new IllegalArgumentException();
         }
@@ -111,12 +116,16 @@ public class Recommender {
         Collections.sort(sorted);
 
         // Get the Nodes corresponding to the top 5 recommendations
-        List<Node> out = new LinkedList<>();
+        List<Integer> out = new LinkedList<>();
         int counter = 0;
         while (!sorted.isEmpty() && counter < 5) {
-            // Highest recommendations will be at the end
-            out.add(sorted.pollLast().getNode());
-            counter++;
+            Node next = sorted.pollLast().getNode();
+            // We don't want to include
+            if (!user.getNeighbors().contains(next)) {
+                // Highest recommendations will be at the end
+                out.add(next.getID());
+                counter++;
+            }
         }
 
         return out;
@@ -274,5 +283,35 @@ public class Recommender {
         double coeff = (double) (n1Neighbors.size() - n2Neighbors.size()) /
                 (double) (n1Neighbors.size() + n2Neighbors.size());
         return coeff;
+    }
+
+    public void getMovieLensNames(int user, List<Integer> items) {
+        String users = "data/u.user";
+        String movies = "u.item";
+        Pattern p1 = Pattern.compile("(^" + Integer.toString(user) + ".*)");
+        Matcher m1 = p1.matcher("");
+
+        Pattern p2 = Pattern.compile("(^" + Integer.toString(user) + ".*)");
+        Matcher m2 = p2.matcher("");
+        try {
+            Scanner s = new Scanner(new File(users));
+            while (s.hasNextLine()) {
+                String line = s.nextLine();
+                m1.reset(line); //reset the input
+                if (m1.find()) {
+                    System.out.println("For user " + m1.group(1)
+                            + " our best recommendations are:");
+                    break;
+                }
+            }
+
+            Scanner s2 = new Scanner(new File(movies));
+            while (s2.hasNextLine()) {
+                String line = s.nextLine();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 }
