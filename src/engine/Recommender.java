@@ -24,10 +24,12 @@ public class Recommender {
     private class Entry implements Comparable<Entry> {
         private Node node;
         private double weight;
+        private int numVoters;
 
         public Entry(Node node, double weight) {
             this.node = node;
             this.weight = weight;
+            numVoters = 1;
         }
 
         public Node getNode() {
@@ -39,7 +41,12 @@ public class Recommender {
         }
 
         public void setWeight(double weight) {
+            numVoters++;
             this.weight = weight;
+        }
+        
+        public int getNumVoters() {
+            return numVoters;
         }
 
         @Override
@@ -118,7 +125,12 @@ public class Recommender {
                 }
             }
         }
-
+        
+        for (Node node : recommends.keySet()) {
+            Entry entry = recommends.get(node);
+            entry.setWeight(entry.getWeight() / Math.sqrt(entry.getNumVoters()));
+        }
+        
         LinkedList<Entry> sorted = new LinkedList<>(recommends.values());
         Collections.sort(sorted);
 
