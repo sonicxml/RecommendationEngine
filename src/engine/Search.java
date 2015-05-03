@@ -182,7 +182,56 @@ class Search {
 		}
 	}
 
-	/**
+    /**
+     * Implement the Bellman-Ford Algorithm for Single-Source Shortest Paths
+     * Unlike Dijkstra's, this algorithm works even if the graph has negative
+     * weight edges. It, however, does not work (and throws an
+     * IllegalArgumentException) if given a graph with a negative weight cycle.
+     *
+     * @param g The input graph
+     * @param src The start node
+     * @return map of shortest path distances from src to every other node in G
+     */
+    static Map<Node, Double> bellmanFord(Graph g, Node src) {
+        Map<Node, Double> dists = new HashMap<>();
+        Set<Edge> edges = new HashSet<>();
+        for (Node n : g.getAllNodes()) {
+            edges.addAll(n.getEdges());
+            if (!n.equals(src)) {
+                dists.put(n, Double.MAX_VALUE);
+            } else {
+                dists.put(n, 0.0);
+            }
+        }
+
+        for (Node n : g.getAllNodes()) {
+            for (Edge e : edges) {
+                Node u = e.getSrc();
+                Node v = e.getTgt();
+                double weight = e.getWeight();
+                // Relax all edges
+                if (dists.get(u) + weight < dists.get(v)) {
+                    dists.put(v, dists.get(u) + weight);
+                }
+            }
+        }
+
+        // Negative cycle tester
+        for (Edge e : edges) {
+            Node u = e.getSrc();
+            Node v = e.getTgt();
+            double weight = e.getWeight();
+            // Relax all edges
+            if (dists.get(u) + weight < dists.get(v)) {
+                throw new IllegalArgumentException(
+                        "Graph contains negative cycle");
+            }
+        }
+
+        return dists;
+    }
+
+    /**
 	 * Finds all-pairs shortest paths by implementing the
 	 * Floyd-Warshall algorithm
 	 *
