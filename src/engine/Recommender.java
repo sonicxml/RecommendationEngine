@@ -332,6 +332,8 @@ public class Recommender {
                     break;
                 }
             }
+            s.close();
+            s2.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

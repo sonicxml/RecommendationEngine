@@ -1,7 +1,9 @@
 package engine;
 
 import java.util.List;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.HashMap;
 import java.util.Set;
 
 /**
@@ -26,8 +28,12 @@ public class GraphToolkit {
      * @param flow whether or not this is BFS on a flow graph
      * @return the shortest path from src to tgt.
      */
-    public static List<Node> bfs(Graph g, Node src, Node tgt, boolean flow) {
-        return Search.bfs(g, src, tgt, flow);
+    public static List<Integer> bfs(Graph g, Node src, Node tgt, boolean flow) {
+        if (g == null || src == null || tgt == null) {
+            throw new IllegalArgumentException();
+        }
+        
+        return convertList(Search.bfs(g, src, tgt, flow));
     }
     
 	/**
@@ -40,8 +46,12 @@ public class GraphToolkit {
 	 * @param src the start Node
 	 * @return A mapping of node to start and finish times
 	 */
-    public static Map<Node, List<Integer>> dfsTree(Graph g, Node src) {
-        return Search.dfsTree(g, src);
+    public static Map<Integer, List<Integer>> dfsTree(Graph g, Node src) {
+        if (g == null || src == null) {
+            throw new IllegalArgumentException();
+        }
+        
+        return convertIntMap(Search.dfsTree(g, src));
     }
     
 	/**
@@ -55,8 +65,12 @@ public class GraphToolkit {
 	 * @return mapping of nodes to start and finish
 	 * times. 
 	 */
-    public static Map<Node, List<Integer>> dfsForest(Graph g, Node src) {
-        return Search.dfsForest(g, src);
+    public static Map<Integer, List<Integer>> dfsForest(Graph g, Node src) {
+        if (g == null || src == null) {
+            throw new IllegalArgumentException();
+        }
+        
+        return convertIntMap(Search.dfsForest(g, src));
     }
 
     /**
@@ -67,6 +81,10 @@ public class GraphToolkit {
      * @return   the Set of connected components
      */
     public static Set<Set<Integer>> getSCC(Graph g) {
+        if (g == null) {
+            throw new IllegalArgumentException();
+        }
+        
         return Connectivity.getSCC(g);
     }
     
@@ -79,8 +97,12 @@ public class GraphToolkit {
 	 * @return a topological sort of the vertices in the
 	 * graph. 
 	 */
-    public static List<Node> topSort(Graph g) {
-    	return Search.topSort(g); 
+    public static List<Integer> topSort(Graph g) {
+        if (g == null) {
+            throw new IllegalArgumentException();
+        }
+        
+        return convertList(Search.topSort(g)); 
     }
 
     /**
@@ -91,12 +113,12 @@ public class GraphToolkit {
      * @param src the starting node
      * @return a map with shortest paths distances from src to every other node
      */
-    public static Map<Node, Double> singleSourceShortestPath(Graph g, Node src) {
+    public static Map<Integer, Double> singleSourceShortestPath(Graph g, Node src) {
         if (g == null || src == null) {
             throw new IllegalArgumentException("Null input");
         }
 
-        return Search.bellmanFord(g, src);
+        return convertMap(Search.bellmanFord(g, src));
     }
 
     /**
@@ -106,8 +128,12 @@ public class GraphToolkit {
      * @param g the input graph
      * @return a map representing the all-pairs shortest path matrix
      */
-    public static Map<Node, Map<Node, Double>> allPairsShortestPath(Graph g) {
-        return Search.floydWarshall(g);
+    public static Map<Integer, Map<Integer, Double>> allPairsShortestPath(Graph g) {
+        if (g == null) {
+            throw new IllegalArgumentException();
+        }
+        
+        return convertFloyd(Search.floydWarshall(g));
     }
 
     /**
@@ -120,6 +146,10 @@ public class GraphToolkit {
      * @return the maximum flow from src -> tgt on the graph g
      */
     public static int maxFlow(Graph g, Node src, Node tgt) {
+        if (g == null || src == null || tgt == null) {
+            throw new IllegalArgumentException();
+        }
+        
         return Flow.maxFlow(g, src, tgt);
     }
 
@@ -130,11 +160,19 @@ public class GraphToolkit {
      * @param g the Graph whose values should be calculated
      * @return a map containing the betweeness centrality values
      */
-    public static Map<Node, Double> btwCentrality(Graph g) {
-        return Centrality.btwCentrality(g);
+    public static Map<Integer, Double> btwCentrality(Graph g) {
+        if (g == null) {
+            throw new IllegalArgumentException();
+        }
+        
+        return convertMap(Centrality.btwCentrality(g));
     }
 
     public static void commDetection(Graph g) {
+        if (g == null) {
+            throw new IllegalArgumentException();
+        }
+        
         Centrality.commDetection(g);
     }
 
@@ -146,6 +184,66 @@ public class GraphToolkit {
      * @return a map from node id to rank
      */
     public static Map<Integer, Double> pageRank(Graph g) {
+        if (g == null) {
+            throw new IllegalArgumentException();
+        }
+        
         return Centrality.pageRank(g);
+    }
+    
+    private static Map<Integer, Double> convertMap(Map<Node, Double> nodeMap) {
+        if (nodeMap == null) {
+            throw new IllegalArgumentException();
+        }
+        
+        Map<Integer, Double> result = new HashMap<>();
+        
+        for (Node node : nodeMap.keySet()) {
+            result.put(node.getID(), nodeMap.get(node));
+        }
+        
+        return result;
+    }
+    
+    private static Map<Integer, List<Integer>> convertIntMap(Map<Node, List<Integer>> nodeMap) {
+        if (nodeMap == null) {
+            throw new IllegalArgumentException();
+        }
+        
+        Map<Integer, List<Integer>> result = new HashMap<>();
+        
+        for (Node node : nodeMap.keySet()) {
+            result.put(node.getID(), nodeMap.get(node));
+        }
+        
+        return result;
+    }
+    
+    private static List<Integer> convertList(List<Node> nodes) {
+        if (nodes == null) {
+            throw new IllegalArgumentException();
+        }
+        
+        List<Integer> result = new LinkedList<>();
+        
+        for (Node node : nodes) {
+            result.add(node.getID());
+        }
+        
+        return result;
+    }
+    
+    private static Map<Integer, Map<Integer, Double>> convertFloyd(Map<Node, 
+            Map<Node, Double>> nodeMap) {
+        if (nodeMap == null) {
+            throw new IllegalArgumentException();
+        }
+        
+        Map<Integer, Map<Integer, Double>> result = new HashMap<>();
+        for (Node node : nodeMap.keySet()) {
+            result.put(node.getID(), convertMap(nodeMap.get(node)));
+        }
+        
+        return result;
     }
 }
