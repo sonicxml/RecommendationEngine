@@ -29,12 +29,13 @@ public void after() throws Exception {
 * 
 */ 
 @Test
-public void testCollabFilter() throws Exception { 
+public void testCollabFilter() throws Exception {
+    int userID = 1;
     Recommender r = new Recommender(DataReader.readMovieLensData());
-    TreeMap<Double, List<Node>> scores = r.getPearsonScores(234);
-    List<Integer> recommended = r.collabFilter(234, scores, 10, 5);
+    TreeMap<Double, List<Node>> scores = r.getPearsonScores(userID);
+    List<Integer> recommended = r.collabFilter(userID, scores, 10, 5);
     System.out.println(recommended);
-    r.getMovieLensNames(234, recommended);
+    r.getMovieLensNames(userID, recommended);
 }
 
 /** 

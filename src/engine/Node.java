@@ -44,4 +44,11 @@ public class Node {
 
         return neighbors;
     }
+
+    @Override
+    public String toString() {
+        return "Node{" +
+                "id=" + id +
+                '}';
+    }
 }
