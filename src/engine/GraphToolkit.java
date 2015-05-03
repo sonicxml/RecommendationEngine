@@ -28,9 +28,13 @@ public class GraphToolkit {
     public static List<Node> bfs(Graph g, Node src, Node tgt, boolean flow) {
         return Search.bfs(g, src, tgt, flow);
     }
-
-    public static Map<Node, List<Integer>> dfs(Graph g, Node src) {
-        return Search.dfs(g, src);
+    
+    public static Map<Node, List<Integer>> dfsTree(Graph g, Node src) {
+        return Search.dfsTree(g, src);
+    }
+    
+    public static Map<Node, List<Integer>> dfsForest(Graph g, Node src) {
+        return Search.dfsForest(g, src);
     }
 
     public static void getSCC(Graph g) {

@@ -67,7 +67,7 @@ public class GraphToolkitTest {
     	Graph g = DataReader.readSampleGraphData("TestGraphs/dfs_acyclic.txt"); 
     	Node src = g.getNodeByID(1); 
     	Set<Node> nodes = g.getAllNodes(); 
-    	Map<Node, List<Integer>> timestamps = GraphToolkit.dfs(g, src); 
+    	Map<Node, List<Integer>> timestamps = GraphToolkit.dfsForest(g, src); 
     	for (Node n : nodes) {
     		int id = n.getID(); 
     		int startTime = timestamps.get(n).get(0); 
@@ -81,7 +81,7 @@ public class GraphToolkitTest {
     	Graph g = DataReader.readSampleGraphData("TestGraphs/dfs_cyclic.txt"); 
     	Node src = g.getNodeByID(1); 
     	Set<Node> nodes = g.getAllNodes(); 
-    	Map<Node, List<Integer>> timestamps = GraphToolkit.dfs(g, src); 
+    	Map<Node, List<Integer>> timestamps = GraphToolkit.dfsForest(g, src); 
     	for (Node n : nodes) {
     		int id = n.getID(); 
     		int startTime = timestamps.get(n).get(0); 

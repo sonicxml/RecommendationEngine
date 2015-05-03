@@ -89,19 +89,17 @@ class Search {
 		// If there is no path
 		return new LinkedList<>();
 	}
-
 	/**
-	 * function performs DFS on given graph and returns 
-	 * a map of Nodes in graph to a list of integers. 
-	 * The list contains a start time and a finish time 
-	 * for each Node. 
+	 * Function performs DFS on a given graph and returns 
+	 * a map of nodes in the graph to a list of start and
+	 * finish times. Function does not restart DFS if
+	 * all nodes have not been visited yet.
 	 * 
 	 * @param g the Graph
-	 * @param src the Node to start DFS
-	 * @return a mapping of start and finish times for
-	 * each node
+	 * @param src the start Node
+	 * @return A mapping of node to start and finish times
 	 */
-	static Map<Node, List<Integer>> dfs(Graph g, Node src) {
+	static Map<Node, List<Integer>> dfsForest(Graph g, Node src) {
 		if (g == null || src == null) {
 			throw new IllegalArgumentException();
 		}
@@ -150,6 +148,61 @@ class Search {
 
 		return timeStamps;
 	}
+	/**
+	 * Function performs DFS on given graph and returns
+	 * a Map of nodes in the graph to a list of integers. 
+	 * Function restarts DFS if any node in graph has
+	 * not been visited yet. 
+	 * 
+	 * @param g the Graph
+	 * @param src the node to start DFS
+	 * @return mapping of nodes to start and finish
+	 * times. 
+	 */
+	static Map<Node, List<Integer>> dfsTree(Graph g, Node src) {
+		if (g == null || src == null) {
+			throw new IllegalArgumentException();
+		}
+		//A mapping of a Node to its corresponding finish time
+		Map<Node, List<Integer>> timeStamps =
+				new HashMap<Node, List<Integer>>();
+
+		//Set keeping track gray nodes
+		Set<Node> visited = new HashSet<Node>();
+
+		//stack to perform depth first search
+		Stack<Node> stack = new Stack<Node>();
+		stack.push(src);
+
+		//counter to record finish times
+		int counter = 1;
+
+		while (!stack.empty()) {
+			Node a = stack.peek();
+			//If node has not been visited yet
+			if (!visited.contains(a)) {
+				visited.add(a);
+				stamp(timeStamps, a, counter);
+				Set<Node> neighbors = a.getNeighbors();
+				for (Node n : neighbors) {
+					if (!visited.contains(n))
+						stack.add(n);
+				}
+			}
+
+			/*If node has already been visited then stamp finish time and
+            pop from stack. If stack is empty then search the graph for
+			unvisited nodes. */
+			else {
+				stamp(timeStamps, a, counter);
+				stack.pop();
+			}
+
+			counter++;
+		}
+
+		return timeStamps;
+	}
 
 	/**
 	 * Function performs a topological sort on the vertices
@@ -166,7 +219,7 @@ class Search {
 			Set<Node> nodes = g.getAllNodes();
 			Set<Node> visited = new HashSet<Node>();
 			Node src = getUnvisited(nodes, visited);
-			Map<Node, List<Integer>> timeStamps = dfs(g, src);
+			Map<Node, List<Integer>> timeStamps = dfsForest(g, src);
 			for (Node n : nodes) {
 				int finishTime = timeStamps.get(n).get(1);
 				map.put(finishTime, n);
