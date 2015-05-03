@@ -165,10 +165,12 @@ class Centrality {
         Matrix d = vd[1];
         double max = Double.MIN_VALUE;
         int maxIdx = 0;
+        System.out.println("d:");
         System.out.println(d);
+        System.out.println("v:");
         System.out.println(v);
         for (int i = 0; i < v.columns(); i++) {
-            double colMax = v.foldColumn(i, new VectorAccumulator(){
+            double colMax = d.foldColumn(i, new VectorAccumulator(){
                 double accumulator = 0.0;
                 public void update(int i, double value) {
                     accumulator += value;
@@ -177,7 +179,7 @@ class Centrality {
                     return accumulator;
                 }
             });
-            if (colMax == 1) {
+            if (Math.abs(colMax - 1.0) < 1e-4) {
                 System.out.println("Found normalized eigenvector.");
                 max = colMax;
                 maxIdx = i;

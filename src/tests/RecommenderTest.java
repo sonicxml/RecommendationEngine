@@ -38,6 +38,15 @@ public void testCollabFilter() throws Exception {
     r.getMovieLensNames(userID, recommended);
 }
 
+    @Test
+    public void testCollabFilterUser2() throws Exception {
+        int userID = 2;
+        Recommender r = new Recommender(DataReader.readMovieLensData());
+        TreeMap<Double, List<Node>> scores = r.getPearsonScores(userID);
+        List<Integer> recommended = r.collabFilter(userID, scores, 10, 5);
+        System.out.println(recommended);
+        r.getMovieLensNames(userID, recommended);
+    }
 /** 
 * 
 * Method: getPearsonScores(int userID) 

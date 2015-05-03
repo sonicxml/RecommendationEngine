@@ -1,11 +1,20 @@
 package tests;
 
+import engine.DataReader;
+import engine.Graph;
+import engine.GraphToolkit;
+import engine.Node;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
-import java.util.*; 
-import engine.*; 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import static org.junit.Assert.assertEquals;
 
 public class GraphToolkitTest {
 
@@ -16,7 +25,7 @@ public class GraphToolkitTest {
 
     @Test
     public void testBfs() throws Exception {
-    	Graph g = DataReader.readSampleGraphData("RecommendationEngine/data/"
+    	Graph g = DataReader.readSampleGraphData("data/"
     	        + "TestGraphs/bfs_acyclic.txt"); 
     	Node src = g.getNodeByID(1); 
     	Node tgt = g.getNodeByID(4); 
@@ -35,7 +44,8 @@ public class GraphToolkitTest {
 
     @Test
     public void testDfs() throws Exception {
-    	Graph g = DataReader.readSampleGraphData("TestGraphs/dfs_acyclic.txt"); 
+    	Graph g = DataReader.readSampleGraphData(
+                "data/TestGraphs/dfs_acyclic.txt");
     	Node src = g.getNodeByID(1); 
     	Set<Node> nodes = g.getAllNodes(); 
     	Map<Node, List<Integer>> timestamps = GraphToolkit.dfs(g, src); 
@@ -86,9 +96,8 @@ public class GraphToolkitTest {
 
     @Test
     public void testPageRank() throws Exception {
-        Graph g = DataReader.readSampleGraphData("RecommendationEngine/data/"
-        //        + "TestGraphs/pageRank_small.txt");
-                  + "TestGraphs/pageRank_full.txt");
+        Graph g = DataReader.readSampleGraphData(
+                "data/TestGraphs/pageRank_full.txt");
         //double[] ans = new double[] {1.4901, 0.7833, 1.5766, 0.1500};
         double[] ans = new double[] {1, 1, 1};
         Map<Integer, Double> answer = GraphToolkit.pageRank(g);
@@ -100,6 +109,22 @@ public class GraphToolkitTest {
             System.out.println(temp);
             System.out.println(ans[id - 1]);
             //assertEquals(ans[id - 1], temp, 0.02);
+        }
+    }
+
+    @Test
+    public void testPageRank4NodeSmall() throws Exception {
+        Graph g = DataReader.readSampleGraphData(
+                "data/TestGraphs/pageRank_4node.txt");
+        Map<Integer, Double> ans = new HashMap<>();
+        ans.put(1, .387);
+        ans.put(2, .129);
+        ans.put(3, .290);
+        ans.put(4, .194);
+        Map<Integer, Double> out = GraphToolkit.pageRank(g);
+        System.out.println(out);
+        for (int i = 1; i <= 4; i++) {
+            assertEquals(ans.get(i), out.get(i), 0.0001);
         }
     }
 }
