@@ -292,8 +292,9 @@ public class Recommender {
         return coeff;
     }
 
-    public void getMovieLensNames(int user, List<Integer> items)
+    public String getMovieLensNames(int user, List<Integer> items)
             throws DataFormatException {
+        String result = "";
         String users = "data/ml-100k/u.user";
         String movies = "data/ml-100k/u.item";
         Pattern p = Pattern.compile("(^" + Integer.toString(user) + ".*)");
@@ -307,6 +308,8 @@ public class Recommender {
                 if (m.find()) {
                     System.out.println("For user " + m.group(1)
                             + " our best recommendations are:");
+                    result += "For user " + m.group(1) + " our "
+                            + "recommendations are:\n";
                     break;
                 }
             }
@@ -322,6 +325,8 @@ public class Recommender {
                 if (setOfMovies.contains(id)) {
                     System.out.println("Movie: " + tokens[0] + "|"
                             + tokens[1] + "|" + tokens[2]);
+                    result += "" + tokens[0] + "|" + tokens[1] +
+                            "|" + tokens[2] + "\n";
                     setOfMovies.remove(id);
                 }
                 if (setOfMovies.isEmpty()) {
@@ -331,6 +336,6 @@ public class Recommender {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
+        return result;
     }
 }
