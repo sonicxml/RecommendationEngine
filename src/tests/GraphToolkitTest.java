@@ -65,18 +65,17 @@ public class GraphToolkitTest {
 
     @Test
     public void testBtwCentrality() throws Exception {
-        Graph g = DataReader.readSampleGraphData("RecommendationEngine/data/"
+        Graph g = DataReader.readSampleGraphData("data/"
                 + "TestGraphs/btw_centrality_small.txt");
-        double[] ans = new double[] {0, 15.5, 2.5, 10, 0, 0, 2.5, 0};
+        double[] ans = new double[] {0, 15.5, 2.5, 10, 0, 0, 2.5, 0.5};
         Map<Node, Double> answer = GraphToolkit.btwCentrality(g);
         Iterator<Map.Entry<Node, Double>> iter = answer.entrySet().iterator();
         while (iter.hasNext()) {
             Map.Entry<Node, Double> entry = iter.next();
             int id = entry.getKey().getID();
             double temp = entry.getValue();
-            //assertEquals(ans[id - 1], temp, 0.001);
-            //System.out.println("ID: " + id);
-            //System.out.println("Centrality: " + temp);
+            //divide by two for undirected
+            assertEquals(ans[id - 1], temp / 2, 0.001);
         }
     }
 
