@@ -50,7 +50,10 @@ public class GraphToolkitTest {
 
     @Test
     public void testGetSCC() throws Exception {
-
+        Graph g = DataReader.readSampleGraphData("RecommendationEngine/data/"
+                + "TestGraphs/btw_centrality_small.txt");
+        Set<Set<Integer>> answer = new HashSet<>();
+        Set<Integer> scc1;
     }
 
     @Test
