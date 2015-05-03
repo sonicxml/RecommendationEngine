@@ -22,14 +22,21 @@ public class GraphToolkit {
      * A BFS Implementation to find the shortest path from src to tgt. Since
      * this is BFS, the shortest path is in terms of length, not weights.
      *
-     * @param g    the Graph
-     * @param src  the node to start BFS from
-     * @param tgt  the node to end BFS at
-     * @param flow whether or not this is BFS on a flow graph
-     * @return the shortest path from src to tgt.
+     * @param g      the Graph
+     * @param srcID  the node to start BFS from
+     * @param tgtID  the node to end BFS at
+     * @param flow   whether or not this is BFS on a flow graph
+     * @return       the shortest path from src to tgt.
      */
-    public static List<Integer> bfs(Graph g, Node src, Node tgt, boolean flow) {
-        if (g == null || src == null || tgt == null) {
+    public static List<Integer> bfs(Graph g, int srcID, int tgtID, boolean flow) {
+        if (g == null) {
+            throw new IllegalArgumentException();
+        }
+        
+        Node src = g.getNodeByID(srcID);
+        Node tgt = g.getNodeByID(tgtID);
+        
+        if (src == null || tgt == null) {
             throw new IllegalArgumentException();
         }
         
@@ -46,8 +53,14 @@ public class GraphToolkit {
 	 * @param src the start Node
 	 * @return A mapping of node to start and finish times
 	 */
-    public static Map<Integer, List<Integer>> dfsTree(Graph g, Node src) {
-        if (g == null || src == null) {
+    public static Map<Integer, List<Integer>> dfsTree(Graph g, int srcID) {
+        if (g == null) {
+            throw new IllegalArgumentException();
+        }
+        
+        Node src = g.getNodeByID(srcID);
+        
+        if (src == null) {
             throw new IllegalArgumentException();
         }
         
@@ -65,8 +78,14 @@ public class GraphToolkit {
 	 * @return mapping of nodes to start and finish
 	 * times. 
 	 */
-    public static Map<Integer, List<Integer>> dfsForest(Graph g, Node src) {
-        if (g == null || src == null) {
+    public static Map<Integer, List<Integer>> dfsForest(Graph g, int srcID) {
+        if (g == null) {
+            throw new IllegalArgumentException();
+        }
+        
+        Node src = g.getNodeByID(srcID);
+        
+        if (src == null) {
             throw new IllegalArgumentException();
         }
         
@@ -113,11 +132,16 @@ public class GraphToolkit {
      * @param src the starting node
      * @return a map with shortest paths distances from src to every other node
      */
-    public static Map<Integer, Double> singleSourceShortestPath(Graph g, Node src) {
-        if (g == null || src == null) {
+    public static Map<Integer, Double> singleSourceShortestPath(Graph g, int srcID) {
+        if (g == null) {
             throw new IllegalArgumentException("Null input");
         }
 
+        Node src = g.getNodeByID(srcID);
+        if (src == null) {
+            throw new IllegalArgumentException();
+        }
+        
         return convertMap(Search.bellmanFord(g, src));
     }
 
@@ -145,8 +169,14 @@ public class GraphToolkit {
      * @param tgt the ending node
      * @return the maximum flow from src -> tgt on the graph g
      */
-    public static int maxFlow(Graph g, Node src, Node tgt) {
-        if (g == null || src == null || tgt == null) {
+    public static int maxFlow(Graph g, int srcID, int tgtID) {
+        if (g == null) {
+            throw new IllegalArgumentException();
+        }
+        
+        Node src = g.getNodeByID(srcID);
+        Node tgt = g.getNodeByID(tgtID);
+        if (src == null || tgt == null) {
             throw new IllegalArgumentException();
         }
         
