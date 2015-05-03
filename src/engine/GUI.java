@@ -1,10 +1,11 @@
 package engine;
 
-import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
-import java.util.TreeMap;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.TreeMap;
 
 /**
  * Class for allowing the user to interact with the Recommendation
@@ -114,6 +115,7 @@ public class GUI implements Runnable {
                 try {
                     results.setText(r.getMovieLensNames(userID, r.collabFilter(userID,
                             scores, numSim, numRec)));
+                    results.setEditable(false);
                 } 
                 catch (Exception exp) {
                     exp.printStackTrace();
