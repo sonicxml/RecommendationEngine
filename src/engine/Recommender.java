@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.zip.DataFormatException;
 
 /**
  * This class provides various scoring methods, along with
@@ -290,21 +291,20 @@ public class Recommender {
         return coeff;
     }
 
-    public void getMovieLensNames(int user, List<Integer> items) {
-        String users = "data/u.user";
-        String movies = "u.item";
-        Pattern p1 = Pattern.compile("(^" + Integer.toString(user) + ".*)");
-        Matcher m1 = p1.matcher("");
-
-        Pattern p2 = Pattern.compile("(^" + Integer.toString(user) + ".*)");
-        Matcher m2 = p2.matcher("");
+    public void getMovieLensNames(int user, List<Integer> items)
+            throws DataFormatException {
+        String users = "data/ml-100k/u.user";
+        String movies = "data/ml-100k/u.item";
+        Pattern p = Pattern.compile("(^" + Integer.toString(user) + ".*)");
+        Matcher m = p.matcher("");
+        Set<Integer> setOfMovies = new HashSet<>(items);
         try {
             Scanner s = new Scanner(new File(users));
             while (s.hasNextLine()) {
                 String line = s.nextLine();
-                m1.reset(line); //reset the input
-                if (m1.find()) {
-                    System.out.println("For user " + m1.group(1)
+                m.reset(line); //reset the input
+                if (m.find()) {
+                    System.out.println("For user " + m.group(1)
                             + " our best recommendations are:");
                     break;
                 }
@@ -312,7 +312,20 @@ public class Recommender {
 
             Scanner s2 = new Scanner(new File(movies));
             while (s2.hasNextLine()) {
-                String line = s.nextLine();
+                String line = s2.nextLine();
+                String[] tokens = line.split("\\|");
+                if (tokens.length < 2) {
+                    throw new DataFormatException();
+                }
+                int id = Integer.parseInt(tokens[0]);
+                if (setOfMovies.contains(id)) {
+                    System.out.println("Movie: " + tokens[0] + "|"
+                            + tokens[1] + "|" + tokens[2]);
+                    setOfMovies.remove(id);
+                }
+                if (setOfMovies.isEmpty()) {
+                    break;
+                }
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();

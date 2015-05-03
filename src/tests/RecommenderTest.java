@@ -34,6 +34,7 @@ public void testCollabFilter() throws Exception {
     TreeMap<Double, List<Node>> scores = r.getPearsonScores(234);
     List<Integer> recommended = r.collabFilter(234, scores);
     System.out.println(recommended);
+    r.getMovieLensNames(234, recommended);
 }
 
 /** 
