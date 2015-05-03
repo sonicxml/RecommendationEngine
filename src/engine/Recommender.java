@@ -82,21 +82,22 @@ public class Recommender {
      * This method implements the collaborative filtering algorithm for
      * finding recommendations.  It accepts a TreeMap of scores that can
      * be generated using either the Pearson or Jaccard scores.
-     * NOTE: The default top scores to look at is at most10, and the 
-     * default number of recommendations is at most 5.
      * 
-     * @param userID  the user for which to provide recommendations
-     * @param scores  the scores to use for collaborative filtering
-     * @return        the list of recommended nodes
+     * @param userID         the user for which to provide recommendations
+     * @param scores         the scores to use for collaborative filtering
+     * @param numUsers       the number of similar users to find
+     * @param numRecommends  the number of recommendations (if any) to return
+     * @return               the list of recommended nodes
      */
-    public List<Integer> collabFilter(int userID, TreeMap<Double, List<Node>> scores) {
+    public List<Integer> collabFilter(int userID, TreeMap<Double, List<Node>> scores,
+            int numUsers, int numRecommends) {
         if (scores == null) {
             throw new IllegalArgumentException();
         }
         
         Node user = g.getNodeByID(userID);
 
-        Set<Node> top = getTopMatches(scores, 10);
+        Set<Node> top = getTopMatches(scores, numUsers);
         Set<Node> neighbors = user.getNeighbors();
         Map<Node, Entry> recommends = new HashMap<>();
 
@@ -121,10 +122,10 @@ public class Recommender {
         LinkedList<Entry> sorted = new LinkedList<>(recommends.values());
         Collections.sort(sorted);
 
-        // Get the Nodes corresponding to the top 5 recommendations
+        // Get the Nodes corresponding to the top recommendations
         List<Integer> out = new LinkedList<>();
         int counter = 0;
-        while (!sorted.isEmpty() && counter < 5) {
+        while (!sorted.isEmpty() && counter < numRecommends) {
             Node next = sorted.pollLast().getNode();
             // We don't want to include
             if (!user.getNeighbors().contains(next)) {
