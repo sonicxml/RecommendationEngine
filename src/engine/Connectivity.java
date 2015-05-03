@@ -14,7 +14,7 @@ public class Connectivity {
         // This class should not be instantiated
         throw new IllegalStateException();
     }
-    
+
     /**
      * Method for returning the strongly connected components of
      * a given Graph, using Kosaraju's algorithm.

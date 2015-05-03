@@ -113,7 +113,7 @@ public class Recommender {
                         double currWeight = recommends.get(target).getWeight();
                         recommends.get(target).setWeight(currWeight + weight);
                     } else {
-                        recommends.put(node, new Entry(node, weight));
+                        recommends.put(target, new Entry(target, weight));
                     }
                 }
             }
@@ -198,8 +198,7 @@ public class Recommender {
      * @param limit  the maximum number of top scores to return
      * @return       the list of nodes corresponding to the top limit scores
      */
-    private Set<Node> getTopMatches(TreeMap<Double, List<Node>> map,
-                                    int limit) {
+    private Set<Node> getTopMatches(TreeMap<Double, List<Node>> map, int limit) {
         if (limit > size) {
             throw new IllegalArgumentException();
         }
@@ -322,7 +321,7 @@ public class Recommender {
                     throw new DataFormatException();
                 }
                 int id = Integer.parseInt(tokens[0]);
-                if (setOfMovies.contains(id)) {
+                if (setOfMovies.contains(id + 943)) {
                     System.out.println("Movie: " + tokens[0] + "|"
                             + tokens[1] + "|" + tokens[2]);
                     result += "" + tokens[0] + "|" + tokens[1] +
