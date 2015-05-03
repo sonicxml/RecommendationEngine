@@ -38,6 +38,14 @@ public class GraphToolkit {
         // Also return something
         // Implement Kosaraju's Algorithm for finding SCCs
     }
+    
+    public static List<Node> topSort(Graph g) {
+    	return Search.topSort(g); 
+    }
+    
+    public static boolean detectCycle(Graph g) {
+    	return Search.detectCycle(g); 
+    }
 
 
     /**

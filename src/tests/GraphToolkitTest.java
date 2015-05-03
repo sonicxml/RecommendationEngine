@@ -1,20 +1,24 @@
 package tests;
 
-import engine.DataReader;
-import engine.Graph;
-import engine.GraphToolkit;
-import engine.Node;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Before;
+import org.junit.Test;
+
+import engine.DataReader;
+import engine.Graph;
+import engine.GraphToolkit;
+import engine.Node;
 
 public class GraphToolkitTest {
 
@@ -24,9 +28,8 @@ public class GraphToolkitTest {
     }
 
     @Test
-    public void testBfs() throws Exception {
-    	Graph g = DataReader.readSampleGraphData("data/"
-    	        + "TestGraphs/bfs_acyclic.txt"); 
+    public void testBfsAcyclic() throws Exception {
+    	Graph g = DataReader.readSampleGraphData("TestGraphs/bfs_acyclic.txt"); 
     	Node src = g.getNodeByID(1); 
     	Node tgt = g.getNodeByID(4); 
     	List<Node> nodes = GraphToolkit.bfs(g, src, tgt, false); 
@@ -41,21 +44,88 @@ public class GraphToolkitTest {
     	assertEquals("see if output is shortest path", path, answer); 
     	
     }
+    
+//    @Test
+//    public void testBfsCyclic () throws Exception {
+//    	Graph g = DataReader.readSampleGraphData("TestGraphs/bfs_cyclic.txt"); 
+//    	Node src = g.getNodeByID(3); 
+//    	Node tgt = g.getNodeByID(1); 
+//    	List<Node> nodes = GraphToolkit.bfs(g, src, tgt, false); 
+//    	List<Integer> path = new LinkedList<Integer>(); 
+//    	for (Node n : nodes) {
+//    		path.add(n.getID()); 
+//    	}
+//    	List<Integer> answer = new LinkedList<Integer>(); 
+//    	answer.add(3); 
+//    	answer.add(5); 
+//    	answer.add(1); 
+//    	assertEquals("see if output is shortest path", path, answer);
+//    }
 
     @Test
-    public void testDfs() throws Exception {
-    	Graph g = DataReader.readSampleGraphData(
-                "data/TestGraphs/dfs_acyclic.txt");
+    public void testDfsAcyclic() throws Exception {
+    	Graph g = DataReader.readSampleGraphData("TestGraphs/dfs_acyclic.txt"); 
     	Node src = g.getNodeByID(1); 
     	Set<Node> nodes = g.getAllNodes(); 
     	Map<Node, List<Integer>> timestamps = GraphToolkit.dfs(g, src); 
     	for (Node n : nodes) {
     		int id = n.getID(); 
     		int startTime = timestamps.get(n).get(0); 
-    		//int finishTime = timestamps.get(n).get(1); 
-    		System.out.println(id + ": " + startTime + ", "); 
+    		int finishTime = timestamps.get(n).get(1); 
+    		//System.out.println(id + ": " + startTime + ", " + finishTime); 
     	}
     	assertEquals("see if dfs does not break", timestamps.size(), 6); 
+    }
+    @Test
+    public void testDfsCyclic() throws Exception {
+    	Graph g = DataReader.readSampleGraphData("TestGraphs/dfs_cyclic.txt"); 
+    	Node src = g.getNodeByID(1); 
+    	Set<Node> nodes = g.getAllNodes(); 
+    	Map<Node, List<Integer>> timestamps = GraphToolkit.dfs(g, src); 
+    	for (Node n : nodes) {
+    		int id = n.getID(); 
+    		int startTime = timestamps.get(n).get(0); 
+    		int finishTime = timestamps.get(n).get(1); 
+    		System.out.println(id + ": " + startTime + ", " + finishTime); 
+    	}
+    	assertEquals("see if dfs does not break", timestamps.size(), 6); 
+    }
+    
+    @Test(expected=IllegalArgumentException.class)
+    public void testTopSortCyclic() throws Exception {
+    	Graph g = DataReader.readSampleGraphData("TestGraphs/dfs_cyclic.txt"); 
+    	GraphToolkit.topSort(g); 
+    }
+    
+    @Test
+    public void testTopSortAyclic() throws Exception {
+    	Graph g = DataReader.readSampleGraphData("TestGraphs/dfs_acyclic.txt"); 
+    	List<Node> sort = GraphToolkit.topSort(g); 
+    	List<Integer> ids = new LinkedList<Integer>(); 
+    	for (Node n : sort) {
+    		ids.add(n.getID()); 
+    	}
+    	List<Integer> trueSort = new LinkedList<Integer>(); 
+    	trueSort.add(1); 
+    	trueSort.add(2); 
+    	trueSort.add(4); 
+    	trueSort.add(3); 
+    	trueSort.add(5); 
+    	trueSort.add(6); 
+    	
+    	assertEquals("test for equality of sorts", ids, trueSort); 
+    }
+    
+    @Test
+    public void testDetectCycleAcyclic() throws Exception {
+    	Graph g = DataReader.readSampleGraphData("TestGraphs/dfs_acyclic.txt"); 
+    	assertFalse(GraphToolkit.detectCycle(g)); 
+    }
+    
+    @Test
+    public void testDetectCycleCyclic() throws Exception {
+    	Graph g = DataReader.readSampleGraphData("TestGraphs/dfs_cyclic.txt"); 
+    	assertTrue(GraphToolkit.detectCycle(g)); 
     }
 
     @Test
