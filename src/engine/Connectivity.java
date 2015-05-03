@@ -22,15 +22,19 @@ public class Connectivity {
      * @param g  the Graph on which to run Kosaraju's
      * @return   the Set of connected components
      */
-    static Set<Set<Integer>> getSCCC(Graph g) {
+    static Set<Set<Integer>> getSCC(Graph g) {
         Stack<Node> s = dfs(g);
         Set<Set<Integer>> components = new HashSet<>();
         Graph reverse = g.copyOf(true);
         while (!s.isEmpty()) {
-            //Node src = s.pop();
-            //Set<Node> connected = dfs
-            //s.remove(connected);
-            //components.add(connected);
+            Node src = s.pop();
+            Set<Node> connected = Search.dfsTree(reverse, src).keySet();
+            s.remove(connected);
+            Set<Integer> component = new HashSet<>();
+            for (Node node : connected) {
+                component.add(node.getID());
+            }
+            components.add(component);
         }
         return components;
     }

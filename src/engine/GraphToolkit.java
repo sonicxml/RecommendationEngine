@@ -2,6 +2,7 @@ package engine;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * This class provides access to all of the algorithms found
@@ -58,10 +59,15 @@ public class GraphToolkit {
         return Search.dfsForest(g, src);
     }
 
-    public static void getSCC(Graph g) {
-        // TODO: Implement
-        // Also return something
-        // Implement Kosaraju's Algorithm for finding SCCs
+    /**
+     * Method for returning the strongly connected components of
+     * a given Graph, using Kosaraju's algorithm.
+     * 
+     * @param g  the Graph on which to run Kosaraju's
+     * @return   the Set of connected components
+     */
+    public static Set<Set<Integer>> getSCC(Graph g) {
+        return Connectivity.getSCC(g);
     }
     
 	/**
