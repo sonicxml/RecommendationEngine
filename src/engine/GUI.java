@@ -107,9 +107,11 @@ public class GUI implements Runnable {
                     case "Jaccard" :
                         scores = r.getJaccardScores(userID);
                         break;
-                    default:
+                    case "Pearson" :
                         scores = r.getPearsonScores(userID);
                         break;
+                    default:
+                        throw new IllegalArgumentException();
                 }
                 
                 try {
