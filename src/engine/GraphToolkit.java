@@ -51,6 +51,21 @@ public class GraphToolkit {
     	return Search.detectCycle(g); 
     }
 
+    /**
+     * Finds single-source shortest paths by implementing the Bellman-Ford
+     * algorithm
+     *
+     * @param g the input graph
+     * @param src the starting node
+     * @return a map with shortest paths distances from src to every other node
+     */
+    public static Map<Node, Double> singleSourceShortestPath(Graph g, Node src) {
+        if (g == null || src == null) {
+            throw new IllegalArgumentException("Null input");
+        }
+
+        return Search.bellmanFord(g, src);
+    }
 
     /**
      * Finds all-pairs shortest paths by implementing the
