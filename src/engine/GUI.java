@@ -76,10 +76,9 @@ public class GUI implements Runnable {
         
         dataset.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JComboBox<String> source = (JComboBox<String>)e.getSource();
-                String newText = (String)source.getSelectedItem();
+                String newText = (String)dataset.getSelectedItem();
                 dataset.setSelectedItem(newText);
-                updateJSpinners(dataset, user);
+                updateJSpinners(newText, user);
             }
         });
         
@@ -131,8 +130,7 @@ public class GUI implements Runnable {
         frame.setVisible(true);
     }
     
-    private void updateJSpinners(JComboBox<String> dataset, JSpinner user) {
-        String data = (String)dataset.getSelectedItem();
+    private void updateJSpinners(String data, JSpinner user) {
         switch (data) {
             case "MovieLens" :
                 user.setModel(new SpinnerNumberModel(1, 1, 943, 1));
