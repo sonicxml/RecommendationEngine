@@ -108,8 +108,8 @@ public class GraphToolkitTest {
     	List<Integer> trueSort = new LinkedList<Integer>(); 
     	trueSort.add(1); 
     	trueSort.add(2); 
-    	trueSort.add(4); 
     	trueSort.add(3); 
+    	trueSort.add(4); 
     	trueSort.add(5); 
     	trueSort.add(6); 
     	
@@ -122,11 +122,6 @@ public class GraphToolkitTest {
                 + "TestGraphs/btw_centrality_small.txt");
         Set<Set<Integer>> answer = new HashSet<>();
         Set<Integer> scc1;
-    }
-
-    @Test
-    public void testDijkstra() throws Exception {
-
     }
 
     @Test
