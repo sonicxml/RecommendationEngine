@@ -54,9 +54,9 @@ public class GUI implements Runnable {
         final JLabel userLabel = new JLabel("User:", LEFT);
         final JSpinner user = new JSpinner(new SpinnerNumberModel(1, 1, 943, 1));
         final JLabel simLabel = new JLabel("Number of similar users:", LEFT);
-        final JSpinner sim = new JSpinner(new SpinnerNumberModel(1, 1, 30, 1));
+        final JSpinner sim = new JSpinner(new SpinnerNumberModel(10, 1, 30, 1));
         final JLabel recLabel = new JLabel("Number of recommendations:", LEFT);
-        final JSpinner rec = new JSpinner(new SpinnerNumberModel(1, 1, 50, 1));
+        final JSpinner rec = new JSpinner(new SpinnerNumberModel(5, 1, 50, 1));
         final JButton go = new JButton("Run!");
         input.add(userLabel);
         input.add(user);
