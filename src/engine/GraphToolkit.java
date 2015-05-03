@@ -29,10 +29,31 @@ public class GraphToolkit {
         return Search.bfs(g, src, tgt, flow);
     }
     
+	/**
+	 * Function performs DFS on a given graph and returns 
+	 * a map of nodes in the graph to a list of start and
+	 * finish times. Function does not restart DFS if
+	 * all nodes have not been visited yet.
+	 * 
+	 * @param g the Graph
+	 * @param src the start Node
+	 * @return A mapping of node to start and finish times
+	 */
     public static Map<Node, List<Integer>> dfsTree(Graph g, Node src) {
         return Search.dfsTree(g, src);
     }
     
+	/**
+	 * Function performs DFS on given graph and returns
+	 * a Map of nodes in the graph to a list of integers. 
+	 * Function restarts DFS if any node in graph has
+	 * not been visited yet. 
+	 * 
+	 * @param g the Graph
+	 * @param src the node to start DFS
+	 * @return mapping of nodes to start and finish
+	 * times. 
+	 */
     public static Map<Node, List<Integer>> dfsForest(Graph g, Node src) {
         return Search.dfsForest(g, src);
     }
@@ -43,12 +64,17 @@ public class GraphToolkit {
         // Implement Kosaraju's Algorithm for finding SCCs
     }
     
+	/**
+	 * Function performs a topological sort on the vertices
+	 * of a given graph by performing DFS and arrange
+	 * vertices by descending finish times. 
+	 * 
+	 * @param g the Graph
+	 * @return a topological sort of the vertices in the
+	 * graph. 
+	 */
     public static List<Node> topSort(Graph g) {
     	return Search.topSort(g); 
-    }
-    
-    public static boolean detectCycle(Graph g) {
-    	return Search.detectCycle(g); 
     }
 
     /**

@@ -408,7 +408,7 @@ class Search {
 	 * @param g the Graph
 	 * @return true if there is a cycle and false otherwise 
 	 */
-	public static boolean detectCycle(Graph g) {
+	private static boolean detectCycle(Graph g) {
 		if (g == null) {
 			throw new IllegalArgumentException();
 		}

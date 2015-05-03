@@ -117,18 +117,6 @@ public class GraphToolkitTest {
     }
     
     @Test
-    public void testDetectCycleAcyclic() throws Exception {
-    	Graph g = DataReader.readSampleGraphData("TestGraphs/dfs_acyclic.txt"); 
-    	assertFalse(GraphToolkit.detectCycle(g)); 
-    }
-    
-    @Test
-    public void testDetectCycleCyclic() throws Exception {
-    	Graph g = DataReader.readSampleGraphData("TestGraphs/dfs_cyclic.txt"); 
-    	assertTrue(GraphToolkit.detectCycle(g)); 
-    }
-
-    @Test
     public void testGetSCC() throws Exception {
         Graph g = DataReader.readSampleGraphData("RecommendationEngine/data/"
                 + "TestGraphs/btw_centrality_small.txt");
