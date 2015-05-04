@@ -78,9 +78,8 @@ class Search {
                     }
 				}
 
-                //System.out.println(e);
-                //System.out.println(e.getWeight() - e.getFlow());
-                if ((flow && (e.getWeight() - Math.abs(e.getFlow()) > 0)) || !flow) {
+                if ((flow && (e.getWeight() - Math.abs(e.getFlow()) > 0))
+                        || !flow) {
 					if (!explored.contains(n)) {
 						explored.add(n);
 						q.add(n);

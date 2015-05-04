@@ -33,7 +33,6 @@ class Flow {
         List<Node> path = Search.bfs(newG, src, tgt, true);
 
         while (!path.isEmpty()) {
-            System.out.println(path);
             List<Edge> edgePath = getEdgesFromNodes(newG, path);
             Collections.reverse(path);
             List<Edge> revEdgePath = getEdgesFromNodes(newG, path);
@@ -44,8 +43,7 @@ class Flow {
             }
 
             int flow = Collections.min(residuals);
-            System.out.println("Flow: " + flow);
-            
+
             for (int i = 0; i < path.size() - 1; i++) {
                 Edge e = edgePath.get(i);
                 Edge revE = revEdgePath.get(i);
@@ -57,9 +55,7 @@ class Flow {
         }
 
         int maxFlow = 0;
-        System.out.println("HIHIHIHI");
         for (Edge e : src.getEdges()) {
-            System.out.println(e);
             maxFlow += e.getFlow();
         }
 
