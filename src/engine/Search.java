@@ -78,7 +78,7 @@ class Search {
                     }
 				}
 
-                if ((flow && (e.getWeight() - Math.abs(e.getFlow()) > 0))
+                if ((flow && (e.getWeight() - e.getFlow() > 0))
                         || !flow) {
 					if (!explored.contains(n)) {
 						explored.add(n);

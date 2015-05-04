@@ -159,8 +159,8 @@ public class GraphToolkitTest {
 
     @Test
     public void testGetSCC() throws Exception {
-        Graph g = DataReader.readSampleGraphData("RecommendationEngine/data/"
-                + "data/TestGraphs/btw_centrality_small.txt");
+        Graph g = DataReader.readSampleGraphData("data/"
+                + "TestGraphs/btw_centrality_small.txt");
         Set<Set<Integer>> answer = new HashSet<>();
         Set<Integer> scc1;
     }
@@ -183,7 +183,7 @@ public class GraphToolkitTest {
     @Test
     public void testMaxFlowSimple2Node() throws Exception {
         Graph g = DataReader.readSampleGraphData("data/TestGraphs/maxFlow_2Node.txt");
-        assertEquals(1, GraphToolkit.getMaxFlow(g, 1, 4));
+        assertEquals(1, GraphToolkit.getMaxFlow(g, 1, 2));
     }
 
     @Test
@@ -200,7 +200,7 @@ public class GraphToolkitTest {
 
     //@Test
     //public void testBtwCentrality() throws Exception {
-    //    Graph g = DataReader.readSampleGraphData("data/"
+    //    Graph g = DataReader.readSampleGraphData("RecommendationEngine/data/"
     //            + "data/TestGraphs/btw_centrality_small.txt");
     //    double[] ans = new double[] {0, 15.5, 2.5, 10, 0, 0, 2.5, 0.5};
     //    Map<Node, Double> answer = GraphToolkit.getBtwCentrality(g);
