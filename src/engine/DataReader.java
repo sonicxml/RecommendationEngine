@@ -12,11 +12,35 @@ import java.util.Scanner;
 public class DataReader {
     private static final String MOVIE_LENS_FILE = 
             "data/ml-100k/u.data";
+    private static final String MOVIE_LENS_TEST_FILE =
+            "data/ml-100k/u1.base";
 
     public static Graph readMovieLensData() {
         Graph g = new Graph();
         try {
             Scanner sc = new Scanner(new File(MOVIE_LENS_FILE));
+            while (sc.hasNextLine()) {
+                String line = sc.nextLine();
+                String[] temp = line.split("\t");
+                if (temp.length == 4) {
+                    int src = Integer.parseInt(temp[0]);
+                    //Since there are 943 users
+                    int tgt = Integer.parseInt(temp[1]) + 943;
+                    int weight = Integer.parseInt(temp[2]);
+                    g.addEdge(src, tgt, weight);
+                }
+            }
+            sc.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return g;
+    }
+
+    public static Graph readMovieLensTestData() {
+        Graph g = new Graph();
+        try {
+            Scanner sc = new Scanner(new File(MOVIE_LENS_TEST_FILE));
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
                 String[] temp = line.split("\t");

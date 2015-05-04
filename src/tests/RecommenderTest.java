@@ -36,15 +36,27 @@ public void testCollabFilter() throws Exception {
     r.getMovieLensNames(userID, recommended);
 }
 
-    @Test
-    public void testCollabFilterUser2() throws Exception {
-        int userID = 2;
-        Recommender r = new Recommender(DataReader.readMovieLensData());
-        List<Integer> recommended = r.collabFilter(userID,
-                r.getPearsonScores(userID), 10, 5);
-        System.out.println(recommended);
-        r.getMovieLensNames(userID, recommended);
-    }
+@Test
+public void testCollabFilterUser2() throws Exception {
+    int userID = 2;
+    Recommender r = new Recommender(DataReader.readMovieLensData());
+    List<Integer> recommended = r.collabFilter(userID,
+            r.getPearsonScores(userID), 10, 5);
+    System.out.println(recommended);
+    r.getMovieLensNames(userID, recommended);
+}
+
+@Test
+public void testCollabFilterTestData() throws Exception {
+    int userID = 2;
+    Recommender r = new Recommender(DataReader.readMovieLensTestData());
+    List<Integer> recommended = r.collabFilter(userID,
+            r.getPearsonScores(userID), 10, 5);
+    System.out.println(recommended);
+    r.getMovieLensNames(userID, recommended);
+}
+
+
 /**
 *
 * Method: getPearsonScores(int userID)
