@@ -63,20 +63,24 @@ class Search {
 
 				Node n = e.getTgt();
 
-				if (n == tgt) {
-					parents.put(n, user);
-					// We found the target node
-					Node i = n;
-					LinkedList<Node> output = new LinkedList<>();
-					output.addFirst(i);
-					while (parents.get(i) != null) {
-						output.addFirst(parents.get(i));
-						i = parents.get(i);
-					}
-					return output;
+				if (n.getID() == tgt.getID()) {
+                    if ((flow && (e.getWeight() - Math.abs(e.getFlow()) > 0)) || !flow) {
+                        parents.put(n, user);
+                        // We found the target node
+                        Node i = n;
+                        LinkedList<Node> output = new LinkedList<>();
+                        output.addFirst(i);
+                        while (parents.get(i) != null) {
+                            output.addFirst(parents.get(i));
+                            i = parents.get(i);
+                        }
+                        return output;
+                    }
 				}
 
-				if ((flow && e.getWeight() - e.getFlow() > 0) || !flow) {
+                //System.out.println(e);
+                //System.out.println(e.getWeight() - e.getFlow());
+                if ((flow && (e.getWeight() - Math.abs(e.getFlow()) > 0)) || !flow) {
 					if (!explored.contains(n)) {
 						explored.add(n);
 						q.add(n);

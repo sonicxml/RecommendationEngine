@@ -45,10 +45,10 @@ public class GraphToolkitTest {
 //    	answer.add(1);
 //    	assertEquals("see if output is shortest path", path, answer);
 //    }
-    
+
     @Test
     public void testBfsCyclic () throws Exception {
-    	Graph g = DataReader.readSampleGraphData("TestGraphs/bfs_cyclic.txt"); 
+    	Graph g = DataReader.readSampleGraphData("TestGraphs/bfs_cyclic.txt");
     	List<Integer> nodes = GraphToolkit.bfs(g, 1, 3, false); 
     	List<Integer> answer = new LinkedList<Integer>(); 
     	answer.add(3); 
@@ -59,7 +59,7 @@ public class GraphToolkitTest {
 
     @Test
     public void testDfsAcyclic() throws Exception {
-    	Graph g = DataReader.readSampleGraphData("TestGraphs/dfs_acyclic.txt");   
+    	Graph g = DataReader.readSampleGraphData("TestGraphs/dfs_acyclic.txt");
     	Map<Integer, List<Integer>> timestamps = GraphToolkit.dfsForest(g, 1); 
     	assertEquals("see if dfs does not break", timestamps.size(), 6); 
     }
@@ -69,7 +69,7 @@ public class GraphToolkitTest {
     	Map<Integer, List<Integer>> timestamps = GraphToolkit.dfsForest(g, 1); 
     	Set<Integer> nodes = timestamps.keySet(); 
     	for (int i : nodes) {
-    		System.out.println(i + ", " + timestamps.get(i)); 
+    		System.out.println(i + ", " + timestamps.get(i));
     	}
     	assertEquals("see if dfs does not break", timestamps.size(), 6);
     }
@@ -102,19 +102,11 @@ public class GraphToolkitTest {
         Set<Integer> scc1;
     }
 
-//    @Test
-//    public void testMaxFlow() throws Exception {
-//    	Graph g = DataReader.readSampleGraphData("TestGraphs/maxFlowTest.txt"); 
-//    	Node src = g.getNodeByID(0); 
-//    	Node tgt = g.getNodeByID(5); 
-//    	assertEquals("max flow of 23", GraphToolkit.maxFlow(g, src, tgt)); 
-//    }
-
     @Test
     public void testBtwCentrality() throws Exception {
         Graph g = DataReader.readSampleGraphData("data/"
                 + "TestGraphs/btw_centrality_small.txt");
-        double[] ans = new double[] {0, 15.5, 2.5, 10, 0, 0, 2.5, 0.5};
+        double[] ans = new double[]{0, 15.5, 2.5, 10, 0, 0, 2.5, 0.5};
         Map<Integer, Double> answer = GraphToolkit.getBtwCentrality(g);
         Iterator<Map.Entry<Integer, Double>> iter = answer.entrySet().iterator();
         while (iter.hasNext()) {
@@ -127,9 +119,38 @@ public class GraphToolkitTest {
     }
 
     @Test
-    public void testCommDetection() throws Exception {
-
+    public void testMaxFlowSimple2Node() throws Exception {
+        Graph g = DataReader.readSampleGraphData("data/TestGraphs/maxFlow_2Node.txt");
+        assertEquals(1, GraphToolkit.getMaxFlow(g, 1, 4));
     }
+
+    @Test
+    public void testMaxFlow4Node() throws Exception {
+    	Graph g = DataReader.readSampleGraphData("data/TestGraphs/maxFlow_4node.txt");
+    	assertEquals(15, GraphToolkit.getMaxFlow(g, 1, 4));
+    }
+
+    @Test
+    public void testMaxFlow6Node() throws Exception {
+        Graph g = DataReader.readSampleGraphData("data/TestGraphs/maxFlowTest.txt");
+        assertEquals(23, GraphToolkit.getMaxFlow(g, 0, 5));
+    }
+
+    //@Test
+    //public void testBtwCentrality() throws Exception {
+    //    Graph g = DataReader.readSampleGraphData("data/"
+    //            + "TestGraphs/btw_centrality_small.txt");
+    //    double[] ans = new double[] {0, 15.5, 2.5, 10, 0, 0, 2.5, 0.5};
+    //    Map<Node, Double> answer = GraphToolkit.getBtwCentrality(g);
+    //    Iterator<Map.Entry<Node, Double>> iter = answer.entrySet().iterator();
+    //    while (iter.hasNext()) {
+    //        Map.Entry<Node, Double> entry = iter.next();
+    //        int id = entry.getKey().getID();
+    //        double temp = entry.getValue();
+    //        //divide by two for undirected
+    //        assertEquals(ans[id - 1], temp / 2, 0.001);
+    //    }
+    //}
 
     @Test
     public void testPageRank() throws Exception {

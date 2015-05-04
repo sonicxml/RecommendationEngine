@@ -28,12 +28,15 @@ class Flow {
      */
     static int maxFlow(Graph g, Node src, Node tgt) {
         Graph newG = biDirectGraph(g);
+        src = newG.getNodeByID(src.getID());
+        tgt = newG.getNodeByID(tgt.getID());
         List<Node> path = Search.bfs(newG, src, tgt, true);
 
         while (!path.isEmpty()) {
-            List<Edge> edgePath = getEdgesFromNodes(path);
+            System.out.println(path);
+            List<Edge> edgePath = getEdgesFromNodes(newG, path);
             Collections.reverse(path);
-            List<Edge> revEdgePath = getEdgesFromNodes(path);
+            List<Edge> revEdgePath = getEdgesFromNodes(newG, path);
             Collections.reverse(revEdgePath);
             List<Integer> residuals = new ArrayList<>();
             for (Edge e : edgePath) {
@@ -42,7 +45,7 @@ class Flow {
 
             int flow = Collections.min(residuals);
 
-            for (int i = 0; i < path.size(); i++) {
+            for (int i = 0; i < path.size() - 1; i++) {
                 Edge e = edgePath.get(i);
                 Edge revE = revEdgePath.get(i);
                 e.setFlow(e.getFlow() + flow);
@@ -53,7 +56,9 @@ class Flow {
         }
 
         int maxFlow = 0;
+        System.out.println("HIHIHIHI");
         for (Edge e : src.getEdges()) {
+            System.out.println(e);
             maxFlow += e.getFlow();
         }
 
@@ -67,12 +72,12 @@ class Flow {
      * @param nodes the path of nodes
      * @return the path of edges
      */
-    private static List<Edge> getEdgesFromNodes(List<Node> nodes) {
+    private static List<Edge> getEdgesFromNodes(Graph g, List<Node> nodes) {
         List<Edge> edgePath = new LinkedList<>();
 
         for (int i = 0; i < nodes.size() - 1; i++) {
-            Node src = nodes.get(i);
-            Node tgt = nodes.get(i + 1);
+            Node src = g.getNodeByID(nodes.get(i).getID());
+            Node tgt = g.getNodeByID(nodes.get(i + 1).getID());
 
             Set<Edge> edges = src.getEdges();
 

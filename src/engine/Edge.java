@@ -36,4 +36,14 @@ class Edge {
     public int getFlow() {
         return flow;
     }
+
+    @Override
+    public String toString() {
+        return "Edge{" +
+                "flow=" + flow +
+                ", weight=" + weight +
+                ", src=" + src +
+                ", tgt=" + tgt +
+                '}';
+    }
 }
