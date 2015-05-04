@@ -7,7 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
-import java.util.TreeMap;
 
 /**
 * Recommender Tester.
@@ -31,8 +30,8 @@ public void after() throws Exception {
 public void testCollabFilter() throws Exception {
     int userID = 1;
     Recommender r = new Recommender(DataReader.readMovieLensData());
-    TreeMap<Double, List<Node>> scores = r.getPearsonScores(userID);
-    List<Integer> recommended = r.collabFilter(userID, scores, 10, 5);
+    List<Integer> recommended = r.collabFilter(userID,
+            r.getPearsonScores(userID), 10, 5);
     System.out.println(recommended);
     r.getMovieLensNames(userID, recommended);
 }
@@ -41,8 +40,8 @@ public void testCollabFilter() throws Exception {
     public void testCollabFilterUser2() throws Exception {
         int userID = 2;
         Recommender r = new Recommender(DataReader.readMovieLensData());
-        TreeMap<Double, List<Node>> scores = r.getPearsonScores(userID);
-        List<Integer> recommended = r.collabFilter(userID, scores, 10, 5);
+        List<Integer> recommended = r.collabFilter(userID,
+                r.getPearsonScores(userID), 10, 5);
         System.out.println(recommended);
         r.getMovieLensNames(userID, recommended);
     }
