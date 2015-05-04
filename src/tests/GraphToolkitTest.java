@@ -84,9 +84,34 @@ public class GraphToolkitTest {
     }
     
     @Test(expected=IllegalArgumentException.class)
-    public void testDfsNull() throws Exception {
+    public void testDfsForestNull() throws Exception {
     	Graph g = null; 
     	GraphToolkit.dfsForest(g, 1); 
+    }
+    
+    @Test
+    public void dfsTreeAcyclic() throws Exception {
+    	Graph g = DataReader.readSampleGraphData("data/TestGraphs/simpleDfs.txt"); 
+    	Map<Integer, List<Integer>> timestamps = GraphToolkit.dfsTree(g, 1); 
+    	Map<Integer, List<Integer>> answers = new
+    			HashMap<Integer, List<Integer>>(); 
+    	
+    	
+    }
+    
+    @Test
+    public void dfsTreeCyclic() throws Exception {
+    	
+    }
+    
+    @Test
+    public void dfsTreeSingleNode() throws Exception {
+    	
+    }
+    
+    @Test(expected=IllegalArgumentException.class) 
+    public void dfsTreeNull() throws Exception {
+    	
     }
 
     @Test(expected=IllegalArgumentException.class)
@@ -135,15 +160,14 @@ public class GraphToolkitTest {
     @Test
     public void testGetSCC() throws Exception {
         Graph g = DataReader.readSampleGraphData("RecommendationEngine/data/"
-                + "TestGraphs/btw_centrality_small.txt");
+                + "data/TestGraphs/btw_centrality_small.txt");
         Set<Set<Integer>> answer = new HashSet<>();
         Set<Integer> scc1;
     }
 
     @Test
     public void testBtwCentrality() throws Exception {
-        Graph g = DataReader.readSampleGraphData("data/"
-                + "TestGraphs/btw_centrality_small.txt");
+        Graph g = DataReader.readSampleGraphData("data/TestGraphs/btw_centrality_small.txt");
         double[] ans = new double[]{0, 15.5, 2.5, 10, 0, 0, 2.5, 0.5};
         Map<Integer, Double> answer = GraphToolkit.getBtwCentrality(g);
         Iterator<Map.Entry<Integer, Double>> iter = answer.entrySet().iterator();
@@ -173,17 +197,11 @@ public class GraphToolkitTest {
         Graph g = DataReader.readSampleGraphData("data/TestGraphs/maxFlowTest.txt");
         assertEquals(23, GraphToolkit.getMaxFlow(g, 0, 5));
     }
-    
-    @Test
-    public void testMaxFlow8Node() throws Exception {
-        Graph g = DataReader.readSampleGraphData("data/TestGraphs/maxFlow_8NodeFun.txt");
-        assertEquals(30, GraphToolkit.getMaxFlow(g, 1, 8));
-    }
 
     //@Test
     //public void testBtwCentrality() throws Exception {
     //    Graph g = DataReader.readSampleGraphData("data/"
-    //            + "TestGraphs/btw_centrality_small.txt");
+    //            + "data/TestGraphs/btw_centrality_small.txt");
     //    double[] ans = new double[] {0, 15.5, 2.5, 10, 0, 0, 2.5, 0.5};
     //    Map<Node, Double> answer = GraphToolkit.getBtwCentrality(g);
     //    Iterator<Map.Entry<Node, Double>> iter = answer.entrySet().iterator();
