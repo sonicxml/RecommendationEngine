@@ -50,7 +50,7 @@ public class GraphToolkit {
 	 * all nodes have not been visited yet.
 	 * 
 	 * @param g the Graph
-	 * @param src the start Node
+	 * @param srcID the start Node's ID
 	 * @return A mapping of node to start and finish times
 	 */
     public static Map<Integer, List<Integer>> dfsTree(Graph g, int srcID) {
@@ -74,7 +74,7 @@ public class GraphToolkit {
 	 * not been visited yet. 
 	 * 
 	 * @param g the Graph
-	 * @param src the node to start DFS
+	 * @param srcID the node to start DFS
 	 * @return mapping of nodes to start and finish
 	 * times. 
 	 */
@@ -129,10 +129,11 @@ public class GraphToolkit {
      * algorithm
      *
      * @param g the input graph
-     * @param src the starting node
+     * @param srcID the starting node's ID
      * @return a map with shortest paths distances from src to every other node
      */
-    public static Map<Integer, Double> singleSourceShortestPath(Graph g, int srcID) {
+    public static Map<Integer, Double> getSingleSourceShortestPath(Graph g,
+                                                                   int srcID) {
         if (g == null) {
             throw new IllegalArgumentException("Null input");
         }
@@ -152,7 +153,8 @@ public class GraphToolkit {
      * @param g the input graph
      * @return a map representing the all-pairs shortest path matrix
      */
-    public static Map<Integer, Map<Integer, Double>> allPairsShortestPath(Graph g) {
+    public static Map<Integer, Map<Integer, Double>> getAllPairsShortestPath(
+            Graph g) {
         if (g == null) {
             throw new IllegalArgumentException();
         }
@@ -165,11 +167,11 @@ public class GraphToolkit {
      * network.
      *
      * @param g   The graph to find
-     * @param src the starting node
-     * @param tgt the ending node
+     * @param srcID the starting node's ID
+     * @param tgtID the ending node's ID
      * @return the maximum flow from src -> tgt on the graph g
      */
-    public static int maxFlow(Graph g, int srcID, int tgtID) {
+    public static int getMaxFlow(Graph g, int srcID, int tgtID) {
         if (g == null) {
             throw new IllegalArgumentException();
         }
@@ -190,20 +192,12 @@ public class GraphToolkit {
      * @param g the Graph whose values should be calculated
      * @return a map containing the betweeness centrality values
      */
-    public static Map<Integer, Double> btwCentrality(Graph g) {
+    public static Map<Integer, Double> getBtwCentrality(Graph g) {
         if (g == null) {
             throw new IllegalArgumentException();
         }
         
         return convertMap(Centrality.btwCentrality(g));
-    }
-
-    public static void commDetection(Graph g) {
-        if (g == null) {
-            throw new IllegalArgumentException();
-        }
-        
-        Centrality.commDetection(g);
     }
 
     /**
@@ -251,7 +245,7 @@ public class GraphToolkit {
      * @param g the graph to run PageRank on
      * @return a map from node ID to rank
      */
-    public static Map<Integer, Double> pageRank(Graph g) {
+    public static Map<Integer, Double> getPageRank(Graph g) {
         if (g == null) {
             throw new IllegalArgumentException();
         }
@@ -273,7 +267,8 @@ public class GraphToolkit {
         return result;
     }
     
-    private static Map<Integer, List<Integer>> convertIntMap(Map<Node, List<Integer>> nodeMap) {
+    private static Map<Integer, List<Integer>> convertIntMap(
+            Map<Node, List<Integer>> nodeMap) {
         if (nodeMap == null) {
             throw new IllegalArgumentException();
         }

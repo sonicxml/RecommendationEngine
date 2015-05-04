@@ -125,7 +125,7 @@ public class GraphToolkitTest {
         Graph g = DataReader.readSampleGraphData("data/"
                 + "TestGraphs/btw_centrality_small.txt");
         double[] ans = new double[] {0, 15.5, 2.5, 10, 0, 0, 2.5, 0.5};
-        Map<Node, Double> answer = GraphToolkit.btwCentrality(g);
+        Map<Node, Double> answer = GraphToolkit.getBtwCentrality(g);
         Iterator<Map.Entry<Node, Double>> iter = answer.entrySet().iterator();
         while (iter.hasNext()) {
             Map.Entry<Node, Double> entry = iter.next();
@@ -147,7 +147,7 @@ public class GraphToolkitTest {
                 "data/TestGraphs/pageRank_full.txt");
         //double[] ans = new double[] {1.4901, 0.7833, 1.5766, 0.1500};
         double[] ans = new double[] {1, 1, 1};
-        Map<Integer, Double> answer = GraphToolkit.pageRank(g);
+        Map<Integer, Double> answer = GraphToolkit.getPageRank(g);
         Iterator<Map.Entry<Integer, Double>> iter = answer.entrySet().iterator();
         while (iter.hasNext()) {
             Map.Entry<Integer, Double> entry = iter.next();
@@ -168,7 +168,7 @@ public class GraphToolkitTest {
         ans.put(2, .142);
         ans.put(3, .288);
         ans.put(4, .202);
-        Map<Integer, Double> out = GraphToolkit.pageRank(g);
+        Map<Integer, Double> out = GraphToolkit.getPageRank(g);
         System.out.println(out);
         for (int i = 1; i <= 4; i++) {
             assertEquals(ans.get(i), out.get(i), 0.001);
@@ -185,7 +185,7 @@ public class GraphToolkitTest {
         ans.put(3, .285);
         ans.put(4, .285);
         ans.put(4, .030);
-        Map<Integer, Double> out = GraphToolkit.pageRank(g);
+        Map<Integer, Double> out = GraphToolkit.getPageRank(g);
         System.out.println(out);
         for (int i = 1; i <= 4; i++) {
             assertEquals(ans.get(i), out.get(i), 0.001);
