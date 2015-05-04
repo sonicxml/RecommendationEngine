@@ -18,15 +18,15 @@ public class DataReaderTest {
     @Test
     public void testReadMovieLensData() throws Exception {
         Graph g = DataReader.readMovieLensData();
-        
+
         assertEquals("Size of graph", 2625, g.getSize());
     }
-    
+
     @Test
     public void testReadSampleGraphData() throws Exception {
         //Need to modify the filename to run correctly!
         String filename = "RecommendationEngine/data/TestGraphs/testGraph1.txt";
-        
+
         Graph g = DataReader.readSampleGraphData(filename);
         Graph g2 = new Graph();
         Node n1 = new Node(1);
@@ -44,14 +44,14 @@ public class DataReaderTest {
         g2.addNode(n3.getID(), n3);
         g2.addNode(n4.getID(), n4);
         g2.addNode(n5.getID(), n5);
-        
+
         assertEquals("Equal size", g.getSize(), g2.getSize());
         Set<Node> nodes1 = g.getAllNodes();
         for (Node node : nodes1) {
             int ID = node.getID();
             Node node2 = g2.getNodeByID(ID);
             assertFalse("Node2 null", node2 == null);
-            assertTrue("Same degree", node.getOutDegree() == 
+            assertTrue("Same degree", node.getOutDegree() ==
                     node2.getOutDegree());
         }
     }

@@ -174,4 +174,21 @@ public class GraphToolkitTest {
             assertEquals(ans.get(i), out.get(i), 0.001);
         }
     }
+
+    @Test
+    public void testPageRank4NodeDisconnected() throws Exception {
+        Graph g = DataReader.readSampleGraphData(
+                "data/TestGraphs/pageRank_5Node2Components.txt");
+        Map<Integer, Double> ans = new HashMap<>();
+        ans.put(1, .200);
+        ans.put(2, .200);
+        ans.put(3, .285);
+        ans.put(4, .285);
+        ans.put(4, .030);
+        Map<Integer, Double> out = GraphToolkit.pageRank(g);
+        System.out.println(out);
+        for (int i = 1; i <= 4; i++) {
+            assertEquals(ans.get(i), out.get(i), 0.001);
+        }
+    }
 }
