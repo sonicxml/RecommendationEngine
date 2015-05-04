@@ -9,7 +9,7 @@ import java.util.Stack;
  * of a Graph, including Kosaraju's algorithm.
  *
  */
-public class Connectivity {
+class Connectivity {
     private Connectivity() {
         // This class should not be instantiated
         throw new IllegalStateException();

@@ -8,15 +8,15 @@ import java.util.Set;
  * with associated methods.
  *
  */
-public class Node {
+class Node {
     private int id;
     private Set<Edge> edges = new HashSet<>();
 
-    public Node(int id) {
+    Node(int id) {
         this.id = id;
     }
 
-    public void addEdge(Edge e) {
+    void addEdge(Edge e) {
         if (e == null) {
             throw new IllegalArgumentException("null edge");
         }
@@ -24,7 +24,7 @@ public class Node {
         edges.add(e);
     }
 
-    public Set<Edge> getEdges() {
+    Set<Edge> getEdges() {
         return new HashSet<>(edges);
     }
 
