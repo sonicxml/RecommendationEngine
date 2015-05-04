@@ -1,15 +1,14 @@
 package tests;
 
-import engine.DataReader;
+import engine.DataReader; 
 import engine.Graph;
 import engine.GraphToolkit;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*; 
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class GraphToolkitTest {
 
@@ -52,32 +51,36 @@ public class GraphToolkitTest {
 //    	answer.add(1);
 //    	assertEquals("see if output is shortest path", path, answer);
 //    }
+    
+    @Test
+    public void testBfsCyclic () throws Exception {
+    	Graph g = DataReader.readSampleGraphData("TestGraphs/bfs_cyclic.txt"); 
+    	Node src = g.getNodeByID(3); 
+    	Node tgt = g.getNodeByID(1); 
+    	List<Integer> nodes = GraphToolkit.bfs(g, src, tgt, false); 
+    	List<Integer> answer = new LinkedList<Integer>(); 
+    	answer.add(3); 
+    	answer.add(5); 
+    	answer.add(1); 
+    	assertEquals("see if output is shortest path", nodes, answer);
+    }
 
     @Test
     public void testDfsAcyclic() throws Exception {
-    	Graph g = DataReader.readSampleGraphData("TestGraphs/dfs_acyclic.txt");
-    	Node src = g.getNodeByID(1);
-    	Set<Node> nodes = g.getAllNodes();
-    	Map<Node, List<Integer>> timestamps = GraphToolkit.dfsForest(g, src);
-    	for (Node n : nodes) {
-    		int id = n.getID();
-    		int startTime = timestamps.get(n).get(0);
-    		int finishTime = timestamps.get(n).get(1);
-    		//System.out.println(id + ": " + startTime + ", " + finishTime);
-    	}
-    	assertEquals("see if dfs does not break", timestamps.size(), 6);
+    	Graph g = DataReader.readSampleGraphData("TestGraphs/dfs_acyclic.txt"); 
+    	Node src = g.getNodeByID(1); 
+    	Set<Node> nodes = g.getAllNodes(); 
+    	Map<Integer, List<Integer>> timestamps = GraphToolkit.dfsForest(g, src); 
+    	assertEquals("see if dfs does not break", timestamps.size(), 6); 
     }
     @Test
     public void testDfsCyclic() throws Exception {
-    	Graph g = DataReader.readSampleGraphData("TestGraphs/dfs_cyclic.txt");
-    	Node src = g.getNodeByID(1);
-    	Set<Node> nodes = g.getAllNodes();
-    	Map<Node, List<Integer>> timestamps = GraphToolkit.dfsForest(g, src);
-    	for (Node n : nodes) {
-    		int id = n.getID();
-    		int startTime = timestamps.get(n).get(0);
-    		int finishTime = timestamps.get(n).get(1);
-    		System.out.println(id + ": " + startTime + ", " + finishTime);
+    	Graph g = DataReader.readSampleGraphData("TestGraphs/dfs_cyclic.txt"); 
+    	Node src = g.getNodeByID(1);  
+    	Map<Integer, List<Integer>> timestamps = GraphToolkit.dfsForest(g, src); 
+    	Set<Integer> nodes = timestamps.keySet(); 
+    	for (int i : nodes) {
+    		System.out.println(i + ", " + timestamps.get(i)); 
     	}
     	assertEquals("see if dfs does not break", timestamps.size(), 6);
     }
@@ -90,21 +93,16 @@ public class GraphToolkitTest {
 
     @Test
     public void testTopSortAyclic() throws Exception {
-    	Graph g = DataReader.readSampleGraphData("TestGraphs/dfs_acyclic.txt");
-    	List<Node> sort = GraphToolkit.topSort(g);
-    	List<Integer> ids = new LinkedList<Integer>();
-    	for (Node n : sort) {
-    		ids.add(n.getID());
-    	}
-    	List<Integer> trueSort = new LinkedList<Integer>();
-    	trueSort.add(1);
-    	trueSort.add(2);
-    	trueSort.add(3);
-    	trueSort.add(4);
-    	trueSort.add(5);
-    	trueSort.add(6);
-
-    	assertEquals("test for equality of sorts", ids, trueSort);
+    	Graph g = DataReader.readSampleGraphData("TestGraphs/dfs_acyclic.txt"); 
+    	List<Integer> sort = GraphToolkit.topSort(g);  
+    	List<Integer> trueSort = new LinkedList<Integer>(); 
+    	trueSort.add(1); 
+    	trueSort.add(2); 
+    	trueSort.add(4); 
+    	trueSort.add(3); 
+    	trueSort.add(5); 
+    	trueSort.add(6); 
+    	assertEquals("test for equality of sorts", sort, trueSort); 
     }
 
     @Test
@@ -115,10 +113,13 @@ public class GraphToolkitTest {
         Set<Integer> scc1;
     }
 
-    @Test
-    public void testMaxFlow() throws Exception {
-
-    }
+//    @Test
+//    public void testMaxFlow() throws Exception {
+//    	Graph g = DataReader.readSampleGraphData("TestGraphs/maxFlowTest.txt"); 
+//    	Node src = g.getNodeByID(0); 
+//    	Node tgt = g.getNodeByID(5); 
+//    	assertEquals("max flow of 23", GraphToolkit.maxFlow(g, src, tgt)); 
+//    }
 
     @Test
     public void testBtwCentrality() throws Exception {
