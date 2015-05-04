@@ -208,10 +208,48 @@ public class GraphToolkit {
 
     /**
      * Find the Eigenvector Centrality of a graph
-     * using the dampened PageRank formula
+     * using the scaled PageRank formula.
+     *
+     * <p>
+     *     We default to a damping factor of 0.85, the value originally used by
+     *     Google.
+     *
+     * <p>
+     *     We implemented this using linear algebra, as opposed to the iterative
+     *     or power methods. This is because we know that the convergence of
+     *     those methods is the same as finding the principal eigenvector
+     *     (in this case, the eigenvector corresponding to eigenvalue 1) of the
+     *     dampened, normalized adjacency matrix.
+     *
+     * <p>
+     *     We make this assumption because we also know that any
+     *     column-stochastic matrix (a matrix where all entries are non-negative
+     *     and where every column sums to 1) has an eigenvalue of 1. Our
+     *     original adjacency matrix is column-stochastic and it remains
+     *     column-stochastic after dampening as long as the damping factor is in
+     *     [0, 1]. By the Perron-Frobenius theorem, we can also say that the
+     *     eigenvalue of 1, which is the largest eigenvalue of a
+     *     column-stochastic matrix, is a unique eigenvalue (i.e. it has
+     *     algebraic multiplicity 1).
+     *
+     * <p>
+     *     We chose the scaled PageRank because it allowed us to assert that
+     *     the eigenvalue 1 has geometric multiplicty of 1. The principal
+     *     eigenvector of the non-dampened but normalized adjacency matrix could
+     *     have geometric multiplicty > 1 in two cases:
+     *
+     * <p><ol>
+     *     <li>The rankings are not all unique. This could occur, for example,
+     *     if the graph has multiple connected components.
+     *     <li>There exists a sink (a node with out degree 0) in the graph. This
+     *     would result in the adjacency matrix being column-substochastic
+     *     (since not all columns would sum to 1), meaning that the matrix need
+     *     not have an eigenvalue of 1 (although all eigenvalues would be <= 1).
+     * <ol><p>
+     *
      *
      * @param g the graph to run PageRank on
-     * @return a map from node id to rank
+     * @return a map from node ID to rank
      */
     public static Map<Integer, Double> pageRank(Graph g) {
         if (g == null) {

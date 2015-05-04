@@ -73,7 +73,7 @@ class Centrality {
                     if (distances[tempIndex] < 0) {
                         q.add(neighbor);
                         distances[tempIndex] = distances[nodeMap.get(v)] + 1;
-                    } 
+                    }
                     if (distances[tempIndex] == distances[nodeMap.get(v)] + 1) {
                         sigma[tempIndex] = sigma[tempIndex] + sigma[nodeMap.get(v)];
                         lists[tempIndex].add(v);
@@ -107,10 +107,48 @@ class Centrality {
 
     /**
      * Find the Eigenvector Centrality of a graph
-     * using the dampened PageRank formula
+     * using the scaled PageRank formula.
+     *
+     * <p>
+     *     We default to a damping factor of 0.85, the value originally used by
+     *     Google.
+     *
+     * <p>
+     *     We implemented this using linear algebra, as opposed to the iterative
+     *     or power methods. This is because we know that the convergence of
+     *     those methods is the same as finding the principal eigenvector
+     *     (in this case, the eigenvector corresponding to eigenvalue 1) of the
+     *     dampened, normalized adjacency matrix.
+     *
+     * <p>
+     *     We make this assumption because we also know that any
+     *     column-stochastic matrix (a matrix where all entries are non-negative
+     *     and where every column sums to 1) has an eigenvalue of 1. Our
+     *     original adjacency matrix is column-stochastic and it remains
+     *     column-stochastic after dampening as long as the damping factor is in
+     *     [0, 1]. By the Perron-Frobenius theorem, we can also say that the
+     *     eigenvalue of 1, which is the largest eigenvalue of a
+     *     column-stochastic matrix, is a unique eigenvalue (i.e. it has
+     *     algebraic multiplicity 1).
+     *
+     * <p>
+     *     We chose the scaled PageRank because it allowed us to assert that
+     *     the eigenvalue 1 has geometric multiplicty of 1. The principal
+     *     eigenvector of the non-dampened but normalized adjacency matrix could
+     *     have geometric multiplicty > 1 in two cases:
+     *
+     * <p><ol>
+     *     <li>The rankings are not all unique. This could occur, for example,
+     *     if the graph has multiple connected components.
+     *     <li>There exists a sink (a node with out degree 0) in the graph. This
+     *     would result in the adjacency matrix being column-substochastic
+     *     (since not all columns would sum to 1), meaning that the matrix need
+     *     not have an eigenvalue of 1 (although all eigenvalues would be <= 1).
+     * <ol><p>
+     *
      *
      * @param g the graph to run PageRank on
-     * @return a map from node id to rank
+     * @return a map from node ID to rank
      */
     static Map<Integer, Double> pageRank(Graph g) {
         double DF = 0.85; // Damping Factor
@@ -133,7 +171,7 @@ class Centrality {
         Matrix adjMatrix = getAdjMat(idMap, nodes);
 
         System.out.println(adjMatrix);
-        
+
         // Dampen the matrix according to Scaled PageRank
         dampenMatrix(DF, adjMatrix);
 
@@ -153,17 +191,17 @@ class Centrality {
     /**
      * Uses the EigenDecompositor class from package la4j to find the principal
      * eigenvector, which corresponds to the largest eigenvector of the supplied
-     * matrix.
+     * matrix. Because the dampened adjacency matrix is column-stochastic,
+     * we know that the largest eigenvalue equals 1.
      *
      * @param adjMatrix an adjacency matrix for a graph
      * @return the principal eigenvector of adjMatrix
      */
     private static Vector getPrincipalEV(Matrix adjMatrix) {
-        EigenDecompositor ed = new EigenDecompositor(adjMatrix.transpose());
+        EigenDecompositor ed = new EigenDecompositor(adjMatrix);
         Matrix[] vd = ed.decompose();
         Matrix v = vd[0];
         Matrix d = vd[1];
-        double max = Double.MIN_VALUE;
         int maxIdx = 0;
         System.out.println("d:");
         System.out.println(d);
@@ -181,19 +219,17 @@ class Centrality {
             });
             if (Math.abs(colMax - 1.0) < 1e-4) {
                 System.out.println("Found normalized eigenvector.");
-                max = colMax;
                 maxIdx = i;
             }
         }
-        
-        Vector eigenvector = getNormalizedVector(v.getColumn(maxIdx));
-        return eigenvector;
+
+        return getNormalizedVector(v.getColumn(maxIdx));
     }
-    
+
     /**
      * Method for getting the normalized Vector of a given Vector,
      * such that the sum of all elements is 1.
-     * 
+     *
      * @param v  the Vector to normalize
      * @return   the normalized Vector
      */
@@ -206,10 +242,21 @@ class Centrality {
         });
         return v;
     }
-    
+
     /**
      * Adjusts the values in the given matrix according to the formula for the
-     * dampened PageRank algorithm
+     * dampened PageRank algorithm.
+     *
+     * <p>
+     *     This formula is:
+     *
+     * <p>
+     *     M = DF * A + (1 - DF) * S
+     *
+     * <p>
+     *     Where A is the (column-stochastic) normalized adjacency matrix and S
+     *     is a matrix where each element = 1/n. As long as 0 <= DF <= 1,
+     *     M is also column-stochastic.
      *
      * @param DF        the damping factor (default 0.85)
      * @param adjMatrix the matrix whose contents should be modified
@@ -226,7 +273,14 @@ class Centrality {
     }
 
     /**
-     * Method for returning the adjacency matrix for a given set of Nodes
+     * Method for returning the adjacency matrix for a given set of Nodes.
+     *
+     * <p>
+     *     This adjacency matrix, A, is normalized such that every column
+     *     sums to 1. This is done by dividing each entry of a column by the
+     *     column's corresponding node's out degree. This gives us a
+     *     column-stochastic matrix, a property we rely heavily on in the rest
+     *     of the PageRank computation.
      *
      * @param idMap the mapping from integers to Node IDs
      * @param nodes the set of Nodes from which the matrix should be made
@@ -238,8 +292,8 @@ class Centrality {
             double cellEntry = 1 / (double) node.getOutDegree();
             Set<Edge> edges = node.getEdges();
             for (Edge e : edges) {
-                adjMatrix.set(idMap.get(e.getSrc().getID()),
-                        idMap.get(e.getTgt().getID()),
+                adjMatrix.set(idMap.get(e.getTgt().getID()),
+                        idMap.get(e.getSrc().getID()),
                         cellEntry);
             }
         }
