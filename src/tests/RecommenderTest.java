@@ -1,7 +1,6 @@
 package tests;
 
 import engine.DataReader;
-import engine.Node;
 import engine.Recommender;
 import org.junit.After;
 import org.junit.Before;

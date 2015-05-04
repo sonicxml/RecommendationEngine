@@ -20,18 +20,12 @@ public class GraphToolkitTest {
     @Test
     public void testBfsAcyclic() throws Exception {
     	Graph g = DataReader.readSampleGraphData("TestGraphs/bfs_acyclic.txt");
-    	Node src = g.getNodeByID(1);
-    	Node tgt = g.getNodeByID(4);
-    	List<Node> nodes = GraphToolkit.bfs(g, src, tgt, false);
-    	List<Integer> path = new LinkedList<Integer>();
-    	for (Node n : nodes) {
-    		path.add(n.getID());
-    	}
+    	List<Integer> nodes = GraphToolkit.bfs(g, 1, 4, false);
     	List<Integer> answer = new LinkedList<Integer>();
     	answer.add(1);
     	answer.add(2);
     	answer.add(4);
-    	assertEquals("see if output is shortest path", path, answer);
+    	assertEquals("see if output is shortest path", nodes, answer);
 
     }
 
@@ -55,9 +49,7 @@ public class GraphToolkitTest {
     @Test
     public void testBfsCyclic () throws Exception {
     	Graph g = DataReader.readSampleGraphData("TestGraphs/bfs_cyclic.txt"); 
-    	Node src = g.getNodeByID(3); 
-    	Node tgt = g.getNodeByID(1); 
-    	List<Integer> nodes = GraphToolkit.bfs(g, src, tgt, false); 
+    	List<Integer> nodes = GraphToolkit.bfs(g, 1, 3, false); 
     	List<Integer> answer = new LinkedList<Integer>(); 
     	answer.add(3); 
     	answer.add(5); 
@@ -67,17 +59,14 @@ public class GraphToolkitTest {
 
     @Test
     public void testDfsAcyclic() throws Exception {
-    	Graph g = DataReader.readSampleGraphData("TestGraphs/dfs_acyclic.txt"); 
-    	Node src = g.getNodeByID(1); 
-    	Set<Node> nodes = g.getAllNodes(); 
-    	Map<Integer, List<Integer>> timestamps = GraphToolkit.dfsForest(g, src); 
+    	Graph g = DataReader.readSampleGraphData("TestGraphs/dfs_acyclic.txt");   
+    	Map<Integer, List<Integer>> timestamps = GraphToolkit.dfsForest(g, 1); 
     	assertEquals("see if dfs does not break", timestamps.size(), 6); 
     }
     @Test
     public void testDfsCyclic() throws Exception {
     	Graph g = DataReader.readSampleGraphData("TestGraphs/dfs_cyclic.txt"); 
-    	Node src = g.getNodeByID(1);  
-    	Map<Integer, List<Integer>> timestamps = GraphToolkit.dfsForest(g, src); 
+    	Map<Integer, List<Integer>> timestamps = GraphToolkit.dfsForest(g, 1); 
     	Set<Integer> nodes = timestamps.keySet(); 
     	for (int i : nodes) {
     		System.out.println(i + ", " + timestamps.get(i)); 
@@ -126,11 +115,11 @@ public class GraphToolkitTest {
         Graph g = DataReader.readSampleGraphData("data/"
                 + "TestGraphs/btw_centrality_small.txt");
         double[] ans = new double[] {0, 15.5, 2.5, 10, 0, 0, 2.5, 0.5};
-        Map<Node, Double> answer = GraphToolkit.getBtwCentrality(g);
-        Iterator<Map.Entry<Node, Double>> iter = answer.entrySet().iterator();
+        Map<Integer, Double> answer = GraphToolkit.getBtwCentrality(g);
+        Iterator<Map.Entry<Integer, Double>> iter = answer.entrySet().iterator();
         while (iter.hasNext()) {
-            Map.Entry<Node, Double> entry = iter.next();
-            int id = entry.getKey().getID();
+            Map.Entry<Integer, Double> entry = iter.next();
+            int id = entry.getKey();
             double temp = entry.getValue();
             //divide by two for undirected
             assertEquals(ans[id - 1], temp / 2, 0.001);

@@ -8,11 +8,11 @@ import java.util.Set;
  * with associated methods.
  *
  */
-class Node {
+ class Node {
     private int id;
     private Set<Edge> edges = new HashSet<>();
 
-    Node(int id) {
+   public Node(int id) {
         this.id = id;
     }
 
