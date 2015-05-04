@@ -44,7 +44,8 @@ class Flow {
             }
 
             int flow = Collections.min(residuals);
-
+            System.out.println("Flow: " + flow);
+            
             for (int i = 0; i < path.size() - 1; i++) {
                 Edge e = edgePath.get(i);
                 Edge revE = revEdgePath.get(i);

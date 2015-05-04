@@ -135,6 +135,12 @@ public class GraphToolkitTest {
         Graph g = DataReader.readSampleGraphData("data/TestGraphs/maxFlowTest.txt");
         assertEquals(23, GraphToolkit.getMaxFlow(g, 0, 5));
     }
+    
+    @Test
+    public void testMaxFlow8Node() throws Exception {
+        Graph g = DataReader.readSampleGraphData("data/TestGraphs/maxFlow_8NodeFun.txt");
+        assertEquals(30, GraphToolkit.getMaxFlow(g, 1, 8));
+    }
 
     //@Test
     //public void testBtwCentrality() throws Exception {

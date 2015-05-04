@@ -64,7 +64,7 @@ class Search {
 				Node n = e.getTgt();
 
 				if (n.getID() == tgt.getID()) {
-                    if ((flow && (e.getWeight() - Math.abs(e.getFlow()) > 0)) || !flow) {
+                    if ((flow && (e.getWeight() - e.getFlow() > 0)) || !flow) {
                         parents.put(n, user);
                         // We found the target node
                         Node i = n;
