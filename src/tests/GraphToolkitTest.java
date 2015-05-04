@@ -75,7 +75,8 @@ public class GraphToolkitTest {
     public void testDfsForestSingleNode() throws Exception {
     	Graph g = DataReader.readSampleGraphData("data/TestGraphs/SingleNode.txt"); 
     	Map<Integer, List<Integer>> timestamps = GraphToolkit.dfsForest(g, 1); 
-    	Map<Integer, List<Integer>> answers = GraphToolkit.dfsForest(g, 1); 
+    	Map<Integer, List<Integer>> answers = new 
+    			HashMap<Integer, List<Integer>>();  
     	List<Integer> list = new LinkedList<Integer>(); 
     	list.add(1); 
     	list.add(2); 
@@ -90,28 +91,43 @@ public class GraphToolkitTest {
     }
     
     @Test
-    public void dfsTreeAcyclic() throws Exception {
+    public void dfsTreeWithCC() throws Exception {
     	Graph g = DataReader.readSampleGraphData("data/TestGraphs/simpleDfs.txt"); 
     	Map<Integer, List<Integer>> timestamps = GraphToolkit.dfsTree(g, 1); 
     	Map<Integer, List<Integer>> answers = new
     			HashMap<Integer, List<Integer>>(); 
-    	
-    	
+    	List<Integer> list1 = new LinkedList<Integer>(); 
+    	List<Integer> list2 = new LinkedList<Integer>(); 
+    	List<Integer> list3 = new LinkedList<Integer>(); 
+    	list1.add(1); 
+    	list1.add(6); 
+    	list2.add(2);
+    	list2.add(5); 
+    	list3.add(3); 
+    	list3.add(4); 
+    	answers.put(1, list1); 
+    	answers.put(2, list2); 
+    	answers.put(3, list3); 
+    	assertEquals(timestamps, answers); 	
     }
-    
-    @Test
-    public void dfsTreeCyclic() throws Exception {
-    	
-    }
-    
+      
     @Test
     public void dfsTreeSingleNode() throws Exception {
-    	
+    	Graph g = DataReader.readSampleGraphData("data/TestGraphs/SingleNode.txt"); 
+    	Map<Integer, List<Integer>> timestamps = GraphToolkit.dfsTree(g, 1); 
+    	Map<Integer, List<Integer>> answers = new 
+    			HashMap<Integer, List<Integer>>(); 
+    	List<Integer> list = new LinkedList<Integer>(); 
+    	list.add(1); 
+    	list.add(2); 
+    	answers.put(1, list); 
+    	assertEquals(timestamps, answers); 
     }
     
     @Test(expected=IllegalArgumentException.class) 
     public void dfsTreeNull() throws Exception {
-    	
+    	Graph g = null; 
+    	GraphToolkit.dfsTree(g, 1); 
     }
 
     @Test(expected=IllegalArgumentException.class)
@@ -157,13 +173,14 @@ public class GraphToolkitTest {
     	GraphToolkit.topSort(g); 
     }
 
-    @Test
-    public void testGetSCC() throws Exception {
-        Graph g = DataReader.readSampleGraphData("data/"
-                + "TestGraphs/btw_centrality_small.txt");
-        Set<Set<Integer>> answer = new HashSet<>();
-        Set<Integer> scc1;
-    }
+//   This test needs to be implemented
+//    @Test
+//    public void testGetSCC() throws Exception {
+//        Graph g = DataReader.readSampleGraphData("data/"
+//                + "data/TestGraphs/btw_centrality_small.txt");
+//        Set<Set<Integer>> answer = new HashSet<>();
+//        Set<Integer> scc1;
+//    }
 
     @Test
     public void testBtwCentrality() throws Exception {
@@ -198,6 +215,7 @@ public class GraphToolkitTest {
         assertEquals(23, GraphToolkit.getMaxFlow(g, 0, 5));
     }
 
+    //this test needs to be implemented
     //@Test
     //public void testBtwCentrality() throws Exception {
     //    Graph g = DataReader.readSampleGraphData("RecommendationEngine/data/"
@@ -257,7 +275,7 @@ public class GraphToolkitTest {
         ans.put(2, .200);
         ans.put(3, .285);
         ans.put(4, .285);
-        ans.put(4, .030);
+        ans.put(5, .030);
         Map<Integer, Double> out = GraphToolkit.getPageRank(g);
         System.out.println(out);
         for (int i = 1; i <= 4; i++) {
