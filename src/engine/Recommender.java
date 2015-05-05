@@ -303,6 +303,14 @@ public class Recommender {
         return coeff;
     }
 
+    /**
+     * Converts the given list of items to the movieLens names.
+     * 
+     * @param user   the user of the items
+     * @param items  the items to convert
+     * @return       the String to output
+     * @throws DataFormatException
+     */
     public String getMovieLensNames(int user, List<Integer> items)
             throws DataFormatException {
         String result = "";

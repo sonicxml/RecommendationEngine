@@ -13,6 +13,11 @@ public class DataReader {
     private static final String MOVIE_LENS_FILE = 
             "ml-100k/u.data";
 
+    /**
+     * Reads the MovieLens file.
+     * 
+     * @return the Graph representation.
+     */
     public static Graph readMovieLensData() {
         Graph g = new Graph();
         try {
@@ -34,7 +39,13 @@ public class DataReader {
         }
         return g;
     }
-
+    
+    /**
+     * Reads the MovieLens text file with given filename.
+     * 
+     * @param filename  the file to read from
+     * @return          the Graph represented by the file
+     */
     public static Graph readMovieLensTestData(String filename) {
         Graph g = new Graph();
         try {
@@ -57,6 +68,12 @@ public class DataReader {
         return g;
     }
     
+    /**
+     * Reads in the data from a Graph of our design.
+     * 
+     * @param filename  the file from which to read
+     * @return          the Graph represented by the .txt file
+     */
     public static Graph readGraphData(String filename) {
         Graph g = new Graph();         
         try {
