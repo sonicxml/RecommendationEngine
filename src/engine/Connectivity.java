@@ -26,19 +26,23 @@ class Connectivity {
         Stack<Node> s = dfs(g);
         Set<Set<Integer>> components = new HashSet<>();
         Graph reverse = g.copyOf(true);
+        Set<Node> discovered = new HashSet<>();
         while (!s.isEmpty()) {
             Node src = s.pop();
-            System.out.println(s);
-            Set<Node> connected = Search.dfsTree(reverse, src).keySet();
-            System.out.println("Path:" + connected);
-            s.removeAll(connected);
-            System.out.println(s);
-            System.out.println("");
+            if (discovered.contains(src)) {
+                continue;
+            }
+
+            Set<Node> connected = Search.dfsTree(reverse,
+                    reverse.getNodeByID(src.getID())).keySet();
+            connected.removeAll(discovered);
+            discovered.addAll(connected);
             Set<Integer> component = new HashSet<>();
             for (Node node : connected) {
                 component.add(node.getID());
             }
             components.add(component);
+            System.out.println("");
         }
         return components;
     }

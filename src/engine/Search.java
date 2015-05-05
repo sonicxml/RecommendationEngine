@@ -194,8 +194,7 @@ class Search {
 			}
 
 			/*If node has already been visited then stamp finish time and
-            pop from stack. If stack is empty then search the graph for
-			unvisited nodes. */
+            pop from stack.  */
 			else {
 				stamp(timeStamps, a, counter);
 				stack.pop();
