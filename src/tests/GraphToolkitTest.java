@@ -357,17 +357,34 @@ public class GraphToolkitTest {
     @Test
     public void testFloydWarshall() {
         Graph g = DataReader.readGraphData(
-                "data/TestGraphs/bellmanFord_large.txt");
-        Map<Integer, Double> ans = new HashMap<>();
-        ans.put(1, 0.0);
-        ans.put(2, 1.0);
-        ans.put(3, 4.0);
-        ans.put(4, 0.0);
-        ans.put(5, 8.0);
-        ans.put(6, 0.0);
-        ans.put(7, 5.0);
-        ans.put(8, 2.0);
-        Map<Integer, Double> result = GraphToolkit.getSingleSourceShortestPath(g, 1);
+                "data/TestGraphs/floydWarshall.txt");
+        Map<Integer, Map<Integer, Double>> ans = new HashMap<>();
+        Map<Integer, Double> map1 = new HashMap<>();
+        map1.put(1, 0.0);
+        map1.put(2, -1.0);
+        map1.put(3, -2.0);
+        map1.put(4, 0.0);
+        ans.put(1, map1);
+        map1 = new HashMap<>();
+        map1.put(1, 4.0);
+        map1.put(2, 0.0);
+        map1.put(3, 2.0);
+        map1.put(4, 4.0);
+        ans.put(2, map1);
+        map1 = new HashMap<>();
+        map1.put(1, 5.0);
+        map1.put(2, 1.0);
+        map1.put(3, 0.0);
+        map1.put(4, 2.0);
+        ans.put(3, map1);
+        map1 = new HashMap<>();
+        map1.put(1, 3.0);
+        map1.put(2, -1.0);
+        map1.put(3, 1.0);
+        map1.put(4, 0.0);
+        ans.put(4, map1);
+        
+        Map<Integer, Map<Integer, Double>> result = GraphToolkit.getAllPairsShortestPath(g);
         for (int x : result.keySet()) {
             assertEquals(ans.get(x), result.get(x));
         }
