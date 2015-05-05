@@ -50,7 +50,7 @@ public void testCollabFilterUser2() throws Exception {
 @Test
 public void testCollabFilterTestData() throws Exception {
     int userID = 2;
-    String filename = "RecommendationEngine/data/ml-100k/u1.base";
+    String filename = "data/ml-100k/u1.base";
     Recommender r = new Recommender(DataReader.readMovieLensTestData(filename));
     List<Integer> recommended = r.collabFilter(userID,
             r.getPearsonScores(userID), 10, 5);
@@ -64,8 +64,8 @@ public void testCollabFilterAccuracy() throws Exception {
     double expected = 15 * 943;
     
     for (int i = 1; i < 6; i++) {
-        String file1 = "RecommendationEngine/data/ml-100k/u" + i +".base";
-        String file2 = "RecommendationEngine/data/ml-100k/u" + i + ".test";
+        String file1 = "data/ml-100k/u" + i +".base";
+        String file2 = "data/ml-100k/u" + i + ".test";
         System.out.println(i);
         Graph g = DataReader.readMovieLensTestData(file2);
         Recommender r = new Recommender(DataReader.readMovieLensTestData(file1));

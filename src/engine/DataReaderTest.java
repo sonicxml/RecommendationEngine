@@ -2,11 +2,12 @@ package engine;
 
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 import java.util.Set;
 
-import engine.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class DataReaderTest {
 
@@ -25,7 +26,7 @@ public class DataReaderTest {
     @Test
     public void testReadSampleGraphData() throws Exception {
         //Need to modify the filename to run correctly!
-        String filename = "RecommendationEngine/data/TestGraphs/testGraph1.txt";
+        String filename = "data/TestGraphs/testGraph1.txt";
 
         Graph g = DataReader.readGraphData(filename);
         Graph g2 = new Graph();
