@@ -92,6 +92,7 @@ class Search {
 		// If there is no path
 		return new LinkedList<>();
 	}
+
 	/**
 	 * Function performs DFS on a given graph and returns 
 	 * a map of nodes in the graph to a list of start and
@@ -149,6 +150,7 @@ class Search {
 
 		return timeStamps;
 	}
+
 	/**
 	 * Function performs DFS on given graph and returns
 	 * a Map of nodes in the graph to a list of integers. 
@@ -306,16 +308,14 @@ class Search {
 		for (Node i : g.getAllNodes()) {
 			for (Node j : g.getAllNodes()) {
 				for (Node k : g.getAllNodes()) {
-					double distJK = dist.get(j).get(k);
-					double distJI = dist.get(j).get(i);
-					double distIK = dist.get(i).get(k);
 					// Account for lazy initialization
-					distJK = (dist.get(j).get(k) == null) ?
-							Double.MAX_VALUE : distJK;
-					distJI = (dist.get(j).get(i) == null) ?
-							Double.MAX_VALUE : distJI;
-					distIK = (dist.get(i).get(k) == null) ?
-							Double.MAX_VALUE : distIK;
+					double distJK = (dist.get(j).get(k) == null) ?
+							Double.MAX_VALUE : dist.get(j).get(k);
+					double distJI = (dist.get(j).get(i) == null) ?
+							Double.MAX_VALUE : dist.get(j).get(i);
+					double distIK = (dist.get(i).get(k) == null) ?
+							Double.MAX_VALUE : dist.get(i).get(k);
+
 					// Recurrence
 					if (distJK > distJI + distIK) {
 						dist.get(j).put(k, distJI + distIK);
