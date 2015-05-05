@@ -42,7 +42,6 @@ class Connectivity {
                 component.add(node.getID());
             }
             components.add(component);
-            System.out.println("");
         }
         return components;
     }
