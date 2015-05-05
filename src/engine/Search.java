@@ -132,12 +132,10 @@ class Search {
 					if (!visited.contains(n))
 						stack.add(n);
 				}
-			}
-
-			/*If node has already been visited then stamp finish time and
-            pop from stack. If stack is empty then search the graph for
-			unvisited nodes. */
-			else {
+			} else {
+                // If node has already been visited then stamp finish time and
+                // pop from stack. If stack is empty then search the graph for
+			    // unvisited nodes.
 				stamp(timeStamps, a, counter);
 				stack.pop();
 				if (stack.isEmpty() &&
@@ -185,17 +183,15 @@ class Search {
 			//If node has not been visited yet
 			if (!visited.contains(a)) {
 				visited.add(a);
-				stamp(timeStamps, a, counter);
+                stamp(timeStamps, a, counter);
 				Set<Node> neighbors = a.getNeighbors();
 				for (Node n : neighbors) {
 					if (!visited.contains(n))
 						stack.push(n);
 				}
-			}
-
-			/*If node has already been visited then stamp finish time and
-            pop from stack.  */
-			else {
+			} else {
+			    // If node has already been visited then stamp finish time and
+                // pop from stack.
 				stamp(timeStamps, a, counter);
 				stack.pop();
 			}
@@ -217,9 +213,9 @@ class Search {
 	 */
 	static List<Node> topSort(Graph g) {
 		if (!detectCycle(g)) {
-			TreeMap<Integer, Node> map = new TreeMap<Integer, Node>();
+			TreeMap<Integer, Node> map = new TreeMap<>();
 			Set<Node> nodes = g.getAllNodes();
-			Set<Node> visited = new HashSet<Node>();
+			Set<Node> visited = new HashSet<>();
 			Node src = getUnvisited(nodes, visited);
 			Map<Node, List<Integer>> timeStamps = dfsForest(g, src);
 			for (Node n : nodes) {
@@ -227,7 +223,7 @@ class Search {
 				map.put(finishTime, n);
 			}
 			NavigableSet<Integer> keys = map.descendingKeySet();
-			Stack<Node> sort = new Stack<Node>();
+			Stack<Node> sort = new Stack<>();
 			for (int n : keys) {
 				sort.push(map.get(n));
 			}
@@ -385,16 +381,11 @@ class Search {
 	 */
 	private static Map<Node, List<Integer>> stamp(Map<Node,
 			List<Integer>> map, Node n, int i) {
-		//System.out.println(n.getID() + ": " + i);
 		if (map.containsKey(n)) {
 			List<Integer> set = map.get(n);
-			//           if (set.size() > 2) {
-			//               return map;
-			//            } else {
 			set.add(i);
 			map.put(n, set);
 			return map;
-			//}
 		} else {
 			List<Integer> set = new LinkedList<Integer>();
 			set.add(i); 
@@ -434,6 +425,7 @@ class Search {
 				if (n.equals(a))
 					counter++; 
 			}
+
 			if (counter >= 2) {
 				Set<Node> neighbors = a.getNeighbors();
 				for(Node j : neighbors) {
@@ -442,22 +434,19 @@ class Search {
 					}
 				}
 			}
+
 			//If node has not been visited yet
 			if (!visited.contains(a)) {
 				visited.add(a);
 				Set<Node> neighbors = a.getNeighbors();
 				for (Node n : neighbors) {
-					//if (!visited.contains(n))
-						stack.add(n);
-				//}
+                    stack.add(n);
 				}
-			}
-
-			/*If node has already been visited then stamp finish time and
-            pop from stack. If stack is empty then search the graph for
-			unvisited nodes. */
-			else {
-				finished.add(stack.pop()); 
+			} else {
+                // If node has already been visited then stamp finish time and
+                // pop from stack. If stack is empty then search the graph for
+                // unvisited nodes.
+                finished.add(stack.pop());
 				if (stack.isEmpty() &&
 						getUnvisited(nodes, visited) != null) {
 					stack.push(getUnvisited(nodes, visited));

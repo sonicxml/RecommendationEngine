@@ -33,7 +33,6 @@ class Centrality {
      * @param g the Graph whose values should be calculated
      * @return a map containing the betweeness centrality values
      */
-    @SuppressWarnings("MismatchedReadAndWriteOfArray")
     static Map<Node, Double> btwCentrality(Graph g) {
         Set<Node> nodes = g.getAllNodes();
         Map<Node, Integer> nodeMap = new HashMap<>();
@@ -52,7 +51,7 @@ class Centrality {
             q.add(node);
             ArrayList<Node>[] lists = new ArrayList[size];
             for (int i = 0; i < size; i++) {
-                lists[i] = new ArrayList<Node>();
+                lists[i] = new ArrayList<>();
             }
             int[] sigma = new int[size];
             sigma[index] = 1;
@@ -75,7 +74,8 @@ class Centrality {
                         distances[tempIndex] = distances[nodeMap.get(v)] + 1;
                     }
                     if (distances[tempIndex] == distances[nodeMap.get(v)] + 1) {
-                        sigma[tempIndex] = sigma[tempIndex] + sigma[nodeMap.get(v)];
+                        sigma[tempIndex] = sigma[tempIndex] +
+                                sigma[nodeMap.get(v)];
                         lists[tempIndex].add(v);
                     }
                 }
@@ -198,9 +198,11 @@ class Centrality {
         for (int i = 0; i < v.columns(); i++) {
             double colMax = d.foldColumn(i, new VectorAccumulator(){
                 double accumulator = 0.0;
+
                 public void update(int i, double value) {
                     accumulator += value;
                 }
+
                 public double accumulate() {
                     return accumulator;
                 }

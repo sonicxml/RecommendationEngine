@@ -12,11 +12,10 @@ import java.util.Set;
  */
 public class Graph {
     // Map from ID to Node
-    private Map<Integer, Node> nodes = new HashMap<>();
+    private Map<Integer, Node> nodes;
 
     public Graph() {
-        // Howdy mate
-        // Ryan, ESP is real.
+        nodes = new HashMap<>();
     }
 
     public void addNode(int id, Node n) {

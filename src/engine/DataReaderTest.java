@@ -1,6 +1,5 @@
 package engine;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Set;
@@ -10,16 +9,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class DataReaderTest {
-
-    @Before
-    public void setUp() throws Exception {
-
-    }
-
     @Test
     public void testReadMovieLensData() throws Exception {
         Graph g = DataReader.readMovieLensData();
-
         assertEquals("Size of graph", 2625, g.getSize());
     }
 

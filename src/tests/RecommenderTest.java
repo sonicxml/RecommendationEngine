@@ -1,10 +1,8 @@
 package tests;
 
 import engine.DataReader;
-import engine.Recommender;
 import engine.Graph;
-import org.junit.After;
-import org.junit.Before;
+import engine.Recommender;
 import org.junit.Test;
 
 import java.util.List;
@@ -13,20 +11,6 @@ import java.util.List;
  * Recommender Tester.
  */
 public class RecommenderTest {
-
-    @Before
-    public void before() throws Exception {
-    }
-
-    @After
-    public void after() throws Exception {
-    }
-
-    /**
-     *
-     * Method: collabFilter(int userID, TreeMap<Double, List<Node>> scores)
-     *
-     */
     @Test
     public void testCollabFilter() throws Exception {
         int userID = 1;
@@ -66,13 +50,11 @@ public class RecommenderTest {
         double expected = 5 * numRecommendations * 943;
 
         for (int i = 1; i < 6; i++) {
-            String file1 = "data/ml-100k/u" + i +".base";
+            String file1 = "data/ml-100k/u" + i + ".base";
             String file2 = "data/ml-100k/u" + i + ".test";
-            System.out.println(i);
             Graph g = DataReader.readMovieLensTestData(file2);
             Recommender r = new Recommender(DataReader.readMovieLensTestData(file1));
             for (int j = 1; j < 944; j++) {
-                //System.out.println("Finding recommendations for:" + j);
                 List<Integer> recommended = r.collabFilter(j,
                         r.getPearsonScores(j), numSimilarUsers, numRecommendations);
                 for (int k = 0; k < numRecommendations; k++) {
@@ -84,6 +66,7 @@ public class RecommenderTest {
             }
         }
 
-        System.out.println("Percentage of recommendations found is: " + found / expected);
+        System.out.println("Percentage of recommendations found is: "
+                + found / expected);
     }
 }
