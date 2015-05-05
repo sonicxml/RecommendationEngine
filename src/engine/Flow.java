@@ -26,7 +26,7 @@ class Flow {
      * @param tgt the ending node
      * @return the maximum flow from src -> tgt on the graph g
      */
-    static int maxFlow(Graph g, Node src, Node tgt) {
+    static int getMaxFlow(Graph g, Node src, Node tgt) {
         Graph newG = biDirectGraph(g);
         src = newG.getNodeByID(src.getID());
         tgt = newG.getNodeByID(tgt.getID());

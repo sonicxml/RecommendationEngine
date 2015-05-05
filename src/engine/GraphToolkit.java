@@ -19,8 +19,8 @@ public class GraphToolkit {
     }
 
     /**
-     * A BFS Implementation to find the shortest path from src to tgt. Since
-     * this is BFS, the shortest path is in terms of length, not weights.
+     * Wrapper for BFS.
+     * @see Search#bfs(Graph, Node, Node, boolean)
      *
      * @param g      the Graph
      * @param srcID  the node to start BFS from
@@ -44,14 +44,12 @@ public class GraphToolkit {
     }
     
 	/**
-	 * Function performs DFS on a given graph and returns 
-	 * a map of nodes in the graph to a list of start and
-	 * finish times. Function does not restart DFS if
-	 * all nodes have not been visited yet.
+	 * Wrapper for DFS that outputs a DFS Tree.
+     * @see Search#dfsTree(Graph, Node)
 	 * 
 	 * @param g the Graph
 	 * @param srcID the start Node's ID
-	 * @return A mapping of node to start and finish times
+	 * @return A DFS tree mapping of nodes to start and finish times
 	 */
     public static Map<Integer, List<Integer>> dfsTree(Graph g, int srcID) {
         if (g == null) {
@@ -68,14 +66,12 @@ public class GraphToolkit {
     }
     
 	/**
-	 * Function performs DFS on given graph and returns
-	 * a Map of nodes in the graph to a list of integers. 
-	 * Function restarts DFS if any node in graph has
-	 * not been visited yet. 
+	 * Wrapper for DFS that outputs a DFS Forest.
+     * @see Search#dfsForest(Graph, Node)
 	 * 
 	 * @param g the Graph
 	 * @param srcID the node to start DFS
-	 * @return mapping of nodes to start and finish
+	 * @return A DFS Forest mapping of nodes to start and finish
 	 * times. 
 	 */
     public static Map<Integer, List<Integer>> dfsForest(Graph g, int srcID) {
@@ -93,8 +89,8 @@ public class GraphToolkit {
     }
 
     /**
-     * Method for returning the strongly connected components of
-     * a given Graph, using Kosaraju's algorithm.
+     * Wrapper for Kosaraju's algorithm.
+     * @see Connectivity#getSCC(Graph)
      * 
      * @param g  the Graph on which to run Kosaraju's
      * @return   the Set of connected components
@@ -108,9 +104,8 @@ public class GraphToolkit {
     }
     
 	/**
-	 * Function performs a topological sort on the vertices
-	 * of a given graph by performing DFS and arrange
-	 * vertices by descending finish times. 
+	 * Wrapper for topological sort.
+     * @see Search#topSort(Graph)
 	 * 
 	 * @param g the Graph
 	 * @return a topological sort of the vertices in the
@@ -125,8 +120,8 @@ public class GraphToolkit {
     }
 
     /**
-     * Finds single-source shortest paths by implementing the Bellman-Ford
-     * algorithm
+     * Wrapper for the Bellman-Ford algorithm.
+     * @see Search#bellmanFord(Graph, Node)
      *
      * @param g the input graph
      * @param srcID the starting node's ID
@@ -147,8 +142,8 @@ public class GraphToolkit {
     }
 
     /**
-     * Finds all-pairs shortest paths by implementing the
-     * Floyd-Warshall algorithm
+     * Wrapper for the Floyd-Warshall algorithm.
+     * @see Search#floydWarshall(Graph)
      *
      * @param g the input graph
      * @return a map representing the all-pairs shortest path matrix
@@ -163,8 +158,8 @@ public class GraphToolkit {
     }
 
     /**
-     * Implement the Ford-Fulkerson algorithm for finding maximum flow on a
-     * network.
+     * Wrapper for the Ford-Fulkerson algorithm.
+     * @see Flow#getMaxFlow(Graph, Node, Node)
      *
      * @param g   The graph to find
      * @param srcID the starting node's ID
@@ -182,17 +177,17 @@ public class GraphToolkit {
             throw new IllegalArgumentException();
         }
         
-        return Flow.maxFlow(g, src, tgt);
+        return Flow.getMaxFlow(g, src, tgt);
     }
 
     /**
-     * Calculates the betweeness centrality for each node using Brandes'
-     * algorithm.
+     * Wrapper for Brandes' Betweenness Centrality algorithm.
+     * @see Centrality#btwCentrality(Graph)
      *
      * @param g the Graph whose values should be calculated
      * @return a map containing the betweeness centrality values
      */
-    public static Map<Integer, Double> getBtwCentrality(Graph g) {
+    public static Map<Integer, Double> getBetweennessCentrality(Graph g) {
         if (g == null) {
             throw new IllegalArgumentException();
         }
@@ -201,46 +196,8 @@ public class GraphToolkit {
     }
 
     /**
-     * Find the Eigenvector Centrality of a graph
-     * using the scaled PageRank formula.
-     *
-     * <p>
-     *     We default to a damping factor of 0.85, the value originally used by
-     *     Google.
-     *
-     * <p>
-     *     We implemented this using linear algebra, as opposed to the iterative
-     *     or power methods. This is because we know that the convergence of
-     *     those methods is the same as finding the principal eigenvector
-     *     (in this case, the eigenvector corresponding to eigenvalue 1) of the
-     *     dampened, normalized adjacency matrix.
-     *
-     * <p>
-     *     We make this assumption because we also know that any
-     *     column-stochastic matrix (a matrix where all entries are non-negative
-     *     and where every column sums to 1) has an eigenvalue of 1. Our
-     *     original adjacency matrix is column-stochastic and it remains
-     *     column-stochastic after dampening as long as the damping factor is in
-     *     [0, 1]. By the Perron-Frobenius theorem, we can also say that the
-     *     eigenvalue of 1, which is the largest eigenvalue of a
-     *     column-stochastic matrix, is a unique eigenvalue (i.e. it has
-     *     algebraic multiplicity 1).
-     *
-     * <p>
-     *     We chose the scaled PageRank because it allowed us to assert that
-     *     the eigenvalue 1 has geometric multiplicty of 1. The principal
-     *     eigenvector of the non-dampened but normalized adjacency matrix could
-     *     have geometric multiplicty > 1 in two cases:
-     *
-     * <p><ol>
-     *     <li>The rankings are not all unique. This could occur, for example,
-     *     if the graph has multiple connected components.
-     *     <li>There exists a sink (a node with out degree 0) in the graph. This
-     *     would result in the adjacency matrix being column-substochastic
-     *     (since not all columns would sum to 1), meaning that the matrix need
-     *     not have an eigenvalue of 1 (although all eigenvalues would be <= 1).
-     * <ol><p>
-     *
+     * Wrapper for the PageRank algorithm.
+     * @see Centrality#pageRank(Graph)
      *
      * @param g the graph to run PageRank on
      * @return a map from node ID to rank
