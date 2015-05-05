@@ -61,8 +61,10 @@ public void testCollabFilterTestData() throws Exception {
 @Test
 public void testCollabFilterAccuracy() throws Exception {
     double found = 0.0;
-    double expected = 15 * 943;
-    
+    int numRecommendations = 5;
+    int numSimilarUsers = 75;
+    double expected = 5 * numRecommendations * 943;
+
     for (int i = 1; i < 6; i++) {
         String file1 = "data/ml-100k/u" + i +".base";
         String file2 = "data/ml-100k/u" + i + ".test";
@@ -70,11 +72,12 @@ public void testCollabFilterAccuracy() throws Exception {
         Graph g = DataReader.readMovieLensTestData(file2);
         Recommender r = new Recommender(DataReader.readMovieLensTestData(file1));
         for (int j = 1; j < 944; j++) {
-            System.out.println("Finding recommendations for:" + j);
-            List<Integer> recommended = r.collabFilter(j, 
-                    r.getPearsonScores(j), 10, 3);
-            for (int k = 0; k < 3; k++) {
-                if (g.containsEdge(j, recommended.get(k))) {
+            //System.out.println("Finding recommendations for:" + j);
+            List<Integer> recommended = r.collabFilter(j,
+                    r.getPearsonScores(j), numSimilarUsers, numRecommendations);
+            for (int k = 0; k < numRecommendations; k++) {
+                if (recommended.size() > k &&
+                        g.containsEdge(j, recommended.get(k))) {
                     found++;
                 }
             }
