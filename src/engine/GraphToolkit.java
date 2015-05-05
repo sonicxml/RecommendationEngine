@@ -210,6 +210,12 @@ public class GraphToolkit {
         return Centrality.pageRank(g);
     }
     
+    /**
+     * Converts the given map from Nodes to doubles to be Node IDs to doubles.
+     * 
+     * @param nodeMap  the map to convert
+     * @return         the converted map
+     */
     private static Map<Integer, Double> convertMap(Map<Node, Double> nodeMap) {
         if (nodeMap == null) {
             throw new IllegalArgumentException();
@@ -224,6 +230,12 @@ public class GraphToolkit {
         return result;
     }
     
+    /**
+     * Converts the given map from Node to a list of finish times to use IDs.
+     * 
+     * @param nodeMap  the map to convert
+     * @return         the converted map
+     */
     private static Map<Integer, List<Integer>> convertIntMap(
             Map<Node, List<Integer>> nodeMap) {
         if (nodeMap == null) {
@@ -239,6 +251,12 @@ public class GraphToolkit {
         return result;
     }
     
+    /**
+     * Converts a list of Nodes to use Node IDs
+     * 
+     * @param nodes  the list to convert
+     * @return       the converted list
+     */
     private static List<Integer> convertList(List<Node> nodes) {
         if (nodes == null) {
             throw new IllegalArgumentException();
@@ -253,6 +271,12 @@ public class GraphToolkit {
         return result;
     }
     
+    /**
+     * Converts the output of the Floyd-Warshall algorithm to use Node IDs
+     * 
+     * @param nodeMap  the output to convert
+     * @return         the converted output
+     */
     private static Map<Integer, Map<Integer, Double>> convertFloyd(Map<Node, 
             Map<Node, Double>> nodeMap) {
         if (nodeMap == null) {
