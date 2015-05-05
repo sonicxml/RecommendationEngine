@@ -27,7 +27,7 @@ public class DataReaderTest {
         //Need to modify the filename to run correctly!
         String filename = "RecommendationEngine/data/TestGraphs/testGraph1.txt";
 
-        Graph g = DataReader.readSampleGraphData(filename);
+        Graph g = DataReader.readGraphData(filename);
         Graph g2 = new Graph();
         Node n1 = new Node(1);
         Node n2 = new Node(2);

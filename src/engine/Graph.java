@@ -48,7 +48,31 @@ public class Graph {
     public int getSize() {
         return nodes.size();
     }
-
+    
+    /**
+     * Method for checking if a Graph contains the given Edge.
+     * 
+     * @param srcID  the ID of the source Node
+     * @param tgtID  the ID of the target Node
+     * @return       true if the Graph contains the specified Edge
+     */
+    public boolean containsEdge(int srcID, int tgtID) {
+        Node src = nodes.get(srcID);
+        Node tgt = nodes.get(tgtID);
+        
+        if (src == null || tgt == null) {
+            return false;
+        }
+        
+        for (Edge e : src.getEdges()) {
+            if (e.getTgt().getID() == tgtID) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
     public Graph copyOf(boolean reverse) {
         Graph ans = new Graph();
         Set<Node> nodes = this.getAllNodes();

@@ -19,7 +19,7 @@ public class GraphToolkitTest {
 
     @Test
     public void testBfsAcyclic() throws Exception {
-    	Graph g = DataReader.readSampleGraphData("data/TestGraphs/bfs_acyclic.txt");
+    	Graph g = DataReader.readGraphData("data/TestGraphs/bfs_acyclic.txt");
     	List<Integer> nodes = GraphToolkit.bfs(g, 1, 4, false);
     	List<Integer> answer = new LinkedList<Integer>();
     	answer.add(1);
@@ -31,7 +31,7 @@ public class GraphToolkitTest {
 
     @Test
     public void testBfsCyclic () throws Exception {
-    	Graph g = DataReader.readSampleGraphData("data/TestGraphs/bfs_cyclic.txt"); 
+    	Graph g = DataReader.readGraphData("data/TestGraphs/bfs_cyclic.txt"); 
     	List<Integer> nodes = GraphToolkit.bfs(g, 3, 1, false); 
     	List<Integer> answer = new LinkedList<Integer>(); 
     	answer.add(3); 
@@ -42,7 +42,7 @@ public class GraphToolkitTest {
     
     @Test 
     public void testBfsSingleNode() throws Exception {
-    	Graph g = DataReader.readSampleGraphData("data/TestGraphs/SingleNode.txt"); 
+    	Graph g = DataReader.readGraphData("data/TestGraphs/SingleNode.txt"); 
     	List<Integer> path = GraphToolkit.bfs(g, 1, 1, false); 
     	List<Integer> answer = new LinkedList<Integer>(); 
     	answer.add(1); 
@@ -57,13 +57,13 @@ public class GraphToolkitTest {
 
     @Test
     public void testDfsForestAcyclic() throws Exception {
-    	Graph g = DataReader.readSampleGraphData("data/TestGraphs/dfs_acyclic.txt");   
+    	Graph g = DataReader.readGraphData("data/TestGraphs/dfs_acyclic.txt");   
     	Map<Integer, List<Integer>> timestamps = GraphToolkit.dfsForest(g, 1); 
     	assertEquals("see if dfs does not break", timestamps.size(), 6); 
     }
     @Test
     public void testDfsForestCyclic() throws Exception {
-    	Graph g = DataReader.readSampleGraphData("data/TestGraphs/dfs_cyclic.txt"); 
+    	Graph g = DataReader.readGraphData("data/TestGraphs/dfs_cyclic.txt"); 
     	Map<Integer, List<Integer>> timestamps = GraphToolkit.dfsForest(g, 1); 
     	Set<Integer> nodes = timestamps.keySet(); 
     	for (int i : nodes) {
@@ -73,7 +73,7 @@ public class GraphToolkitTest {
     }
     @Test
     public void testDfsForestSingleNode() throws Exception {
-    	Graph g = DataReader.readSampleGraphData("data/TestGraphs/SingleNode.txt"); 
+    	Graph g = DataReader.readGraphData("data/TestGraphs/SingleNode.txt"); 
     	Map<Integer, List<Integer>> timestamps = GraphToolkit.dfsForest(g, 1); 
     	Map<Integer, List<Integer>> answers = new 
     			HashMap<Integer, List<Integer>>();  
@@ -92,7 +92,7 @@ public class GraphToolkitTest {
     
     @Test
     public void dfsTreeWithCC() throws Exception {
-    	Graph g = DataReader.readSampleGraphData("data/TestGraphs/simpleDfs.txt"); 
+    	Graph g = DataReader.readGraphData("data/TestGraphs/simpleDfs.txt"); 
     	Map<Integer, List<Integer>> timestamps = GraphToolkit.dfsTree(g, 1); 
     	Map<Integer, List<Integer>> answers = new
     			HashMap<Integer, List<Integer>>(); 
@@ -113,7 +113,7 @@ public class GraphToolkitTest {
       
     @Test
     public void dfsTreeSingleNode() throws Exception {
-    	Graph g = DataReader.readSampleGraphData("data/TestGraphs/SingleNode.txt"); 
+    	Graph g = DataReader.readGraphData("data/TestGraphs/SingleNode.txt"); 
     	Map<Integer, List<Integer>> timestamps = GraphToolkit.dfsTree(g, 1); 
     	Map<Integer, List<Integer>> answers = new 
     			HashMap<Integer, List<Integer>>(); 
@@ -132,13 +132,13 @@ public class GraphToolkitTest {
 
     @Test(expected=IllegalArgumentException.class)
     public void testTopSortCyclic() throws Exception {
-    	Graph g = DataReader.readSampleGraphData("data/TestGraphs/dfs_cyclic.txt");
+    	Graph g = DataReader.readGraphData("data/TestGraphs/dfs_cyclic.txt");
     	GraphToolkit.topSort(g);
     }
 
     @Test
     public void testTopSortAyclic() throws Exception {
-    	Graph g = DataReader.readSampleGraphData("data/TestGraphs/dfs_acyclic.txt"); 
+    	Graph g = DataReader.readGraphData("data/TestGraphs/dfs_acyclic.txt"); 
     	List<Integer> sort = GraphToolkit.topSort(g);  
     	List<Integer> trueSort = new LinkedList<Integer>(); 
     	trueSort.add(1); 
@@ -160,7 +160,7 @@ public class GraphToolkitTest {
     
     @Test
     public void testTopSortSingleNode() throws Exception {
-    	Graph g = DataReader.readSampleGraphData("data/TestGraphs/SingleNode.txt"); 
+    	Graph g = DataReader.readGraphData("data/TestGraphs/SingleNode.txt"); 
     	List<Integer> sort = GraphToolkit.topSort(g); 
     	List<Integer> trueSort = new LinkedList<Integer>(); 
     	trueSort.add(1); 
@@ -173,18 +173,17 @@ public class GraphToolkitTest {
     	GraphToolkit.topSort(g); 
     }
 
-//   This test needs to be implemented
-//    @Test
-//    public void testGetSCC() throws Exception {
-//        Graph g = DataReader.readSampleGraphData("data/"
-//                + "data/TestGraphs/btw_centrality_small.txt");
-//        Set<Set<Integer>> answer = new HashSet<>();
-//        Set<Integer> scc1;
-//    }
+    @Test
+    public void testGetSCC() throws Exception {
+        Graph g = DataReader.readGraphData("data/"
+                + "TestGraphs/btw_centrality_small.txt");
+        Set<Set<Integer>> answer = new HashSet<>();
+        Set<Integer> scc1;
+    }
 
     @Test
     public void testBtwCentrality() throws Exception {
-        Graph g = DataReader.readSampleGraphData("data/TestGraphs/btw_centrality_small.txt");
+        Graph g = DataReader.readGraphData("data/TestGraphs/btw_centrality_small.txt");
         double[] ans = new double[]{0, 15.5, 2.5, 10, 0, 0, 2.5, 0.5};
         Map<Integer, Double> answer = GraphToolkit.getBtwCentrality(g);
         Iterator<Map.Entry<Integer, Double>> iter = answer.entrySet().iterator();
@@ -199,19 +198,19 @@ public class GraphToolkitTest {
 
     @Test
     public void testMaxFlowSimple2Node() throws Exception {
-        Graph g = DataReader.readSampleGraphData("data/TestGraphs/maxFlow_2Node.txt");
+        Graph g = DataReader.readGraphData("data/TestGraphs/maxFlow_2Node.txt");
         assertEquals(1, GraphToolkit.getMaxFlow(g, 1, 2));
     }
 
     @Test
     public void testMaxFlow4Node() throws Exception {
-    	Graph g = DataReader.readSampleGraphData("data/TestGraphs/maxFlow_4node.txt");
+    	Graph g = DataReader.readGraphData("data/TestGraphs/maxFlow_4node.txt");
     	assertEquals(15, GraphToolkit.getMaxFlow(g, 1, 4));
     }
 
     @Test
     public void testMaxFlow6Node() throws Exception {
-        Graph g = DataReader.readSampleGraphData("data/TestGraphs/maxFlowTest.txt");
+        Graph g = DataReader.readGraphData("data/TestGraphs/maxFlowTest.txt");
         assertEquals(23, GraphToolkit.getMaxFlow(g, 0, 5));
     }
 
@@ -234,7 +233,7 @@ public class GraphToolkitTest {
 
     @Test
     public void testPageRank() throws Exception {
-        Graph g = DataReader.readSampleGraphData(
+        Graph g = DataReader.readGraphData(
                 "data/TestGraphs/pageRank_full.txt");
         //double[] ans = new double[] {1.4901, 0.7833, 1.5766, 0.1500};
         double[] ans = new double[] {1, 1, 1};
@@ -252,7 +251,7 @@ public class GraphToolkitTest {
 
     @Test
     public void testPageRank4NodeSmall() throws Exception {
-        Graph g = DataReader.readSampleGraphData(
+        Graph g = DataReader.readGraphData(
                 "data/TestGraphs/pageRank_4node.txt");
         Map<Integer, Double> ans = new HashMap<>();
         ans.put(1, .368);
@@ -268,7 +267,7 @@ public class GraphToolkitTest {
 
     @Test
     public void testPageRank4NodeDisconnected() throws Exception {
-        Graph g = DataReader.readSampleGraphData(
+        Graph g = DataReader.readGraphData(
                 "data/TestGraphs/pageRank_5Node2Components.txt");
         Map<Integer, Double> ans = new HashMap<>();
         ans.put(1, .200);

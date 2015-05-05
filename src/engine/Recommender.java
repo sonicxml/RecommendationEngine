@@ -306,8 +306,8 @@ public class Recommender {
     public String getMovieLensNames(int user, List<Integer> items)
             throws DataFormatException {
         String result = "";
-        String users = "data/ml-100k/u.user";
-        String movies = "data/ml-100k/u.item";
+        String users = "RecommendationEngine/data/ml-100k/u.user";
+        String movies = "RecommendationEngine/data/ml-100k/u.item";
         Pattern p = Pattern.compile("(^" + Integer.toString(user) + ".*)");
         Matcher m = p.matcher("");
         Set<Integer> setOfMovies = new HashSet<>(items);

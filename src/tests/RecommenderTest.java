@@ -2,6 +2,7 @@ package tests;
 
 import engine.DataReader;
 import engine.Recommender;
+import engine.Graph;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,13 +50,39 @@ public void testCollabFilterUser2() throws Exception {
 @Test
 public void testCollabFilterTestData() throws Exception {
     int userID = 2;
-    Recommender r = new Recommender(DataReader.readMovieLensTestData());
+    String filename = "RecommendationEngine/data/ml-100k/u1.base";
+    Recommender r = new Recommender(DataReader.readMovieLensTestData(filename));
     List<Integer> recommended = r.collabFilter(userID,
             r.getPearsonScores(userID), 10, 5);
     System.out.println(recommended);
     r.getMovieLensNames(userID, recommended);
 }
 
+@Test
+public void testCollabFilterAccuracy() throws Exception {
+    double found = 0.0;
+    double expected = 15 * 943;
+    
+    for (int i = 1; i < 6; i++) {
+        String file1 = "RecommendationEngine/data/ml-100k/u" + i +".base";
+        String file2 = "RecommendationEngine/data/ml-100k/u" + i + ".test";
+        System.out.println(i);
+        Graph g = DataReader.readMovieLensTestData(file2);
+        Recommender r = new Recommender(DataReader.readMovieLensTestData(file1));
+        for (int j = 1; j < 944; j++) {
+            System.out.println("Finding recommendations for:" + j);
+            List<Integer> recommended = r.collabFilter(j, 
+                    r.getPearsonScores(j), 10, 3);
+            for (int k = 0; k < 3; k++) {
+                if (g.containsEdge(j, recommended.get(k))) {
+                    found++;
+                }
+            }
+        }
+    }
+    
+    System.out.println("Percentage of recommendations found is: " + found / expected);
+}
 
 /**
 *

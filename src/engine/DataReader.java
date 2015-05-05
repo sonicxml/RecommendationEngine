@@ -11,9 +11,7 @@ import java.util.Scanner;
  */
 public class DataReader {
     private static final String MOVIE_LENS_FILE = 
-            "data/ml-100k/u.data";
-    private static final String MOVIE_LENS_TEST_FILE =
-            "data/ml-100k/u1.base";
+            "RecommendationEngine/data/ml-100k/u.data";
 
     public static Graph readMovieLensData() {
         Graph g = new Graph();
@@ -37,10 +35,10 @@ public class DataReader {
         return g;
     }
 
-    public static Graph readMovieLensTestData() {
+    public static Graph readMovieLensTestData(String filename) {
         Graph g = new Graph();
         try {
-            Scanner sc = new Scanner(new File(MOVIE_LENS_TEST_FILE));
+            Scanner sc = new Scanner(new File(filename));
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
                 String[] temp = line.split("\t");
@@ -59,7 +57,7 @@ public class DataReader {
         return g;
     }
     
-    public static Graph readSampleGraphData(String filename) {
+    public static Graph readGraphData(String filename) {
         Graph g = new Graph();         
         try {
             Scanner sc = new Scanner(new File(filename));
