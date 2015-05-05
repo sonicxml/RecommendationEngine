@@ -185,7 +185,7 @@ public class GraphToolkitTest {
     public void testBtwCentrality() throws Exception {
         Graph g = DataReader.readGraphData("data/TestGraphs/btw_centrality_small.txt");
         double[] ans = new double[]{0, 15.5, 2.5, 10, 0, 0, 2.5, 0.5};
-        Map<Integer, Double> answer = GraphToolkit.getBtwCentrality(g);
+        Map<Integer, Double> answer = GraphToolkit.getBetweennessCentrality(g);
         Iterator<Map.Entry<Integer, Double>> iter = answer.entrySet().iterator();
         while (iter.hasNext()) {
             Map.Entry<Integer, Double> entry = iter.next();
@@ -220,7 +220,7 @@ public class GraphToolkitTest {
     //    Graph g = DataReader.readSampleGraphData("RecommendationEngine/data/"
     //            + "data/TestGraphs/btw_centrality_small.txt");
     //    double[] ans = new double[] {0, 15.5, 2.5, 10, 0, 0, 2.5, 0.5};
-    //    Map<Node, Double> answer = GraphToolkit.getBtwCentrality(g);
+    //    Map<Node, Double> answer = GraphToolkit.getBetweennessCentrality(g);
     //    Iterator<Map.Entry<Node, Double>> iter = answer.entrySet().iterator();
     //    while (iter.hasNext()) {
     //        Map.Entry<Node, Double> entry = iter.next();
