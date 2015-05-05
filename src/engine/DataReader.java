@@ -11,7 +11,7 @@ import java.util.Scanner;
  */
 public class DataReader {
     private static final String MOVIE_LENS_FILE = 
-            "data/ml-100k/u.data";
+            "ml-100k/u.data";
 
     /**
      * Reads the MovieLens file.
