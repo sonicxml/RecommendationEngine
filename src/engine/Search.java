@@ -189,7 +189,7 @@ class Search {
 				Set<Node> neighbors = a.getNeighbors();
 				for (Node n : neighbors) {
 					if (!visited.contains(n))
-						stack.add(n);
+						stack.push(n);
 				}
 			}
 

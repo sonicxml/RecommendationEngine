@@ -99,12 +99,6 @@ class Centrality {
         return centrality;
     }
 
-    static void commDetection(Graph g) {
-        // TODO: Implement
-        // Also return something
-        // Implement the Girvan-Newman algorithm for community detection
-    }
-
     /**
      * Find the Eigenvector Centrality of a graph
      * using the scaled PageRank formula.
@@ -170,8 +164,6 @@ class Centrality {
         // Get the adjacency matrix
         Matrix adjMatrix = getAdjMat(idMap, nodes);
 
-        System.out.println(adjMatrix);
-
         // Dampen the matrix according to Scaled PageRank
         dampenMatrix(DF, adjMatrix);
 
@@ -203,10 +195,6 @@ class Centrality {
         Matrix v = vd[0];
         Matrix d = vd[1];
         int maxIdx = 0;
-        System.out.println("d:");
-        System.out.println(d);
-        System.out.println("v:");
-        System.out.println(v);
         for (int i = 0; i < v.columns(); i++) {
             double colMax = d.foldColumn(i, new VectorAccumulator(){
                 double accumulator = 0.0;
@@ -218,7 +206,6 @@ class Centrality {
                 }
             });
             if (Math.abs(colMax - 1.0) < 1e-4) {
-                System.out.println("Found normalized eigenvector.");
                 maxIdx = i;
             }
         }

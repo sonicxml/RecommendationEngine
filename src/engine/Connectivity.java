@@ -28,8 +28,12 @@ class Connectivity {
         Graph reverse = g.copyOf(true);
         while (!s.isEmpty()) {
             Node src = s.pop();
+            System.out.println(s);
             Set<Node> connected = Search.dfsTree(reverse, src).keySet();
-            s.remove(connected);
+            System.out.println("Path:" + connected);
+            s.removeAll(connected);
+            System.out.println(s);
+            System.out.println("");
             Set<Integer> component = new HashSet<>();
             for (Node node : connected) {
                 component.add(node.getID());
@@ -55,7 +59,7 @@ class Connectivity {
             dfsVisit(node, s, visited);
         }
         
-        return null;
+        return s;
     }
     
     /**

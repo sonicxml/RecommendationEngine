@@ -61,16 +61,15 @@ public class GraphToolkitTest {
     	Map<Integer, List<Integer>> timestamps = GraphToolkit.dfsForest(g, 1); 
     	assertEquals("see if dfs does not break", timestamps.size(), 6); 
     }
+    
     @Test
     public void testDfsForestCyclic() throws Exception {
     	Graph g = DataReader.readGraphData("data/TestGraphs/dfs_cyclic.txt"); 
     	Map<Integer, List<Integer>> timestamps = GraphToolkit.dfsForest(g, 1); 
     	Set<Integer> nodes = timestamps.keySet(); 
-    	for (int i : nodes) {
-    		System.out.println(i + ", " + timestamps.get(i));
-    	}
     	assertEquals("see if dfs does not break", timestamps.size(), 6);
     }
+    
     @Test
     public void testDfsForestSingleNode() throws Exception {
     	Graph g = DataReader.readGraphData("data/TestGraphs/SingleNode.txt"); 
@@ -176,11 +175,58 @@ public class GraphToolkitTest {
     @Test
     public void testGetSCC() throws Exception {
         Graph g = DataReader.readGraphData("data/"
-                + "TestGraphs/btw_centrality_small.txt");
-        Set<Set<Integer>> answer = new HashSet<>();
-        Set<Integer> scc1;
+                + "TestGraphs/kosaraju_self_loop.txt");
+        Set<Set<Integer>> expected = new HashSet<>();
+        Set<Integer> scc1 = new HashSet<>();
+        scc1.add(1);
+        scc1.add(2);
+        scc1.add(5);
+        Set<Integer> scc2 = new HashSet<>();
+        scc2.add(3);
+        scc2.add(4);
+        Set<Integer> scc3 = new HashSet<>();
+        scc3.add(6);
+        scc3.add(7);
+        Set<Integer> scc4 = new HashSet<>();
+        scc4.add(8);
+        expected.add(scc1);
+        expected.add(scc2);
+        expected.add(scc3);
+        expected.add(scc4);
+        Set<Set<Integer>> result = GraphToolkit.getSCC(g);
+        for (Set<Integer> set : result) {
+            System.out.println(set);
+            assertTrue(expected.contains(set));
+            expected.remove(set);
+        }
+        assertEquals("Sets size equal", 0, expected.size());
     }
 
+    @Test
+    public void testGetSCCSmall() throws Exception {
+        Graph g = DataReader.readGraphData("data/"
+                + "TestGraphs/kosaraju_small.txt");
+        Set<Set<Integer>> expected = new HashSet<>();
+        Set<Integer> scc1 = new HashSet<>();
+        scc1.add(1);
+        scc1.add(2);
+        scc1.add(3);
+        Set<Integer> scc2 = new HashSet<>();
+        scc2.add(4);
+        Set<Integer> scc3 = new HashSet<>();
+        scc3.add(5);
+        expected.add(scc1);
+        expected.add(scc2);
+        expected.add(scc3);
+        Set<Set<Integer>> result = GraphToolkit.getSCC(g);
+        for (Set<Integer> set : result) {
+            System.out.println(set);
+            assertTrue(expected.contains(set));
+            expected.remove(set);
+        }
+        assertEquals("Sets size equal", 0, expected.size());
+    }
+    
     @Test
     public void testBtwCentrality() throws Exception {
         Graph g = DataReader.readGraphData("data/TestGraphs/btw_centrality_small.txt");
@@ -214,23 +260,6 @@ public class GraphToolkitTest {
         assertEquals(23, GraphToolkit.getMaxFlow(g, 0, 5));
     }
 
-    //this test needs to be implemented
-    //@Test
-    //public void testBtwCentrality() throws Exception {
-    //    Graph g = DataReader.readSampleGraphData("RecommendationEngine/data/"
-    //            + "data/TestGraphs/btw_centrality_small.txt");
-    //    double[] ans = new double[] {0, 15.5, 2.5, 10, 0, 0, 2.5, 0.5};
-    //    Map<Node, Double> answer = GraphToolkit.getBetweennessCentrality(g);
-    //    Iterator<Map.Entry<Node, Double>> iter = answer.entrySet().iterator();
-    //    while (iter.hasNext()) {
-    //        Map.Entry<Node, Double> entry = iter.next();
-    //        int id = entry.getKey().getID();
-    //        double temp = entry.getValue();
-    //        //divide by two for undirected
-    //        assertEquals(ans[id - 1], temp / 2, 0.001);
-    //    }
-    //}
-
     @Test
     public void testPageRank() throws Exception {
         Graph g = DataReader.readGraphData(
@@ -259,7 +288,6 @@ public class GraphToolkitTest {
         ans.put(3, .288);
         ans.put(4, .202);
         Map<Integer, Double> out = GraphToolkit.getPageRank(g);
-        System.out.println(out);
         for (int i = 1; i <= 4; i++) {
             assertEquals(ans.get(i), out.get(i), 0.001);
         }
@@ -276,7 +304,6 @@ public class GraphToolkitTest {
         ans.put(4, .285);
         ans.put(5, .030);
         Map<Integer, Double> out = GraphToolkit.getPageRank(g);
-        System.out.println(out);
         for (int i = 1; i <= 4; i++) {
             assertEquals(ans.get(i), out.get(i), 0.001);
         }
